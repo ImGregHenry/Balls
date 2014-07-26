@@ -27,7 +27,8 @@
         var safeZoneColour = "#FF0000";
 
         var test = document.getElementById("test");
-        
+        document.getElementById("btnStartStop").onclick = toggle;
+
 
         var canv = document.getElementById("myCanvas");
         var ctx = canv.getContext("2d");
@@ -51,6 +52,13 @@
 
 
         function toggle() {
+            if (isGameRunning)
+            {
+                document.getElementById("btnStartStop").innerText = "Start";
+            }
+            else
+                document.getElementById("btnStartStop").innerText = "Stop";
+            
             isGameRunning = !isGameRunning;
         }
 
@@ -66,7 +74,6 @@
 
         function drawBall()
         {
-            
             for (var i = 0; i < circleData.length; i++) {
                 // Draw the circle
                 ctx.beginPath();
@@ -76,17 +83,14 @@
                 ctx.fill();
                 ctx.stroke();
 
-
                 //debugOutputCurrentTileLocation(i);
 
                 // Update circle position and handle deflections off safe-zones
                 handleCircleMovement(i);
 
-
                 // Update current position
                 circleData[i].x += circleData[i].vx;
                 circleData[i].y += circleData[i].vy;
-                
             }
         }
 
