@@ -1,0 +1,17 @@
+IDEAS
+
+
+BASIC FEATURES
+-Add ball-to-ball collision
+-Add movement of character
+
+
+EXTRA FEATURES:
+-Start button
+-High Scores
+-Levels
+-Customized characters
+
+ENHANCEMENTS
+-Powerups - speed, invulnerability
+-Invisible balls
