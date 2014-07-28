@@ -100,50 +100,87 @@ function fillTiles()
     {
         isCharInDangerZone = true;
         map.fill(DANGER_ZONE_ID, x, y, 1, 1, layer);
+
+        currentTile.setCollisionCallback(characterDied, this);
+        //currentTile.setCollision(true, true, true, true);
+        //TODO: END GAME!
+
         endangeredTiles.push(x + "," + y);
     }
     else if (currentTile.index == DANGER_ZONE_ID)
     {
-        //map.fill(SAFE_ZONE_ID, x, y, 1, 1);
+        // TODO: character cannot re-enter a danger-zone tile
     }
     else if(currentTile.index == SAFE_ZONE_ID)
     {
         if (isCharInDangerZone)
         {
+            // Reset danger flag
             isCharInDangerZone = false;
-            clearEndangeredTiles();
-            
+
+            // Safely cleared tiles.  Reset them to 'safe-zone' tiles
+            clearEndangeredTiles(true);
         }
     }
 
     return currentTile;
 }
 
-
-function clearEndangeredTiles()
+// Convert 'danger-zone' tiles to 'safe-zone' or empty tiles
+function clearEndangeredTiles(isSafeTile)
 {
-    console.log("clearing endangered tiles: " + endangeredTiles.length);
     // Loop through all the endangered tiles and set them to SAFE_ZONE
     for (var i = 0; i < endangeredTiles.length; i++)
     {
         // stored as ['1,1', '2,2', 3,5']
         var vals = endangeredTiles[i].split(",");
-        console.log("Clearing: " + vals[0] + "," + vals[1] + " OF " + endangeredTiles.length);
-        
-        //map.removeTile(parseInt(vals[0]), parseInt(vals[1]), 1, 1);
-        
-        map.fill(SAFE_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1, layer);
 
+        // Get the current tile that was just converted to a safe zone
         var currentTile = map.getTile(parseInt(vals[0]), parseInt(vals[1]), layer, false);
-        currentTile.resetCollision();
+
+        // Clear the death method from the tile
+        currentTile.setCollisionCallback(null, this);
+
+        // Redraw the tile to the appropriate tile type
+        if (isSafeTile)
+        {
+            map.fill(SAFE_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1, layer);
+            
+            currentTile.setCollision(true, true, true, true);
+        }
+        else
+        {
+            // Redraw the tile
+            map.fill(EMPTY_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1, layer);
+
+            currentTile.setCollision(false, false, false, false);
+        }
         
+        //console.log("Clearing: " + vals[0] + "," + vals[1] + " OF " + endangeredTiles.length);
     }
     
-    
+    // Reset the endangered tiles array
     endangeredTiles = [];
 }
 
+function characterDied()
+{
+    console.log("BOOM");
+    sendCharacterBackToStart();
+    clearEndangeredTiles(false);
+}
 
+function sendCharacterBackToStart()
+{
+    // Reset the character tween if it is in progress
+    if (playerTween.isRunning)
+    {
+        playerTween.stop();
+    }
+        
+    player.body.position.x = 0;
+    player.body.position.y = 0;
+}
 
 function getXTileIndex()
 {
@@ -203,9 +240,3 @@ function playerTweenComplete()
 {
     fillTiles();
 }
-
-
-//function render()
-//{
-
-//}
