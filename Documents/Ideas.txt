@@ -2,22 +2,20 @@ IDEAS
 
 
 BASIC FEATURES
--Add death animation (explosion)
--Stop game after death
--Restart button
--Percentage tracker
--Character restarts
--Fill-in sectioned off safe-zones
--Add character lives
--Stars spawn in different locations
--Stars have variable speeds
--Add levels of varying difficulty
--Can't move back on your own danger zone (warning: middle of square)
+*-Percentage tracker
+*-Add death animation (explosion)
+*-Restart button
+*-Fill-in sectioned off safe-zones
+*-Add character lives
+*-Stop game after character runs out of lives (continue button?)
+*-Stars spawn in different locations
+*-Stars have variable speeds
+*-Add levels of varying difficulty
+*-Can't move back on your own danger zone (warning: middle of square)
 
 EXTRA FEATURES:
--Start button
+*-Start button
 -High Scores
--Levels
 -Customized characters
 
 ENHANCEMENTS

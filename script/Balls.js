@@ -7,62 +7,63 @@ const SAFE_ZONE_ID = 1;
 const DANGER_ZONE_ID = 2;
 const EMPTY_ZONE_ID = 3;
 
-var game = new Phaser.Game(1000, 800, Phaser.CANVAS, 'BALLS', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload, create: create, update: update });
 var balls;
 var cursors;
 var map;
-var layer;
+var mapLayer;
+var scoreLayer;
 var playerTween = null;
-
-function preload()
-{
-    game.load.tilemap('map', 'assets/maps/TileMap.json', null, Phaser.Tilemap.TILED_JSON);
-
-    game.load.image('ball', 'assets/star.png');
-    game.load.image('dude', 'assets/ball1.png');
-    game.load.image('tile-danger-zone', 'assets/tile-danger-zone.png', true);
-    game.load.image('tile-safe-zone', 'assets/tile-safe-zone.png', true);
-    game.load.image('tile-empty', 'assets/tile-empty.png', true);
-}
 
 var map_tiles_wide;
 var map_tiles_tall;
+var scoreboard;
 
+function preload()
+{
+    game.load.tilemap('map', 'assets/maps/TileMap5.json', null, Phaser.Tilemap.TILED_JSON);
+ 
+    game.load.image('ball', 'assets/star.png');
+    game.load.image('character', 'assets/ball1.png');
+    game.load.image('tile-danger-zone', 'assets/tile-danger-zone.png', true);
+    game.load.image('tile-safe-zone', 'assets/tile-safe-zone.png', true);
+    game.load.image('tile-empty', 'assets/tile-empty.png', true);
+    game.load.image('tile-scoreboard', 'assets/tile-scoreboard.png', true);
+}
+
+var playerGroup;
 function create()
 {
-    game.stage.backgroundColor = '#000000';
+    game.stage.backgroundColor = '#FFFFFF';
 
     map = game.add.tilemap('map');
     
-    map.setCollisionBetween(1, 1);
-
+    //map.setCollisionBetween(a, 1);
+    map.setCollisionByExclusion([3], 1);
+    
+    map.addTilesetImage('tile-scoreboard', 'tile-scoreboard', 20, 20, 0, 0, 1);
     map.addTilesetImage('tile-safe-zone', 'tile-safe-zone', 20, 20, 0, 0, 1);
     map.addTilesetImage('tile-danger-zone', 'tile-danger-zone', 20, 20, 0, 0, 2);
     map.addTilesetImage('tile-empty', 'tile-empty', 20, 20, 0, 0, 3);
     
-    layer = map.createLayer('Tile Layer 1');
+    mapLayer = map.createLayer('Tile Layer 1');
     
+    mapLayer.resizeWorld();
     
-    map_tiles_wide = map.width;
-    map_tiles_tall = map.height;
-
-    console.log("width: " + map.width);
-    console.log("height: " + map.height);
-    
-
-    layer.resizeWorld();
-
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
+    // Create the character
+    //playerGroup = game.add.group();
+    player = game.add.sprite(0, 0, 'character');
+    
 
-    player = game.add.sprite(0, 0, 'dude');
-
-    ////  We need to enable physics on the player            
+    //  We need to enable physics on the player            
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
+    //playerGroup.add(player);
 
-
+    // Create the group of balls to be used.  Enable them.
     balls = game.add.group();
     balls.enableBody = true;
 
@@ -76,11 +77,24 @@ function create()
         ball.body.collideWorldBounds = true;
         ball.body.bounce.y = 1;
         ball.body.bounce.x = 1;
+        
         balls.add(ball);
     }
+    
 
     // Load the keyboard controls
     cursors = game.input.keyboard.createCursorKeys();
+}
+
+    
+
+
+function createScoreboard()
+{
+    var text = "- phaser -\n with a sprinkle of \n pixi dust.";
+    var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+
+    var t = game.add.text(game.world.centerX - 300, 0, text, style);
 }
 
 var isCharInDangerZone = false;
@@ -92,14 +106,14 @@ function fillTiles()
     var x = getXTileIndex();
     var y = getYTileIndex();
 
-    var currentTile = map.getTile(x, y, layer, false);
+    var currentTile = map.getTile(x, y,mapLayer, false);
     
     if (currentTile == null)
         console.log("ERROR: tile not found.");
     else if(currentTile.index == EMPTY_ZONE_ID)
     {
         isCharInDangerZone = true;
-        map.fill(DANGER_ZONE_ID, x, y, 1, 1, layer);
+        map.fill(DANGER_ZONE_ID, x, y, 1, 1, mapLayer);
 
         currentTile.setCollisionCallback(characterDied, this);
         //currentTile.setCollision(true, true, true, true);
@@ -136,7 +150,7 @@ function clearEndangeredTiles(isSafeTile)
         var vals = endangeredTiles[i].split(",");
 
         // Get the current tile that was just converted to a safe zone
-        var currentTile = map.getTile(parseInt(vals[0]), parseInt(vals[1]), layer, false);
+        var currentTile = map.getTile(parseInt(vals[0]), parseInt(vals[1]),mapLayer, false);
 
         // Clear the death method from the tile
         currentTile.setCollisionCallback(null, this);
@@ -144,14 +158,14 @@ function clearEndangeredTiles(isSafeTile)
         // Redraw the tile to the appropriate tile type
         if (isSafeTile)
         {
-            map.fill(SAFE_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1, layer);
+            map.fill(SAFE_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1,mapLayer);
             
             currentTile.setCollision(true, true, true, true);
         }
         else
         {
             // Redraw the tile
-            map.fill(EMPTY_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1, layer);
+            map.fill(EMPTY_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1,mapLayer);
 
             currentTile.setCollision(false, false, false, false);
         }
@@ -209,14 +223,14 @@ function startPlayerTween(x, y)
     }
 }
 
+
+
 function update()
 {
     game.physics.arcade.collide(balls, balls);
-    game.physics.arcade.collide(balls, layer);
-
-    map.fill(DANGER_ZONE_ID, 3, 3, 1, 1);
-    map.fill(SAFE_ZONE_ID, 3, 3, 1, 1);
-
+    game.physics.arcade.collide(balls, mapLayer);
+    
+    
     // TODO: test whether move is valid or not before tweening
     if (cursors.left.isDown)
     {
@@ -224,7 +238,14 @@ function update()
     }
     else if (cursors.right.isDown)
     {
-        startPlayerTween(player.body.x + 20, player.body.y);
+        var currentTile = map.getTile(getXTileIndex()+1, getYTileIndex(), mapLayer, false);
+        
+        //TODO: fix this scoreboard issue.
+        // Prevent character from entering scoreboard area
+        if (currentTile.index != 4)
+        {
+            startPlayerTween(player.body.x + 20, player.body.y);
+        }
     }
     else if (cursors.up.isDown)
     {
