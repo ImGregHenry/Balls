@@ -2,6 +2,9 @@
 const PLAYER_VELOCITY = 90;
 const TILE_WIDTH = 20;
 const TILE_HEIGHT = 20;
+const MAP_TILE_WIDTH = 50;
+const MAP_TILE_HEIGHT = 40;
+const MAP_BORDER_THICKNESS = 2;
 
 const SAFE_ZONE_ID = 1;
 const DANGER_ZONE_ID = 2;
@@ -14,6 +17,10 @@ var map;
 var mapLayer;
 var scoreLayer;
 var playerTween = null;
+
+var level_totalFilledTiles;
+var scoreboard_percentCompleteTextBlock;
+
 
 var map_tiles_wide;
 var map_tiles_tall;
@@ -38,7 +45,6 @@ function create()
 
     map = game.add.tilemap('map');
     
-    //map.setCollisionBetween(a, 1);
     map.setCollisionByExclusion([3], 1);
     
     map.addTilesetImage('tile-scoreboard', 'tile-scoreboard', 20, 20, 0, 0, 1);
@@ -54,15 +60,13 @@ function create()
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     // Create the character
-    //playerGroup = game.add.group();
     player = game.add.sprite(0, 0, 'character');
     
 
     //  We need to enable physics on the player            
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    //playerGroup.add(player);
-
+    
     // Create the group of balls to be used.  Enable them.
     balls = game.add.group();
     balls.enableBody = true;
@@ -81,28 +85,35 @@ function create()
         balls.add(ball);
     }
     
-
     // Load the keyboard controls
     cursors = game.input.keyboard.createCursorKeys();
+
+    createScoreboard();
+    level_totalEmptyTiles = (MAP_TILE_HEIGHT - 2 * MAP_BORDER_THICKNESS) * (MAP_TILE_WIDTH - 2 * MAP_BORDER_THICKNESS);
+    level_totalFilledTiles = 0;
 }
 
     
 
-
 function createScoreboard()
 {
-    var text = "- phaser -\n with a sprinkle of \n pixi dust.";
-    var style = { font: "65px Arial", fill: "#ff0044", align: "center" };
+    var text = "Percent Complete: 0%.";
+    var style = { font: "30px Arial", fill: "#ff0044", };
 
-    var t = game.add.text(game.world.centerX - 300, 0, text, style);
+    scoreboard_percentCompleteTextBlock = game.add.text(TILE_WIDTH * 50 + 20, 0, text, style);
+}
+
+function updateScoreboard()
+{
+    var percent = Math.round(100 * level_totalFilledTiles / level_totalEmptyTiles);
+    scoreboard_percentCompleteTextBlock.setText("Percent Complete: " + percent + "%.");
 }
 
 var isCharInDangerZone = false;
 var endangeredTiles = [];
 
 function fillTiles()
-{
-    
+{   
     var x = getXTileIndex();
     var y = getYTileIndex();
 
@@ -155,18 +166,24 @@ function clearEndangeredTiles(isSafeTile)
         // Clear the death method from the tile
         currentTile.setCollisionCallback(null, this);
 
-        // Redraw the tile to the appropriate tile type
+        // Redraw the tile to the appropriate tile type --> based on whether clearing was successful (player didn't die)
         if (isSafeTile)
         {
             map.fill(SAFE_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1,mapLayer);
             
+            // Enable collision since it is now a safe-zone tile
             currentTile.setCollision(true, true, true, true);
+
+            level_totalFilledTiles++;
+
+            updateScoreboard();
         }
         else
         {
             // Redraw the tile
             map.fill(EMPTY_ZONE_ID, parseInt(vals[0]), parseInt(vals[1]), 1, 1,mapLayer);
 
+            // Disable collisions on this tile since it is now an empty-zone
             currentTile.setCollision(false, false, false, false);
         }
         
