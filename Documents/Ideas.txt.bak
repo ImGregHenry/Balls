@@ -14,11 +14,12 @@ BASIC FEATURES
 *-Can't move back on your own danger zone (warning: middle of square)
 
 EXTRA FEATURES:
--Start button
+*-Start button
 -High Scores
--Levels
 -Customized characters
 
+
 ENHANCEMENTS
+-Ball acceleration
 -Powerups - speed, invulnerability
 -Invisible balls

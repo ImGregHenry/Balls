@@ -18,6 +18,8 @@ EXTRA FEATURES:
 -High Scores
 -Customized characters
 
+
 ENHANCEMENTS
+-Ball acceleration
 -Powerups - speed, invulnerability
--Invisible balls
+-Invisible balls (or fade in and out)
