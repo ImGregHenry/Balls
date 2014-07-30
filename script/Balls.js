@@ -1,23 +1,29 @@
-﻿var NUMBER_OF_BALLS = 8;
+﻿const SAFE_ZONE_ID = '1';
+const DANGER_ZONE_ID = '2';
+const EMPTY_ZONE_ID = '3';
+const SCOREBOARD_ZONE_ID = '4';
+
+const PLAYER_START_LIVES = 2;
 const PLAYER_VELOCITY = 90;
 const TILE_WIDTH = 20;
 const TILE_HEIGHT = 20;
 const MAP_TILE_WIDTH = 50;
 const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
+const MAX_BOOM_ANIMATIONS = 5;
+const BOOM_TIMER_INVERVALS = 350;
+var NUMBER_OF_BALLS = 8;
 
-const SAFE_ZONE_ID = '1';
-const DANGER_ZONE_ID = '2';
-const EMPTY_ZONE_ID = '3';
-const SCOREBOARD_ZONE_ID = '4';
-
-const PLAYER_START_LIVES = 3;
 
 var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload, create: create, update: update });
 
 var isBallMovementDisabled = false;
 var isPlayerMovementDisabled = false;
 var isGamePaused = false;
+
+var scoreboard_pauseButton;
+var scoreboard_restartButton;
+var scoreboard_playerLives;
 
 var map;
 var mapLayer;
@@ -29,12 +35,20 @@ var playerLives = PLAYER_START_LIVES;
 var level_totalFilledTiles;
 var scoreboard_percentCompleteTextBlock;
 
-
 var allBallXVelocities = [];
 var allBallYVelocities = [];
-
-var isCharInDangerZone = false;
 var endangeredTiles = [];
+var fullMapArray;
+
+var boomIsIconBig = false;
+var boomIcon;
+var boomAnimateCount = 0;
+var boomAnimateTimer;
+var timerBetweenRounds;
+
+var isCharacterDeadAlready = false;
+var isCharInDangerZone = false;
+
 
 
 function preload()
@@ -52,7 +66,7 @@ function preload()
     game.load.image('animation-boom', 'assets/boom.png', true);
 }
 
-var playerGroup;
+
 function create()
 {
     game.stage.backgroundColor = '#FFFFFF';
@@ -68,7 +82,7 @@ function create()
     //  We need to enable physics on the player            
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    playerLives = 3;
+    playerLives = PLAYER_START_LIVES;
 
     spawnBalls();
     
@@ -208,9 +222,7 @@ function restartGame()
     createScoreboard();
 }
     
-var scoreboard_pauseButton;
-var scoreboard_restartButton;
-var scoreboard_playerLives;
+// Create/recreate the scoreboard when needed
 function createScoreboard()
 {
     var scoreboardXStartingPoint = TILE_WIDTH * 50 + 20;
@@ -271,7 +283,7 @@ function fillTiles()
         isCharInDangerZone = true;
         map.fill(DANGER_ZONE_ID, x, y, 1, 1, mapLayer);
 
-        currentTile.setCollisionCallback(characterDied, this);
+        currentTile.setCollisionCallback(characterDiedStartRoundStartTimers, this);
         //currentTile.setCollision(true, true, true, true);
         //TODO: END GAME!
 
@@ -351,9 +363,32 @@ function updateMapTile(x, y, isSafeTile)
     }
 }
 
-function characterDied()
+// Add the timers that handles the boom animation and the beginning of the next round
+function characterDiedStartRoundStartTimers(tileContext)
 {
-    console.log("BOOM");
+    if (!isCharacterDeadAlready)
+    {
+        // Avoid duplicating timers
+        isCharacterDeadAlready = true;
+
+        // Disable all movement
+        setBallMovementDisabled(true);
+        setPlayerMovementDisabled(true);
+
+        // Create the boom animation
+        spawnBoomAnimation(tileContext.x, tileContext.y);
+
+        // Create a timer that waits for the completion of the boom animation
+        timerBetweenRounds = game.time.create(true);
+        timerBetweenRounds.add(BOOM_TIMER_INVERVALS*MAX_BOOM_ANIMATIONS, characterDiedHandler, this);
+        timerBetweenRounds.start();
+    }
+}
+
+// Handlers resetting character after death.  
+function characterDiedHandler()
+{
+    // Launches gameover if out of lives.
     if (playerLives == 0)
     {
         endangeredTiles = [];
@@ -364,27 +399,59 @@ function characterDied()
     else
     {
         playerLives--;
+
+        setBallMovementDisabled(false);
+        setPlayerMovementDisabled(false);
+
         updateScoreboard();
         sendCharacterBackToStart();
         clearEndangeredTiles(false);
     }
 }
 
-
-
-
 function gameOver()
 {
-    //spawnBoom();
+    //TODO: add game over animation
 }
-var boomIcon;
-//function spawnBoom()
-//{
-//    var boom = game.add.sprite(0, 0, 'character');
-//}
 
+// Create the boom animation timer
+function spawnBoomAnimation(x, y)
+{
+    //TODO: calculate exact location for boom explosion
+    boomIcon = game.add.sprite(x-30, y-30, 'animation-boom');
+    boomAnimateTimer = game.time.create(true);
+    boomAnimateTimer.loop(BOOM_TIMER_INVERVALS, animateBoom, this);
+    boomAnimateTimer.start();
+}
+
+// Handle the boom animations
+function animateBoom()
+{
+    boomAnimateCount++;
+    if (boomAnimateCount == MAX_BOOM_ANIMATIONS)
+    {
+        boomAnimateCount = 0;
+        boomAnimateTimer.stop();
+        
+        boomIcon.kill();
+    }
+    else
+    {
+        if (boomIsIconBig)
+            boomIcon.scale.setTo(1.5, 1.5);
+        else
+            boomIcon.scale.setTo(0.5, 0.5);
+
+        boomIsIconBig = !boomIsIconBig;
+    }
+    
+}
+
+// Reset character back to start 
 function sendCharacterBackToStart()
 {
+    isCharacterDeadAlready = false;
+
     // Reset the character tween if it is in progress
     if (playerTween != null && playerTween.isRunning)
     {
@@ -400,6 +467,7 @@ function sendCharacterBackToStart()
     player.body.position.y = 0;
 }
 
+// Get tile X-index within the tilemap
 function getXTileIndex()
 {
     var position = player.body.x;
@@ -407,6 +475,7 @@ function getXTileIndex()
     return Math.round(position / TILE_WIDTH);
 }
 
+// Get the tile Y-index within the tilemap
 function getYTileIndex()
 {
     var position = player.body.y;
@@ -414,7 +483,7 @@ function getYTileIndex()
     return Math.round(position / TILE_HEIGHT);
 }
 
-
+// Animates player movement via tweening
 function startPlayerTween(x, y)
 {
     if (playerTween == null || !playerTween.isRunning)
@@ -427,8 +496,7 @@ function startPlayerTween(x, y)
     }
 }
 
-
-
+// UPDATE: called constantly and handles user's controls
 function update()
 {
     if (!isGamePaused && !isPlayerMovementDisabled)
@@ -463,13 +531,13 @@ function update()
     }
 }
 
+// Handles post-tweening events for player movement
 function playerTweenComplete()
 {
     fillTiles();
 }
 
-
-var fullMapArray;
+// Creates a tilemap array for tracking tile values (used for flood-filling)
 function createTileMapArray()
 {
     fullMapArray = [];
@@ -553,6 +621,8 @@ function updateTileMapArray(x, y, value)
 //    if (y >= 0 && y < fullMapArray.length && x >= 0 && x < fullMapArray[y].length)
 //    {
 //        //console.log("x: " + x + ". y: " + y + ". a: " + fullMapArray[y][x] + ". b: " + EMPTY_ZONE_ID);
+
+//        //TODO: instead of using indedof, using a temporary value
 //        if (parseInt(fullMapArray[y][x]) == parseInt(EMPTY_ZONE_ID) && fillTheseTiles.indexOf(x + "," +y) == -1)
 //        {
 //            //data[x][y] = newValue;
