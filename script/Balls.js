@@ -1,7 +1,7 @@
-﻿const SAFE_ZONE_ID = '1';
-const DANGER_ZONE_ID = '2';
-const EMPTY_ZONE_ID = '3';
-const SCOREBOARD_ZONE_ID = '4';
+﻿const SAFE_ZONE_ID = 1;
+const DANGER_ZONE_ID = 2;
+const EMPTY_ZONE_ID = 3;
+const SCOREBOARD_ZONE_ID = 4;
 
 const PLAYER_START_LIVES = 2;
 const PLAYER_VELOCITY = 90;
@@ -20,6 +20,8 @@ var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload
 var isBallMovementDisabled = false;
 var isPlayerMovementDisabled = false;
 var isGamePaused = false;
+var isCharacterDeadAlready = false;
+var isCharInDangerZone = false;
 
 var scoreboard_pauseButton;
 var scoreboard_restartButton;
@@ -46,8 +48,6 @@ var boomAnimateCount = 0;
 var boomAnimateTimer;
 var timerBetweenRounds;
 
-var isCharacterDeadAlready = false;
-var isCharInDangerZone = false;
 
 
 
@@ -284,8 +284,9 @@ function fillTiles()
         map.fill(DANGER_ZONE_ID, x, y, 1, 1, mapLayer);
 
         currentTile.setCollisionCallback(characterDiedStartRoundStartTimers, this);
-        //currentTile.setCollision(true, true, true, true);
-        //TODO: END GAME!
+        
+        // Track tiles in our array for flood-fill usage
+        updateTileMapArray(x, y, DANGER_ZONE_ID);
 
         endangeredTiles.push(x + "," + y);
     }
@@ -300,10 +301,13 @@ function fillTiles()
             // Reset danger flag
             isCharInDangerZone = false;
 
+            console.log("made it here...");
+            // Start flood-fill algorithm
+            processFloodFlowFromArray(endangeredTiles);
+
             // Safely cleared tiles.  Reset them to 'safe-zone' tiles
             clearEndangeredTiles(true);
 
-            //FloodFillAreaFromStartPoint(3, 3);
         }
     }
 
@@ -357,6 +361,8 @@ function updateMapTile(x, y, isSafeTile)
     {
         // Redraw the tile
         map.fill(EMPTY_ZONE_ID, x, y, 1, 1, mapLayer);
+
+        updateTileMapArray(x, y, EMPTY_ZONE_ID);
 
         // Disable collisions on this tile since it is now an empty-zone
         currentTile.setCollision(false, false, false, false);
@@ -450,6 +456,9 @@ function animateBoom()
 // Reset character back to start 
 function sendCharacterBackToStart()
 {
+    clearDangerTilesInTileMapArray();
+
+    isCharInDangerZone = false;
     isCharacterDeadAlready = false;
 
     // Reset the character tween if it is in progress
@@ -553,18 +562,37 @@ function createTileMapArray()
     }
 }
 
+function clearDangerTilesInTileMapArray(value)
+{
+    for (var y = 0; y < MAP_TILE_HEIGHT; y++)
+    {
+        for (var x = 0; x < MAP_TILE_WIDTH; x++)
+        {
+            if (fullMapArray[y][x] == DANGER_ZONE_ID)
+                fullMapArray[y][x] = value;
+            
+        }
+    }
+}
+
 
 function updateTileMapArray(x, y, value)
 {
     fullMapArray[y][x] = value;
-    var currentTile = map.getTile(parseInt(x), parseInt(y), mapLayer, false);
+    //var currentTile = map.getTile(parseInt(x), parseInt(y), mapLayer, false);
+    //TODO: fix this tile map update????
 }
 
 
 
 
+//RAY CASTING WIKI
+//https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
+// MY QUESTION:
+//http://stackoverflow.com/questions/25089749/tile-filling-algorithm-for-game/25089932#25090212
 
-
+//BORDER SOLUTION
+//http://gamedev.stackexchange.com/questions/73722/determine-if-a-set-of-tiles-on-a-grid-forms-an-enclosed-shape
 
 /////////////////////////////////////////////
 /////////////////////////////////////////////
@@ -572,65 +600,174 @@ function updateTileMapArray(x, y, value)
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
+function processFloodFlowFromArray(tilePath)
+{
+    console.log("Entered Flood-Fill.");
 
+    var startTiles = [];
+    startTiles = ChooseFloodFillStartTiles(tilePath);
+    console.log("Start tiles chosen");
 
-//function updateTheseTiles(theseTiles, value)
-//{
-//    for(var i = 0; i < theseTiles.length; i++)
-//    {
-//        var x = theseTiles[i].split(',')[0];
-//        var y = theseTiles[i].split(',')[1];
+    CreateEnemyTileArray();
+    console.log("Enemy Tile Array created.");
+
+    console.log("ENEMY: " + flood_enemyTileArray);
+
+    for (var i = 0; i < startTiles.length; i++)
+    {
+        var x = parseInt(startTiles[i].split(',')[0]);
+        var y = parseInt(startTiles[i].split(',')[1]);
+        FloodFillAreaFromStartPoint(x, y);
+    }
+    
+}
+
+function updateTheseTiles(theseTiles, value)
+{
+    for(var i = 0; i < theseTiles.length; i++)
+    {
+        var x = theseTiles[i].split(',')[0];
+        var y = theseTiles[i].split(',')[1];
         
-//        updateTileMapArray(x, y, value);
-//        updateMapTile(parseInt(x), parseInt(y), true);
-//    }
-//}
+        updateTileMapArray(x, y, value);
+        updateMapTile(parseInt(x), parseInt(y), true);
+    }
+}
 
-//function FloodFillAreaFromStartPoint(currX, currY)
-//{
-//    console.log("STARTING DR. FILL TEST.  X:" + currX + ". Y:" + currY);
-//    drFillSafeTest(currX, currY, SAFE_ZONE_ID);
-//}
+var flood_enemyTileArray = [];
+function CreateEnemyTileArray()
+{
+    flood_enemyTileArray = [];
+
+    for(var i = 0; i < NUMBER_OF_BALLS; i++)
+    {
+        var enemy = balls.getAt(i);
+        flood_enemyTileArray.push(getEnemyXTileIndex(enemy) + "," + getEnemyXTileIndex(enemy));
+    }
+}
+
+//TODO: merge this previously used function "getXTileIndex" and "getYTileIndex"
+// Get tile X-index within the tilemap
+function getEnemyXTileIndex(enemy)
+{
+    var position = enemy.body.x + 10;
+
+    return Math.round(position / TILE_WIDTH);
+}
+
+// Get the tile Y-index within the tilemap
+function getEnemyYTileIndex(enemy)
+{
+    var position = enemy.body.y + 10;
+
+    return Math.round(position / TILE_HEIGHT);
+}
 
 
+function ChooseFloodFillStartTiles(tilePath)
+{
+    //TODO: determine which tiles to test with   
+    var x = parseInt(tilePath[0].split(',')[0]);
+    var y = parseInt(tilePath[0].split(',')[1]);
+    console.log("Flood Fill start: " + x + "," + y);
+
+    // RIGHT
+    var test1X = x + 1;
+    var test1Y = y;
+    // LEFT
+    var test2X = x - 1;
+    var test2Y = y;
+    // UP
+    var test3X = x;
+    var test3Y = y - 1 ;
+    // DOWN
+    var test4X = x;
+    var test4Y = y + 1;
+
+
+    var flood_startTiles = [];
+    
+    var currentTile = map.getTile(test1X, test1Y, mapLayer, false);
+    console.log("TestPoint1: " + test1X + "," + test1Y + ". Index:" + currentTile.index);
+    if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test1X + "," + test1Y);
+
+    currentTile = map.getTile(test2X, test2Y, mapLayer, false);
+    console.log("TestPoint2: " + test2X + "," + test2Y + ". Index:" + currentTile.index);
+    if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test2X + "," + test2Y);
+
+    currentTile = map.getTile(test3X, test3Y, mapLayer, false);
+    console.log("TestPoint3: " + test3X + "," + test3Y + ". Index:" + currentTile.index);
+    if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test3X + "," + test3Y);
+
+    currentTile = map.getTile(test4X, test4Y, mapLayer, false);
+    console.log("TestPoint4: " + test4X + "," + test4Y + ". Index:" + currentTile.index);
+    if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test4X + "," + test4Y);
+
+    console.log("Total points being tested: " + flood_startTiles.length);
+    return flood_startTiles;
+}
+
+function FloodFillAreaFromStartPoint(currX, currY)
+{
+    console.log("STARTING DR. FILL TEST.  X:" + currX + ". Y:" + currY);
+    drFillSafeTest(currX, currY);
+}
 
 ////http://stackoverflow.com/questions/22645767/flood-fill-for-2d-int-array-optimization-in-java
 ////http://stackoverflow.com/questions/22053759/multidimensional-array-fill
 
-//var fillTheseTiles = [];
+var fillTheseTiles = [];
 
-//function drFillSafeTest(x, y, newValue)
-//{
-//    fillTheseTiles = [];
-//    // get target value
-//    var target = fullMapArray[x][y];
+function drFillSafeTest(x, y)
+{
+    fillTheseTiles = [];
+    flood_abort = false;
 
-//    flow(x, y);
-//    //Add the original
-//    fillTheseTiles.push(x + "," + y);
+    // get target value
+    var target = fullMapArray[y][x];
+
+    flow(parseInt(x), parseInt(y));
+
+    //TODO: handle single tile case???
+    //Add the original tile to the list
+    if(fillTheseTiles.length != 0)
+        fillTheseTiles.push(x + "," + y);
     
-    
-//    // Update the tiles into the map and the map-array-tracker
-//    updateTheseTiles(fillTheseTiles, SAFE_ZONE_ID);
-//}
+    // Update the tiles into the map and the map-array-tracker
+    updateTheseTiles(fillTheseTiles, SAFE_ZONE_ID);
+}
 
+var flood_abort;
+function flow(x, y)
+{
+    if (flood_abort)
+        return;
 
-//function flow(x, y)
-//{
-//    // bounds check what we were passed
-//    if (y >= 0 && y < fullMapArray.length && x >= 0 && x < fullMapArray[y].length)
-//    {
-//        //console.log("x: " + x + ". y: " + y + ". a: " + fullMapArray[y][x] + ". b: " + EMPTY_ZONE_ID);
+    // bounds check what we were passed
+    if (y >= 0 && y < fullMapArray.length && x >= 0 && x < fullMapArray[y].length)
+    {
+        //console.log("x: " + x + ". y: " + y + ". a: " + fullMapArray[y][x] + ". b: " + EMPTY_ZONE_ID);
 
-//        //TODO: instead of using indedof, using a temporary value
-//        if (parseInt(fullMapArray[y][x]) == parseInt(EMPTY_ZONE_ID) && fillTheseTiles.indexOf(x + "," +y) == -1)
-//        {
-//            //data[x][y] = newValue;
-//            fillTheseTiles.push(x + "," + y);
-//            flow(x - 1, y);    // check up
-//            flow(x + 1, y);    // check down
-//            flow(x, y - 1);    // check left
-//            flow(x, y + 1);    // check right
-//        }
-//    }
-//}
+        // Enemy found, do not fill.
+        if (flood_enemyTileArray.indexOf(x + "," + y) != -1)
+        {
+            fillTheseTiles = [];
+            console.log("ABORT: " + x + "," + y);
+            flood_abort = true;
+            return;
+        }
+
+        //TODO: eliminate need for parseInt
+        //TODO: instead of using indedof, using a temporary value
+        //TODO: compare with star spawn points
+        if (parseInt(fullMapArray[y][x]) == parseInt(EMPTY_ZONE_ID) && fillTheseTiles.indexOf(x + "," + y) == -1)
+        {
+            //data[x][y] = newValue;
+            fillTheseTiles.push(x + "," + y);
+            flow(x - 1, y);    // check up
+            flow(x + 1, y);    // check down
+            flow(x, y - 1);    // check left
+            flow(x, y + 1);    // check right
+        }
+    }
+}
