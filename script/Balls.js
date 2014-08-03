@@ -12,7 +12,7 @@ const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const MAX_BOOM_ANIMATIONS = 5;
 const BOOM_TIMER_INVERVALS = 350;
-var NUMBER_OF_BALLS = 8;
+var NUMBER_OF_BALLS = 4;
 
 
 var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload, create: create, update: update });
@@ -23,6 +23,8 @@ var isGamePaused = false;
 var isCharacterDeadAlready = false;
 var isCharInDangerZone = false;
 
+var scoreboard_currentLevel;
+var scoreboard_targetPercentComplete;
 var scoreboard_pauseButton;
 var scoreboard_restartButton;
 var scoreboard_playerLives;
@@ -33,8 +35,11 @@ var balls;
 var cursors;
 var playerTween = null;
 
-var playerLives = PLAYER_START_LIVES;
+var level_playerLives = PLAYER_START_LIVES;
+var level_currentLevel = 1;
+var level_targetPercentComplete = 75;
 var level_totalFilledTiles;
+var level_totalEmptyTiles;
 var scoreboard_percentCompleteTextBlock;
 
 var allBallXVelocities = [];
@@ -82,7 +87,7 @@ function create()
     //  We need to enable physics on the player            
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    playerLives = PLAYER_START_LIVES;
+    level_playerLives = PLAYER_START_LIVES;
 
     spawnBalls();
     
@@ -91,7 +96,8 @@ function create()
 
     createScoreboard();
 
-    level_totalEmptyTiles = (MAP_TILE_HEIGHT - 2 * MAP_BORDER_THICKNESS) * (MAP_TILE_WIDTH - 2 * MAP_BORDER_THICKNESS);
+    
+    level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2*MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2*MAP_BORDER_THICKNESS));
     level_totalFilledTiles = 0;
 }
 
@@ -201,7 +207,7 @@ function restartGame()
 {
     isGamePaused = false;
     
-    playerLives = PLAYER_START_LIVES;
+    level_playerLives = PLAYER_START_LIVES;
 
     // Reset the list of endangered tiles
     endangeredTiles = [];
@@ -221,42 +227,60 @@ function restartGame()
     
     createScoreboard();
 }
-    
+
 // Create/recreate the scoreboard when needed
 function createScoreboard()
 {
-    var scoreboardXStartingPoint = TILE_WIDTH * 50 + 20;
+    var scoreboardXStartingPoint = TILE_WIDTH * MAP_TILE_WIDTH + 20;
+
+    var text;
+    var style = { font: "30px Arial", fill: "#ff0044" };
+    var yCoordinate = 0;
 
     // Percent complete
-    var text = "Percent Complete: 0%.";
-    var style = { font: "30px Arial", fill: "#ff0044" };
-
-    // Handles scoreboard reset
+    // The null test handles updating this scoreboard - destroy the old component
     if (scoreboard_percentCompleteTextBlock != null)
         scoreboard_percentCompleteTextBlock.destroy(true);
+    text = "Percent Complete: 0%."
+    scoreboard_percentCompleteTextBlock = game.add.text(scoreboardXStartingPoint, yCoordinate, text, style);
+    yCoordinate += 50;
+    
+    // Target Percent Complete
+    if (scoreboard_targetPercentComplete != null)
+        scoreboard_targetPercentComplete.destroy(true);
+    text = "Target Percentage: " + level_targetPercentComplete + "%."
+    scoreboard_targetPercentComplete = game.add.text(scoreboardXStartingPoint, yCoordinate, text, style);
+    yCoordinate += 50;
 
-    scoreboard_percentCompleteTextBlock = game.add.text(scoreboardXStartingPoint, 0, text, style);
+    // Percent complete
+    // The null test handles updating this scoreboard - destroy the old component
+    if (scoreboard_currentLevel != null)
+        scoreboard_currentLevel.destroy(true);
+    text = "Level: " + level_currentLevel + ".";
+    scoreboard_currentLevel = game.add.text(scoreboardXStartingPoint, yCoordinate, text, style);
+    yCoordinate += 50;
+
+
+    // Player Lives    
+    if (scoreboard_playerLives != null)
+        scoreboard_playerLives.destroy(true);
+    text = "Character Lives: " + level_playerLives + ".";
+
+    scoreboard_playerLives = game.add.text(scoreboardXStartingPoint, yCoordinate, text, style);
+    yCoordinate += 100;
 
     // Restart button
     if (scoreboard_restartButton != null)
         scoreboard_restartButton.destroy(true);
-    
-    scoreboard_restartButton = game.add.button(scoreboardXStartingPoint, 150, 'scoreboard-restart-button', restartGame, this, 2, 1, 0);
 
-
-    text = "Character Lives: " + playerLives + ".";
-    
-    // Player Lives
-    if (scoreboard_playerLives != null)
-        scoreboard_playerLives.destroy(true);
-
-    scoreboard_playerLives = game.add.text(scoreboardXStartingPoint, 50, text, style);
+    scoreboard_restartButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-restart-button', restartGame, this, 2, 1, 0);
+    yCoordinate += 100;
 
     // Pause button
     if (scoreboard_pauseButton != null)
         scoreboard_pauseButton.destroy(true);
 
-    scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint, 250, 'scoreboard-pause-button', pauseGame, this, 2, 1, 0);
+    scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-pause-button', pauseGame, this, 2, 1, 0);
 }
 
 function updateScoreboard()
@@ -264,8 +288,8 @@ function updateScoreboard()
     // update percent
     var percent = Math.round(100 * level_totalFilledTiles / level_totalEmptyTiles);
     scoreboard_percentCompleteTextBlock.setText("Percent Complete: " + percent + "%.");
-
-    scoreboard_playerLives.setText("Character Lives: " + playerLives + ".");
+    console.log("Filled: " + level_totalFilledTiles + ". Empty: " + level_totalEmptyTiles)
+    scoreboard_playerLives.setText("Character Lives: " + level_playerLives + ".");
 }
 
 //TODO: rename this function to something more descriptive
@@ -395,7 +419,7 @@ function characterDiedStartRoundStartTimers(tileContext)
 function characterDiedHandler()
 {
     // Launches gameover if out of lives.
-    if (playerLives == 0)
+    if (level_playerLives == 0)
     {
         endangeredTiles = [];
         setBallMovementDisabled(true);
@@ -404,7 +428,7 @@ function characterDiedHandler()
     }
     else
     {
-        playerLives--;
+        level_playerLives--;
 
         setBallMovementDisabled(false);
         setPlayerMovementDisabled(false);
@@ -642,7 +666,7 @@ function CreateEnemyTileArray()
     for(var i = 0; i < NUMBER_OF_BALLS; i++)
     {
         var enemy = balls.getAt(i);
-        flood_enemyTileArray.push(getEnemyXTileIndex(enemy) + "," + getEnemyXTileIndex(enemy));
+        flood_enemyTileArray.push(getEnemyXTileIndex(enemy) + "," + getEnemyYTileIndex(enemy));
     }
 }
 
@@ -688,19 +712,19 @@ function ChooseFloodFillStartTiles(tilePath)
     var flood_startTiles = [];
     
     var currentTile = map.getTile(test1X, test1Y, mapLayer, false);
-    console.log("TestPoint1: " + test1X + "," + test1Y + ". Index:" + currentTile.index);
+    //console.log("TestPoint1: " + test1X + "," + test1Y + ". Index:" + currentTile.index);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test1X + "," + test1Y);
 
     currentTile = map.getTile(test2X, test2Y, mapLayer, false);
-    console.log("TestPoint2: " + test2X + "," + test2Y + ". Index:" + currentTile.index);
+    //console.log("TestPoint2: " + test2X + "," + test2Y + ". Index:" + currentTile.index);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test2X + "," + test2Y);
 
     currentTile = map.getTile(test3X, test3Y, mapLayer, false);
-    console.log("TestPoint3: " + test3X + "," + test3Y + ". Index:" + currentTile.index);
+    //console.log("TestPoint3: " + test3X + "," + test3Y + ". Index:" + currentTile.index);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test3X + "," + test3Y);
 
     currentTile = map.getTile(test4X, test4Y, mapLayer, false);
-    console.log("TestPoint4: " + test4X + "," + test4Y + ". Index:" + currentTile.index);
+    //console.log("TestPoint4: " + test4X + "," + test4Y + ". Index:" + currentTile.index);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test4X + "," + test4Y);
 
     console.log("Total points being tested: " + flood_startTiles.length);
@@ -722,9 +746,6 @@ function drFillSafeTest(x, y)
 {
     fillTheseTiles = [];
     flood_abort = false;
-
-    // get target value
-    var target = fullMapArray[y][x];
 
     flow(parseInt(x), parseInt(y));
 
@@ -752,7 +773,7 @@ function flow(x, y)
         if (flood_enemyTileArray.indexOf(x + "," + y) != -1)
         {
             fillTheseTiles = [];
-            console.log("ABORT: " + x + "," + y);
+            console.log("ABORT FILL: " + x + "," + y);
             flood_abort = true;
             return;
         }
@@ -762,7 +783,6 @@ function flow(x, y)
         //TODO: compare with star spawn points
         if (parseInt(fullMapArray[y][x]) == parseInt(EMPTY_ZONE_ID) && fillTheseTiles.indexOf(x + "," + y) == -1)
         {
-            //data[x][y] = newValue;
             fillTheseTiles.push(x + "," + y);
             flow(x - 1, y);    // check up
             flow(x + 1, y);    // check down
