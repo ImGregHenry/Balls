@@ -3,8 +3,8 @@ const DANGER_ZONE_ID = 2;
 const EMPTY_ZONE_ID = 3;
 const SCOREBOARD_ZONE_ID = 4;
 
-const PLAYER_START_LIVES = 2;
-const PLAYER_VELOCITY = 90;
+
+
 const TILE_WIDTH = 20;
 const TILE_HEIGHT = 20;
 const MAP_TILE_WIDTH = 50;
@@ -12,8 +12,10 @@ const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const MAX_BOOM_ANIMATIONS = 5;
 const BOOM_TIMER_INVERVALS = 350;
-var NUMBER_OF_BALLS = 4;
-
+const START_NUMBER_OF_BALLS = 4;
+const START_TARGET_PERCENT_COMPLETE = 70;
+const START_PLAYER_START_LIVES = 2;
+//const PLAYER_VELOCITY = 90;
 
 var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload, create: create, update: update });
 
@@ -35,9 +37,11 @@ var balls;
 var cursors;
 var playerTween = null;
 
-var level_playerLives = PLAYER_START_LIVES;
-var level_currentLevel = 1;
-var level_targetPercentComplete = 75;
+var level_numberOfBalls;
+var level_playerLives;
+var level_currentLevel;
+var level_percentComplete;
+var level_targetPercentComplete;
 var level_totalFilledTiles;
 var level_totalEmptyTiles;
 var scoreboard_percentCompleteTextBlock;
@@ -68,6 +72,7 @@ function preload()
     game.load.image('tile-scoreboard', 'assets/tile-scoreboard.png', true);
     game.load.image('scoreboard-restart-button', 'assets/RestartButton.png', true);
     game.load.image('scoreboard-pause-button', 'assets/PauseButton.png', true);
+    game.load.image('level-complete', 'assets/level_complete.png', true);
     game.load.image('animation-boom', 'assets/boom.png', true);
 }
 
@@ -87,7 +92,9 @@ function create()
     //  We need to enable physics on the player            
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
-    level_playerLives = PLAYER_START_LIVES;
+
+    level_currentLevel = 1;
+    nextLevelUpdates();
 
     spawnBalls();
     
@@ -143,10 +150,25 @@ function spawnBalls()
     balls.enableBody = true;
 
     // Create all the balls
-    for (var i = 0; i < NUMBER_OF_BALLS; i++)
+    for (var i = 0; i < level_numberOfBalls; i++)
     {
         // Create each ball with the preset values
-        var ball = balls.create(i * 100 + 100, i * 50 + 50, 'ball');
+        var minXY = MAP_BORDER_THICKNESS * 20;
+        var maxX = (MAP_TILE_WIDTH*20) - ((1+ MAP_BORDER_THICKNESS) * 20);
+        var maxY = (MAP_TILE_HEIGHT * 20) - ((1+MAP_BORDER_THICKNESS) * 20);
+        
+        var randomXCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxX);
+        var randomYCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxY);
+        //console.log("ChosenX: " + randomXCoordinateSpawn + ". minX:" + minXY + ". maxX:" + maxX);
+        //console.log("ChosenY: " + randomYCoordinateSpawn + ". minY:" + minXY + ". maxY:" + maxY);
+
+        //TODO: add crazy mode where velocity chosen like this
+        //const TOTAL_BALL_VELOCITY = 400;
+        //var xVelocity = chooseRandomValueBetweenInterval(0, TOTAL_BALL_VELOCITY);
+        //var yVelocity = TOTAL_BALL_VELOCITY - xVelocity;
+
+        //var ball = balls.create(i * 100 + 100, i * 50 + 50, 'ball');
+        var ball = balls.create(randomXCoordinateSpawn, randomYCoordinateSpawn, 'ball');
         ball.body.velocity.x = 200;
         ball.body.velocity.y = 200;
         ball.body.collideWorldBounds = true;
@@ -155,6 +177,11 @@ function spawnBalls()
 
         balls.add(ball);
     }
+}
+
+function chooseRandomValueBetweenInterval(min, max)
+{
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
 function pauseGame()
@@ -170,6 +197,7 @@ function setPlayerMovementDisabled(isDisabled)
 {
     isPlayerMovementDisabled = isDisabled;
     console.log("isPlayerDisabled: " + isPlayerMovementDisabled);
+
     // Prevent tweening of character
     if (playerTween != null)
     {
@@ -200,6 +228,27 @@ function setBallMovementDisabled(isDisabled)
             balls.getAt(i).body.velocity.x = allBallXVelocities[i];
             balls.getAt(i).body.velocity.y = allBallYVelocities[i];
         }    
+    }
+}
+
+function nextLevelUpdates()
+{
+    // Handle reset game
+    if (level_currentLevel == 1)
+    {
+        level_numberOfBalls = START_NUMBER_OF_BALLS;
+        level_playerLives = START_PLAYER_START_LIVES;
+        level_targetPercentComplete = START_TARGET_PERCENT_COMPLETE;
+    }
+    // Increment level difficulty
+    else
+    {
+        level_numberOfBalls++;
+        level_playerLives++;
+
+        // Max difficult is 90%
+        if (level_targetPercentComplete != 90)
+            level_targetPercentComplete++;
     }
 }
 
@@ -286,17 +335,43 @@ function createScoreboard()
 function updateScoreboard()
 {
     // update percent
-    var percent = Math.round(100 * level_totalFilledTiles / level_totalEmptyTiles);
-    scoreboard_percentCompleteTextBlock.setText("Percent Complete: " + percent + "%.");
-    console.log("Filled: " + level_totalFilledTiles + ". Empty: " + level_totalEmptyTiles)
+    level_percentComplete = Math.round(100 * level_totalFilledTiles / level_totalEmptyTiles);
+    scoreboard_percentCompleteTextBlock.setText("Percent Complete: " + level_percentComplete + "%.");
+    
     scoreboard_playerLives.setText("Character Lives: " + level_playerLives + ".");
+}
+
+function levelComplete()
+{
+    //TODO: add animation for end of level
+    level_currentLevel++;
+    level_percentComplete = 0;
+    level_totalFilledTiles = 0;
+
+    nextLevelUpdates();
+
+    drawMap();
+    
+    sendCharacterBackToStart();
+
+    spawnBalls();
+
+    createScoreboard();
+}
+
+function isLevelComplete()
+{
+    if (level_percentComplete >= level_targetPercentComplete)
+        return true;
+    else
+        return false;
 }
 
 //TODO: rename this function to something more descriptive
 function fillTiles()
 {   
-    var x = getXTileIndex();
-    var y = getYTileIndex();
+    var x = getPlayerXTileIndex();
+    var y = getPlayerYTileIndex();
 
     var currentTile = map.getTile(x, y,mapLayer, false);
     
@@ -325,13 +400,16 @@ function fillTiles()
             // Reset danger flag
             isCharInDangerZone = false;
 
-            console.log("made it here...");
             // Start flood-fill algorithm
             processFloodFlowFromArray(endangeredTiles);
 
             // Safely cleared tiles.  Reset them to 'safe-zone' tiles
             clearEndangeredTiles(true);
 
+            if(isLevelComplete())
+            {
+                levelComplete();
+            }
         }
     }
 
@@ -501,7 +579,7 @@ function sendCharacterBackToStart()
 }
 
 // Get tile X-index within the tilemap
-function getXTileIndex()
+function getPlayerXTileIndex()
 {
     var position = player.body.x;
 
@@ -509,7 +587,7 @@ function getXTileIndex()
 }
 
 // Get the tile Y-index within the tilemap
-function getYTileIndex()
+function getPlayerYTileIndex()
 {
     var position = player.body.y;
 
@@ -537,14 +615,22 @@ function update()
         game.physics.arcade.collide(balls, balls);
         game.physics.arcade.collide(balls, mapLayer);
 
+        var playerXTile = getPlayerXTileIndex();
+        var playerYTile = getPlayerYTileIndex();
+
         // TODO: test whether move is valid or not before tweening
         if (cursors.left.isDown)
         {
-            startPlayerTween(player.body.x - 20, player.body.y);
+            var currentTile = map.getTile(playerXTile - 1, playerYTile, mapLayer, false);
+
+            if (currentTile != null)
+            {
+                startPlayerTween(player.body.x - 20, player.body.y);
+            }
         }
         else if (cursors.right.isDown)
         {
-            var currentTile = map.getTile(getXTileIndex() + 1, getYTileIndex(), mapLayer, false);
+            var currentTile = map.getTile(playerXTile + 1, playerYTile, mapLayer, false);
 
             //TODO: fix this scoreboard issue.
             // Prevent character from entering scoreboard area
@@ -555,11 +641,21 @@ function update()
         }
         else if (cursors.up.isDown)
         {
-            startPlayerTween(player.body.x, player.body.y - 20);
+            var currentTile = map.getTile(playerXTile, playerYTile - 1, mapLayer, false);
+
+            if (currentTile != null)
+            {
+                startPlayerTween(player.body.x, player.body.y - 20);
+            }
         }
         else if (cursors.down.isDown)
         {
-            startPlayerTween(player.body.x, player.body.y + 20);
+            var currentTile = map.getTile(playerXTile, playerYTile + 1, mapLayer, false);
+
+            if (currentTile != null)
+            {
+                startPlayerTween(player.body.x, player.body.y + 20);
+            }
         }
     }
 }
@@ -626,16 +722,14 @@ function updateTileMapArray(x, y, value)
 
 function processFloodFlowFromArray(tilePath)
 {
-    console.log("Entered Flood-Fill.");
+    //console.log("Entered Flood-Fill.");
 
     var startTiles = [];
     startTiles = ChooseFloodFillStartTiles(tilePath);
-    console.log("Start tiles chosen");
-
+    
     CreateEnemyTileArray();
-    console.log("Enemy Tile Array created.");
-
-    console.log("ENEMY: " + flood_enemyTileArray);
+    
+    //console.log("ENEMY: " + flood_enemyTileArray);
 
     for (var i = 0; i < startTiles.length; i++)
     {
@@ -663,14 +757,14 @@ function CreateEnemyTileArray()
 {
     flood_enemyTileArray = [];
 
-    for(var i = 0; i < NUMBER_OF_BALLS; i++)
+    for(var i = 0; i < level_numberOfBalls; i++)
     {
         var enemy = balls.getAt(i);
         flood_enemyTileArray.push(getEnemyXTileIndex(enemy) + "," + getEnemyYTileIndex(enemy));
     }
 }
 
-//TODO: merge this previously used function "getXTileIndex" and "getYTileIndex"
+//TODO: merge this previously used function "getPlayerXTileIndex" and "getPlayerYTileIndex"
 // Get tile X-index within the tilemap
 function getEnemyXTileIndex(enemy)
 {
@@ -693,7 +787,7 @@ function ChooseFloodFillStartTiles(tilePath)
     //TODO: determine which tiles to test with   
     var x = parseInt(tilePath[0].split(',')[0]);
     var y = parseInt(tilePath[0].split(',')[1]);
-    console.log("Flood Fill start: " + x + "," + y);
+    //console.log("Flood Fill start: " + x + "," + y);
 
     // RIGHT
     var test1X = x + 1;
@@ -727,13 +821,13 @@ function ChooseFloodFillStartTiles(tilePath)
     //console.log("TestPoint4: " + test4X + "," + test4Y + ". Index:" + currentTile.index);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test4X + "," + test4Y);
 
-    console.log("Total points being tested: " + flood_startTiles.length);
+    //console.log("Total points being tested: " + flood_startTiles.length);
     return flood_startTiles;
 }
 
 function FloodFillAreaFromStartPoint(currX, currY)
 {
-    console.log("STARTING DR. FILL TEST.  X:" + currX + ". Y:" + currY);
+    //console.log("STARTING DR. FILL TEST.  X:" + currX + ". Y:" + currY);
     drFillSafeTest(currX, currY);
 }
 
