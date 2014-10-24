@@ -136,9 +136,11 @@ function animategameOverComplete()
     {
         gameOverCurrentScale += GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL;
         // Have it zoom to a larger icon
+        
+        //TODO: adjust image center position
+        //gameOverIcon.x = calculateMapCenterRelativeToImageX(gameOverIcon.body.width);
+        //gameOverIcon.y = calculateMapCenterRelativeToImageY(gameOverIcon.body.height);
         gameOverIcon.scale.setTo(gameOverCurrentScale, gameOverCurrentScale);
-        gameOverIcon.x = calculateMapCenterRelativeToImageX(gameOverIcon.body.width);
-        gameOverIcon.y = calculateMapCenterRelativeToImageY(gameOverIcon.body.height);
     }
 }
 
