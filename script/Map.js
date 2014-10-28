@@ -47,22 +47,24 @@ function fillTiles()
     {
         if (isCharInDangerZone)
         {
-            var percentClearedBefore = 100 * level_totalFilledTiles / level_totalEmptyTiles;
-            
+            var percentClearedBefore = level_percentComplete;
+            var percentClearedAnmiation_X = endangeredTiles[endangeredTiles.length - 1].split(",")[0];
+            var percentClearedAnmiation_Y = endangeredTiles[endangeredTiles.length - 1].split(",")[1];
+
             // Reset danger flag
             isCharInDangerZone = false;
 
             // Start flood-fill algorithm
             processFloodFlowFromArray(endangeredTiles);
 
-            startPercentCompleteAnimation(percentClearedBefore);
-
             // Safely cleared tiles.  Reset them to 'safe-zone' tiles
             clearEndangeredTiles(true);
 
-            
+            startPercentCompleteAnimation(percentClearedBefore, percentClearedAnmiation_X, percentClearedAnmiation_Y);
+
             if (isLevelComplete())
             {
+                pauseLevelTimer();
                 spawnLevelCompleteAnimation();
             }
         }
@@ -71,16 +73,14 @@ function fillTiles()
     return currentTile;
 }
 
-function startPercentCompleteAnimation(before)
+//TODO: clean up the percent complete animation
+function startPercentCompleteAnimation(percentCompleteBefore, percentClearedAnmiation_X, percentClearedAnmiation_Y)
 {
-    var percentCleared = Math.round((level_percentComplete - before) * 10) / 10 + "%";
-
-    var x_coordinate = endangeredTiles[endangeredTiles.length - 1].split(",")[0];
-    var y_coordinate = endangeredTiles[endangeredTiles.length - 1].split(",")[1];
-
+    var diff = level_percentComplete - percentCompleteBefore;
+    var percentCleared = Math.round(diff * 10) / 10 + "%";
+    //console.log("Level_PercentComplete: " + level_percentComplete + " Before: " + percentCompleteBefore + " Diff: " + diff + " PercentCleared: " + percentCleared);
     
-    startpercentClearedTween(x_coordinate * TILE_WIDTH, y_coordinate * TILE_WIDTH, percentCleared);
-
+    startpercentClearedTween(percentClearedAnmiation_X * TILE_WIDTH, percentClearedAnmiation_Y * TILE_WIDTH, percentCleared);
 }
 
 // Convert 'danger-zone' tiles to 'safe-zone' or empty tiles

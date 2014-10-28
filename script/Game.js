@@ -111,6 +111,7 @@ function nextLevelUpdates()
         level_numberOfBalls = START_NUMBER_OF_BALLS;
         level_playerLives = START_PLAYER_LIVES;
         level_targetPercentComplete = START_TARGET_PERCENT_COMPLETE;
+        level_percentComplete = 0;
     }
         // Increment level difficulty
     else
@@ -202,7 +203,6 @@ function setBallMovementDisabled(isDisabled)
         }
     }
 }
-
 
 
 function createLevelTimer()

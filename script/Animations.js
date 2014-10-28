@@ -9,11 +9,11 @@ const LEVEL_COMPLETE_TIMER_TICK_INTERVAL = 50;
 const LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE = 0.1;
 var LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE_INTERVAL = 0.05;
 
-const MAX_GAME_OVER_ZOOM_ANIMATIONS = 50;
+const MAX_GAME_OVER_TICKS = 180;
+const MAX_GAME_OVER_ZOOM_ANIMATIONS = 115;
 const GAME_OVER_TIMER_TICK_INTERVAL = 40;
-const GAME_OVER_DEFAULT_IMAGE_SCALE = 0.1;
+const GAME_OVER_DEFAULT_IMAGE_SCALE = 0.08;
 const GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL = 0.02;
-
 
 
 var boomIsIconBig = false;
@@ -52,7 +52,7 @@ function spawnBoomAnimation(x, y)
 function animateBoom()
 {
     boomAnimateCount++;
-    if (boomAnimateCount == MAX_BOOM_ZOOM_ANIMATIONS)
+    if (boomAnimateCount >= MAX_BOOM_ZOOM_ANIMATIONS)
     {
         boomAnimateCount = 0;
         boomAnimateTimer.stop();
@@ -88,7 +88,7 @@ function spawnLevelCompleteAnimation()
 function animateLevelCompleteComplete()
 {
     levelCompleteZoomCount++;
-    if (levelCompleteZoomCount == MAX_LEVEL_COMPLETE_ZOOM_ANIMATIONS)
+    if (levelCompleteZoomCount >= MAX_LEVEL_COMPLETE_ZOOM_ANIMATIONS)
     {
         levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
         levelCompleteZoomCount = 0;
@@ -125,7 +125,7 @@ function spawnGameOverAnimation()
 function animategameOverComplete()
 {
     gameOverZoomCount++;
-    if (gameOverZoomCount == MAX_GAME_OVER_ZOOM_ANIMATIONS)
+    if (gameOverZoomCount >= MAX_GAME_OVER_TICKS)
     {
         gameOverCurrentScale = GAME_OVER_DEFAULT_IMAGE_SCALE;
         gameOverZoomCount = 0;
@@ -134,15 +134,16 @@ function animategameOverComplete()
 
         //TODO: do something at end of game over animation?
     }
-    else
+    else if (gameOverZoomCount <= MAX_GAME_OVER_ZOOM_ANIMATIONS)
     {
         gameOverCurrentScale += GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL;
-        // Have it zoom to a larger icon
-        
-        //TODO: adjust image center position
-        //gameOverIcon.x = calculateMapCenterRelativeToImageX(gameOverIcon.body.width);
-        //gameOverIcon.y = calculateMapCenterRelativeToImageY(gameOverIcon.body.height);
+
+        // Have it zoom to a larger image
         gameOverIcon.scale.setTo(gameOverCurrentScale, gameOverCurrentScale);
+
+        gameOverIcon.position = new Phaser.Point(
+            calculateMapCenterRelativeToImageX(gameOverIcon.width),
+            calculateMapCenterRelativeToImageY(gameOverIcon.height));
     }
 }
 
@@ -151,9 +152,10 @@ function calculateMapCenterRelativeToImageX(imageSizeX)
 {
     var map_center_x = 0;
 
-    map_center_x = MAP_TILE_WIDTH * TILE_WIDTH / 2;
-    
-    var x_starting_point = map_center_x - imageSizeX;
+    //map_center_x = MAP_TILE_WIDTH * TILE_WIDTH / 2;
+    map_center_x = (MAP_TILE_WIDTH + 20) * TILE_WIDTH / 2;
+
+    var x_starting_point = map_center_x - (imageSizeX / 2);
     return x_starting_point;
 }
 
@@ -163,6 +165,6 @@ function calculateMapCenterRelativeToImageY(imageSizeY)
 
     map_center_y = MAP_TILE_HEIGHT * TILE_HEIGHT / 2;
 
-    var y_starting_point = map_center_y - imageSizeY;
+    var y_starting_point = map_center_y - (imageSizeY / 2);
     return y_starting_point;
 }

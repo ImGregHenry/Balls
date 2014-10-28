@@ -1,9 +1,11 @@
-﻿var scoreboard_currentLevel;
-var scoreboard_targetPercentComplete;
+﻿var scoreboard_targetPercentComplete;
+var scoreboard_currentLevel;
+var scoreboard_playerLives;
+var scoreboard_currentEnemyCount;
+var scoreboard_gameTimer;
 var scoreboard_pauseButton;
 var scoreboard_restartButton;
-var scoreboard_playerLives;
-var scoreboard_gameTimer;
+
 
 
 var scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1);
@@ -21,7 +23,7 @@ function updateScoreboard_GameTimer()
     if (scoreboard_gameTimer != null)
         scoreboard_gameTimer.destroy(true);
     //TODO: remove magic number for starting point on scoreboard
-    scoreboard_gameTimer = game.add.text(scoreboardXStartingPoint, 200, text, scoreboardTextStyle);
+    scoreboard_gameTimer = game.add.text(scoreboardXStartingPoint, 250, text, scoreboardTextStyle);
 }
 
 
@@ -48,7 +50,7 @@ function createScoreboard()
     scoreboard_targetPercentComplete = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
     yCoordinate += 50;
 
-    // Percent complete
+    // Current Level
     // The null test handles updating this scoreboard - destroy the old component
     if (scoreboard_currentLevel != null)
         scoreboard_currentLevel.destroy(true);
@@ -56,13 +58,22 @@ function createScoreboard()
     scoreboard_currentLevel = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
     yCoordinate += 50;
 
+    // Current Enemy Count
+    // The null test handles updating this scoreboard - destroy the old component
+    if (scoreboard_currentEnemyCount != null)
+        scoreboard_currentEnemyCount.destroy(true);
+    text = "Enemies: " + level_numberOfBalls;
+    scoreboard_currentEnemyCount = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
+    yCoordinate += 50;
+
+    // Game Timer
     if (scoreboard_gameTimer != null)
         scoreboard_gameTimer.destroy(true);
     //TODO: remove magic number for starting point on scoreboard
     text = "Timer: 0:00";
-    scoreboard_gameTimer = game.add.text(scoreboardXStartingPoint, 200, text, scoreboardTextStyle);
+    scoreboard_gameTimer = game.add.text(scoreboardXStartingPoint, 250, text, scoreboardTextStyle);
 
-    // Player Lives    
+    // Player Lives    fa
     if (scoreboard_playerLives != null)
         scoreboard_playerLives.destroy(true);
     text = "Character Lives: " + level_playerLives;
@@ -78,15 +89,14 @@ function createScoreboard()
     // Pause button
     if (scoreboard_pauseButton != null)
         scoreboard_pauseButton.destroy(true);
-
     scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-pause-button', pauseGame, this, 2, 1, 0);
 }
 
 function updateScoreboard()
 {
     // update percent
-    level_percentComplete = Math.round(100 * level_totalFilledTiles / level_totalEmptyTiles * 10) / 10;
-    scoreboard_percentCompleteTextBlock.setText("Percent Complete: " + level_percentComplete + "%");
+    level_percentComplete = (100 * level_totalFilledTiles / level_totalEmptyTiles);
+    scoreboard_percentCompleteTextBlock.setText("Percent Complete: " + (Math.round(level_percentComplete * 10) / 10) + "%");
 
     // update character lives
     scoreboard_playerLives.setText("Character Lives: " + level_playerLives);

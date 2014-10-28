@@ -12,7 +12,7 @@ const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const START_NUMBER_OF_BALLS = 4;
 const START_TARGET_PERCENT_COMPLETE = 65;
-const START_PLAYER_LIVES = 3;
+const START_PLAYER_LIVES = 2;
 //const PLAYER_VELOCITY = 90;
 
 //TODO: rearrange variables into appropriate files
@@ -29,13 +29,14 @@ var balls;
 var cursors;
 
 
-var level_numberOfBalls;
-var level_playerLives;
-var level_currentLevel;
-var level_percentComplete;
-var level_targetPercentComplete;
-var level_totalFilledTiles;
-var level_totalEmptyTiles;
+var level_numberOfBalls = 0;
+var level_playerLives = 0;
+var level_currentLevel = 0;
+var level_percentComplete = 0.0;
+var level_targetPercentComplete = 0.0;
+var level_totalFilledTiles = 0;
+var level_totalEmptyTiles = 0;
+
 var scoreboard_percentCompleteTextBlock;
 
 var timerBetweenRounds;
@@ -50,7 +51,7 @@ var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload
 function gameOver()
 {
     console.log("GAME OVER!");
-
+    pauseLevelTimer(true);
     // Create the boom animation
     spawnGameOverAnimation();
 
