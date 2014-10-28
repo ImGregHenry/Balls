@@ -35,6 +35,10 @@ function characterDiedStartRoundStartTimers(tileContext)
         // Avoid duplicating timers
         isCharacterDeadAlready = true;
 
+        // Disable all the powerups
+        stopBulletTime();
+        //unfreezeTime();
+
         // Disable all movement
         setBallMovementDisabled(true);
         setPlayerMovementDisabled(true);
@@ -95,6 +99,8 @@ function levelComplete()
     createScoreboard();
 
     createLevelTimer();
+    createBulletTimeEnergyTimer();
+    createBulletTimePieProgressBar();
 }
 
 function isLevelComplete()
@@ -158,6 +164,8 @@ function restartGame()
     createScoreboard();
 
     createLevelTimer();
+    createBulletTimeEnergyTimer();
+    createBulletTimePieProgressBar();
 }
 
 
@@ -165,7 +173,7 @@ function pauseGame()
 {
     // Toggle game paused
     isGamePaused = !isGamePaused;
-    console.log("isPaused:" + isGamePaused);
+    //console.log("isPaused:" + isGamePaused);
     setPlayerMovementDisabled(isGamePaused);
     setBallMovementDisabled(isGamePaused);
     pauseLevelTimer(isGamePaused);

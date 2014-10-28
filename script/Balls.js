@@ -22,7 +22,7 @@ var isPlayerMovementDisabled = false;
 var isGamePaused = false;
 var isCharacterDeadAlready = false;
 var isCharInDangerZone = false;
-
+var isSoundEffectsEnabled = true;
 
 var map;
 var mapLayer;
@@ -77,17 +77,24 @@ function preload()
     game.load.image('level-complete', 'assets/level_complete.png', true);
     game.load.image('animation-boom', 'assets/boom.png', true);
     game.load.image('game-over', 'assets/GameOver.jpeg', true);
+
+
+    game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
+    game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
+    game.load.audio('audio-bullet-time-start', 'assets/sounds/bullet-time-start.mp3', true);
+
+    //game.time.advancedTiming = true;
 }
 
 function create()
 {
     game.stage.backgroundColor = '#FFFFFF';
-
+    
     drawMap();
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
-
+    
     // Create the character
     player = game.add.sprite(0, 0, 'character');
     
@@ -106,10 +113,34 @@ function create()
     createScoreboard();
 
     createLevelTimer();
-    
-    level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2*MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2*MAP_BORDER_THICKNESS));
+    createBulletTimeEnergyTimer();
+    createBulletTimePieProgressBar();
+
+    level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
     level_totalFilledTiles = 0;
 }
+
+
+const BULLET_TIME_PROGRESS_BAR_X = 1100;
+const BULLET_TIME_PROGRESS_BAR_Y = 700;
+function createBulletTimePieProgressBar()
+{
+    if (pie != null)
+        pie.destroy();
+    var pie = new PieProgress(game, BULLET_TIME_PROGRESS_BAR_X, BULLET_TIME_PROGRESS_BAR_Y, 50);
+    pie.color = "#f00";
+    
+    game.world.add(pie);
+    
+    if (pietween != null)
+        pietween.stop();
+
+    pietween = game.add.tween(pie);
+    pietween.to({ progress: bulletTime_energy }, Infinity, Phaser.Easing.Linear.None, true); //Phaser.Easing.Quadratic.Out, true, 0, 0, true);   //Infinity
+    //pietween.onComplete.add(pietweencomplete, this);
+    pietween.start();
+}
+
 
 function drawMap()
 {
@@ -192,6 +223,9 @@ function chooseRandomValueBetweenInterval(min, max)
 // UPDATE: called constantly and handles user's controls
 function update()
 {
+    //TODO: add fps text to game
+    //game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
+
     if (!isGamePaused && !isPlayerMovementDisabled)
     {
         game.physics.arcade.collide(balls, balls);
@@ -200,25 +234,26 @@ function update()
         var playerXTile = getPlayerXTileIndex();
         var playerYTile = getPlayerYTileIndex();
 
-        if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+        if (!isCharacterDeadAlready)
         {
-            startBulletTime();
-        }
-        else
-        {
-            stopBulletTime();
-        }
+            if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+            {
+                startBulletTime();
+            }
+            else
+            {
+                stopBulletTime();
+            }
 
-        if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
-        {
-            freezeTime();
+            if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
+            {
+                freezeTime();
+            }
+            else
+            {
+                unfreezeTime();
+            }
         }
-        else
-        {
-            unfreezeTime();
-        }
-        
-
         // TODO: test whether move is valid or not before tweening
         if (cursors.left.isDown)
         {

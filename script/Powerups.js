@@ -1,36 +1,109 @@
-﻿const BULLET_TIME_BALL_SPEED_RATIO = 0.5;
+﻿const BULLET_TIME_BALL_VELOCITY = 100;
 var isBulletTime = false;
 var isFrozenTime = false;
 
 var freezeTimeBallXVelocities = [];
 var freezeTimeBallYVelocities = [];
 
+var bulletTime_energy = 1.000;
+const BULLET_TIME_ENERGY_BURN_RATE = 0.002;
+const BULLET_TIME_ENERGY_REGEN_RATE = 0.001;
+const BULLET_TIME_ENERGY_TIME_INTERVAL = 1.0;
+const BULLET_TIME_MINIMUM_START_ENERGY = 0.5;
 
+function createBulletTimeEnergyTimer()
+{
+    game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, function ()
+    {
+        if (!isGamePaused)
+        {
+            // Drain bullet time energy
+            if (isBulletTime)
+            {
+                // Reduce bullet time energy
+                if (bulletTime_energy > BULLET_TIME_ENERGY_REGEN_RATE)
+                {
+                    bulletTime_energy = bulletTime_energy - BULLET_TIME_ENERGY_BURN_RATE;
+                }
+                // Out of bullet time energy
+                else
+                {
+                    stopBulletTime();
+                }
+            }
+            // Regen bullet time energy
+            else
+            {
+                // Regen bullet time energy
+                if ((bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE) < 1.0)
+                {
+                    bulletTime_energy = bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE;
+                    //bulletTime_energy = bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE;
+                }
+                else
+                {
+                    bulletTime_energy = 1.0;
+                }
+            }
+            //var text = isBulletTime ? "bulletTime" : "notBulletTime";
+            //console.log("progress: " + bulletTime_energy + " " + text);
+        }
+    }, this);
+}
+
+var bulletTimeStartSound;
+var bulletTimeHeartbeatSound;
+var gameSoundEffectVolume = 1.0;
 function startBulletTime()
 {
     // Can't enter bullet time if already freeze time
     if (isBulletTime || isFrozenTime)
         return;
-    isBulletTime = true;
+
+    if (bulletTime_energy > BULLET_TIME_MINIMUM_START_ENERGY)
+        isBulletTime = true;
+    else
+        return;
+
+    
+    bulletTimeStartSound = game.add.audio('audio-bullet-time-start', gameSoundEffectVolume/4.0, false);
+    bulletTimeHeartbeatSound = game.add.audio('audio-bullet-time-heartbeat', gameSoundEffectVolume, false);
+    bulletTimeStartSound.play();
+    bulletTimeHeartbeatSound.play();
 
     for (var i = 0; i < balls.length; i++)
     {
-        balls.getAt(i).body.velocity.x *= BULLET_TIME_BALL_SPEED_RATIO;
-        balls.getAt(i).body.velocity.y *= BULLET_TIME_BALL_SPEED_RATIO;
+        balls.getAt(i).body.velocity.x = BULLET_TIME_BALL_VELOCITY * getVelocityScalingDirection(balls.getAt(i).body.velocity.x);
+        balls.getAt(i).body.velocity.y = BULLET_TIME_BALL_VELOCITY * getVelocityScalingDirection(balls.getAt(i).body.velocity.y);;
     }
 }
 
 function stopBulletTime()
 {
+    console.log("called stop bullet time");
     if (!isBulletTime)
         return;
     isBulletTime = false;
 
+    bulletTimeStartSound.stop();
+    bulletTimeHeartbeatSound.stop();
+    bulletTimeStopSound = game.add.audio('audio-bullet-time-stop', gameSoundEffectVolume/4.0, false);
+    bulletTimeStopSound.play();
+
     for (var i = 0; i < balls.length; i++)
     {
-        balls.getAt(i).body.velocity.x /= BULLET_TIME_BALL_SPEED_RATIO;
-        balls.getAt(i).body.velocity.y /= BULLET_TIME_BALL_SPEED_RATIO;
+        balls.getAt(i).body.velocity.x = BALL_VELOCITY * getVelocityScalingDirection(balls.getAt(i).body.velocity.x);
+        balls.getAt(i).body.velocity.y = BALL_VELOCITY * getVelocityScalingDirection(balls.getAt(i).body.velocity.y);
+        //BULLET_TIME_BALL_SPEED_RATIO;
     }    
+}
+
+function getVelocityScalingDirection(val)
+{
+    if (val > 0.0)
+        return 1.0;
+    else
+        return -1.0;
 }
 
 function freezeTime()

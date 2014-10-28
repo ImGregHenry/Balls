@@ -5,7 +5,7 @@ var scoreboard_currentEnemyCount;
 var scoreboard_gameTimer;
 var scoreboard_pauseButton;
 var scoreboard_restartButton;
-
+var scoreboard_bulletTimeText;
 
 
 var scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1);
@@ -90,6 +90,13 @@ function createScoreboard()
     if (scoreboard_pauseButton != null)
         scoreboard_pauseButton.destroy(true);
     scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-pause-button', pauseGame, this, 2, 1, 0);
+
+    // Bullet Time Text
+    if (scoreboard_bulletTimeText != null)
+        scoreboard_bulletTimeText.destroy(true);
+    text = "Bullet Time:";
+    scoreboard_bulletTimeText = game.add.text(scoreboardXStartingPoint, yCoordinate+175, text, scoreboardTextStyle);
+
 }
 
 function updateScoreboard()
