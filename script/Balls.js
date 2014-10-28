@@ -22,11 +22,6 @@ var isGamePaused = false;
 var isCharacterDeadAlready = false;
 var isCharInDangerZone = false;
 
-var scoreboard_currentLevel;
-var scoreboard_targetPercentComplete;
-var scoreboard_pauseButton;
-var scoreboard_restartButton;
-var scoreboard_playerLives;
 
 var map;
 var mapLayer;
@@ -108,6 +103,7 @@ function create()
 
     createScoreboard();
 
+    createLevelTimer();
     
     level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2*MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2*MAP_BORDER_THICKNESS));
     level_totalFilledTiles = 0;

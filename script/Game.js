@@ -90,6 +90,8 @@ function levelComplete()
     spawnBalls();
 
     createScoreboard();
+
+    createLevelTimer();
 }
 
 function isLevelComplete()
@@ -147,6 +149,8 @@ function restartGame()
     spawnBalls();
 
     createScoreboard();
+
+    createLevelTimer();
 }
 
 
@@ -157,6 +161,7 @@ function pauseGame()
     console.log("isPaused:" + isGamePaused);
     setPlayerMovementDisabled(isGamePaused);
     setBallMovementDisabled(isGamePaused);
+    pauseLevelTimer(isGamePaused);
 }
 
 function setPlayerMovementDisabled(isDisabled)
@@ -194,6 +199,38 @@ function setBallMovementDisabled(isDisabled)
         {
             balls.getAt(i).body.velocity.x = allBallXVelocities[i];
             balls.getAt(i).body.velocity.y = allBallYVelocities[i];
+        }
+    }
+}
+
+
+
+function createLevelTimer()
+{
+    if (gameOverTimer != null)
+        gameOverTimer.destroy(true);
+
+    gameOverTimer = game.time.create(true);
+    gameOverTimer.loop(1000, timer_levelTimerTick, this);
+    gameOverTimer.start();
+}
+
+function timer_levelTimerTick()
+{
+    updateScoreboard_GameTimer();
+}
+
+function pauseLevelTimer(isPause)
+{
+    if (gameOverTimer != null)
+    {
+        if (isPause)
+        {
+            gameOverTimer.pause();
+        }
+        else
+        {
+            gameOverTimer.resume();
         }
     }
 }

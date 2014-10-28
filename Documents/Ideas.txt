@@ -11,52 +11,53 @@ COMPLETE
 *-Stars spawn in different locations
 *-Stars have variable speeds
 *-Add text for what percent was cleared
-
+*-Add level timers
+*-Add percent cleared animation
+*-Game over animation
 
 BASIC FEATURES
 *-Continue game / start from beginning
 *-Highscores
 *-Can't move back on your own danger zone (warning: middle of square)
-*-Game over animation
 *-Help menu
 *-Game/Main menu
 *-Start button
+*-Enemy ball count
 
-- main menu and revamp pause/restart
-- add real scoreboard 
-- add level timers and time limits
-- high scores tracking and db
-- fastest clear speed tracked
-- login information
-- modify ball spawn locations and speeds
-- add animations for scoreboard change
+- Upgrade scoreboard 
+- Modify ball spawn locations and speeds
+- Add animations for scoreboard change
 
-- enemy balls AI
-- begin powerups - or different game modes
-- unique levels - custom maps
-- help menu / instructions
+
+
 - no red zone movement
-- change colour scheme in settings
-- add sound - movement, tile clearing, explosions, game over, level complete
-- add music
-- add mute button
+- help menu / instructions
 
 EXTRA FEATURES:
 -Customized characters
 
 BUGS:
-- fix tile fill algorithm for edge cases
-- fix bug where you can die after clearing
-- fix game over animation 
-- handle between games better
-- handle multiple percent cleared tweens
+- Fix tile fill algorithm for edge cases
+- Fix bug where you can die after clearing
+- Fix game over animation 
+- Handle between games better
+- Handle multiple percent cleared tweens
 
 ENHANCEMENTS
--Ball acceleration
--Powerups - speed, invulnerability
--Invisible balls (or fade in and out)
-
-
+- Ball acceleration
+- Powerups - speed, invulnerability
+- Invisible balls (or fade in and out)
+- Add level time limits
+- High scores tracking and db
+- Fastest clear speed tracked
+- Login information
+- Change colour scheme in settings
+- Add sound - movement, tile clearing, explosions, game over, level complete
+- Add music
+- Add mute button
+- Enemy balls AI
+- Begin powerups - or different game modes
+- Unique levels - custom maps
 
 ideaballs
 
