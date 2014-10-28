@@ -125,16 +125,15 @@ const BULLET_TIME_PROGRESS_BAR_X = 1100;
 const BULLET_TIME_PROGRESS_BAR_Y = 700;
 function createBulletTimePieProgressBar()
 {
-    if (pie != null)
-        pie.destroy();
     var pie = new PieProgress(game, BULLET_TIME_PROGRESS_BAR_X, BULLET_TIME_PROGRESS_BAR_Y, 50);
-    pie.color = "#f00";
     
     game.world.add(pie);
     
     if (pietween != null)
-        pietween.stop();
-
+    {
+        game.world.remove(pietween);
+    }
+    
     pietween = game.add.tween(pie);
     pietween.to({ progress: bulletTime_energy }, Infinity, Phaser.Easing.Linear.None, true); //Phaser.Easing.Quadratic.Out, true, 0, 0, true);   //Infinity
     //pietween.onComplete.add(pietweencomplete, this);

@@ -9,7 +9,7 @@ var scoreboard_bulletTimeText;
 
 
 var scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1);
-var scoreboardTextStyle = { font: "30px Arial", fill: "#ff0044" };
+var scoreboardTextStyle = { font: "30px Arial", fill: "#E60A24" };
 var gameTimer;
 
 function updateScoreboard_GameTimer()

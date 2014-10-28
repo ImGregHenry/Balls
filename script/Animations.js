@@ -73,8 +73,9 @@ function animateBoom()
 // Create the boom animation timer
 function spawnLevelCompleteAnimation()
 {
-    setPlayerMovementDisabled(true);
-    setBallMovementDisabled(true);
+    //setPlayerMovementDisabled(true);
+    //setBallMovementDisabled(true);
+    disableAllMovementAndTimers(true);
 
     //TODO: calculate exact location for boom explosion
     levelCompleteIcon = game.add.sprite(((MAP_TILE_WIDTH + 20) * TILE_WIDTH / 2), (MAP_TILE_HEIGHT * TILE_HEIGHT / 2), 'level-complete');
@@ -95,8 +96,9 @@ function animateLevelCompleteComplete()
         levelCompleteTimer.stop();
         levelCompleteIcon.kill();
 
-        setPlayerMovementDisabled(false);
-        setBallMovementDisabled(false);
+        disableAllMovementAndTimers(false);
+        //setPlayerMovementDisabled(false);
+        //setBallMovementDisabled(false);
         levelComplete();
     }
     else
@@ -114,8 +116,9 @@ function animateLevelCompleteComplete()
 // Create the boom animation timer
 function spawnGameOverAnimation()
 {
-    setPlayerMovementDisabled(true);
-    setBallMovementDisabled(true);
+    //setPlayerMovementDisabled(true);
+    //setBallMovementDisabled(true);
+    disableAllMovementAndTimers(true);
 
     //TODO: calculate exact location for boom explosion
     gameOverIcon = game.add.sprite((MAP_TILE_WIDTH * TILE_WIDTH / 2) - 140, (MAP_TILE_HEIGHT * TILE_HEIGHT / 2) - 140, 'game-over');

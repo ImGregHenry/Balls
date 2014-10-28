@@ -60,16 +60,17 @@ function characterDiedHandler()
     if (level_playerLives == 0)
     {
         endangeredTiles = [];
-        setBallMovementDisabled(true);
-        setPlayerMovementDisabled(true);
+        disableAllMovementAndTimers(true);
+        //setBallMovementDisabled(true);
+        //setPlayerMovementDisabled(true);
         gameOver();
     }
     else
     {
         level_playerLives--;
-
-        setBallMovementDisabled(false);
-        setPlayerMovementDisabled(false);
+        disableAllMovementAndTimers(false);
+        //setBallMovementDisabled(false);
+        //setPlayerMovementDisabled(false);
 
         updateScoreboard();
         sendCharacterBackToStart();
@@ -77,6 +78,23 @@ function characterDiedHandler()
     }
 }
 
+
+function disableAllMovementAndTimers(isDisable)
+{
+    if (isDisable)
+    {
+        stopBulletTime();
+        unfreezeTime();
+    }
+    else
+    {
+        startBulletTime();
+        freezeTime();
+    }
+    
+    setBallMovementDisabled(isDisable);
+    setPlayerMovementDisabled(isDisable);
+}
 
 function levelComplete()
 {
@@ -164,7 +182,7 @@ function restartGame()
     createScoreboard();
 
     createLevelTimer();
-    createBulletTimeEnergyTimer();
+    //createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
 }
 
@@ -176,6 +194,7 @@ function pauseGame()
     //console.log("isPaused:" + isGamePaused);
     setPlayerMovementDisabled(isGamePaused);
     setBallMovementDisabled(isGamePaused);
+    pauseBulletTime(isGamePaused);
     pauseLevelTimer(isGamePaused);
 }
 

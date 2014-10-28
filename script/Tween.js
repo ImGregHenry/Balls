@@ -1,5 +1,5 @@
 ﻿
-var percentClearedTextStyle = { font: "30px Arial", fill: "#ff0044" };
+var percentClearedTextStyle = { font: "30px Arial", fill: "#E60A24" }; //ff0044
 var percentClearedTween = null;
 var percentClearedText;
 const PERCENT_CLEARED_ANIMATION_DISTANCE_Y = 10;

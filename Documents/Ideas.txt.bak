@@ -1,7 +1,10 @@
-IDEAS
+IDEA BALLS
 -Mouse version of Geometry Wars 2: Pacifism
 -Scorched Earth
--
+-Dr. Robotniks mean bean machine
+
+http://www.html5gamedevs.com/topic/9716-circle-progress-bar/
+http://soluka.fr/docs/phaser/v1.1.6/doc/Phaser.BitmapData.html
 
 
 COMPLETE
@@ -19,40 +22,44 @@ COMPLETE
 *- Add percent cleared animation
 *- Game over animation
 *- Enemy ball count
+*- Basic sound prototype
+\- Begin powerups framework
 \- Powerups - bullet time & freeze time
+\- Circular progress bar
+\- Bullet-time limit bar
+\- Add bullet time sound effect
+%- Fix game over animation
+%- Fix bullet time regeneration/drain after restart game
+
 
 BASIC FEATURES
-*- Continue game / start from beginning
-*- Highscores
-*- Can't move back on your own danger zone (warning: middle of square)
+*- High scores
 *- Help menu
 *- Game/Main menu
 *- Start button
- - Upgrade scoreboard 
- - Modify ball spawn locations and speeds
+*- Continue game / start from beginning 
+*- Modify ball spawn locations and speeds
  - Add animations for scoreboard change
-
-
-
-- no red zone movement
-- help menu / instructions
-
-EXTRA FEATURES:
--Customized characters
+ - Largest single clear displayed
+ - Upgrade scoreboard
 
 BUGS:
+%- Clean up bullet time functionality
 %- Fix tile fill algorithm for edge cases
 %- Fix bug where you can die after clearing
-%- Fix game over animation 
 %- Handle between games better
 %- Handle multiple percent cleared tweens
+%- Fix bug where bullet time pie chart gets frozen after being alt+tabbed
+%- Restart bullet time bar when restart button hit
+%- Investigate fps lag
 
 ENHANCEMENTS
 \- Laser-beam clear (straight line fast clear)
-\- Bullet-time limit bar
 \- Bullet-time balls animate
 \- Freeze-time limit bar
 \- Freeze-time balls animate
+\- Powerups pickups and power bar
+\- Difficulty levels easy/hard
 \- Ball acceleration
 \- Player acceleration
 \- Balls flip directions spontaneously
@@ -65,13 +72,14 @@ ENHANCEMENTS
 \- Login information
 \- Change colour scheme in settings
 \- Add sound - movement, tile clearing, explosions, game over, level complete
+\- Add freeze time sound effect
 \- Add music
 \- Add mute button
 \- Enemy balls AI
-\- Begin powerups - or different game modes
+\- or different game modes
 \- Unique levels - custom maps
-
-ideaballs
+\- Customized characters
+\- Can't move back on your own danger zone (warning: middle of square)
 
 
 

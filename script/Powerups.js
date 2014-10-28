@@ -78,9 +78,23 @@ function startBulletTime()
     }
 }
 
+function pauseBulletTime(isPause)
+{
+    if(isPause)
+    {
+        bulletTimeStartSound.pause();
+        bulletTimeHeartbeatSound.pause();
+    }
+    else
+    {
+        bulletTimeStartSound.resume();
+        bulletTimeHeartbeatSound.resume();
+    }
+}
+
 function stopBulletTime()
 {
-    console.log("called stop bullet time");
+    //console.log("called stop bullet time");
     if (!isBulletTime)
         return;
     isBulletTime = false;

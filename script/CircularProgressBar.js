@@ -1,4 +1,7 @@
-﻿// Phaser current version test environment
+﻿// Pie Chart Prototype Found Here:
+//http://jsfiddle.net/lewster32/f6tf8ue9/
+
+// Phaser current version test environment
 // Configurable 'pie' progress indicator ('ring' style)
 
 //var game = new Phaser.Game(600, 400, Phaser.AUTO, 'test');
@@ -36,7 +39,7 @@ var pieprogress;
 //};
 
 
-var PieProgress = function (game, x, y, radius, color, angle, weight)
+var PieProgress = function (game, x, y, radius, angle, weight)
 {
     this._radius = radius;
     this._weight = weight || 0.25;
@@ -56,9 +59,9 @@ PieProgress.prototype.constructor = PieProgress;
 
 PieProgress.prototype.chooseColour = function ()
 {
-    console.log(bulletTime_energy);
-    if (bulletTime_energy > 0.5)
-        return "#ff0044";
+    //console.log(bulletTime_energy);
+    if (isBulletTime || bulletTime_energy > 0.5)
+        return "#E60A24";
     else if (bulletTime_energy < 0.5
         && !isBulletTime)
         return "#FFFFFF";
@@ -71,14 +74,12 @@ PieProgress.prototype.updateProgress = function ()
     progress = Phaser.Math.clamp(progress, 0.00001, 0.99999);
     
     this.bmp.clear();
-    //this.bmp.ctx.strokeStyle = this.color;
     this.bmp.ctx.strokeStyle = this.chooseColour();
     this.bmp.ctx.lineWidth = this._weight * this._radius;
     this.bmp.ctx.beginPath();
     this.bmp.ctx.arc(this.bmp.width * 0.5, this.bmp.height * 0.5, this._radius - 15, 0, (Math.PI * 2) * progress, false);
     this.bmp.ctx.stroke();
     this.bmp.dirty = true;
-    //console.log("draw!");
 };
 
 PieProgress.prototype.updateBmdSize = function ()
