@@ -9,9 +9,9 @@ const LEVEL_COMPLETE_TIMER_TICK_INTERVAL = 50;
 const LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE = 0.1;
 var LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE_INTERVAL = 0.05;
 
-const MAX_GAME_OVER_TICKS = 180;
+const MAX_GAME_OVER_TICKS = 160;
 const MAX_GAME_OVER_ZOOM_ANIMATIONS = 115;
-const GAME_OVER_TIMER_TICK_INTERVAL = 40;
+const GAME_OVER_TIMER_TICK_INTERVAL = 38;
 const GAME_OVER_DEFAULT_IMAGE_SCALE = 0.08;
 const GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL = 0.02;
 
@@ -77,7 +77,7 @@ function spawnLevelCompleteAnimation()
     setBallMovementDisabled(true);
 
     //TODO: calculate exact location for boom explosion
-    levelCompleteIcon = game.add.sprite((MAP_TILE_WIDTH * TILE_WIDTH / 2) - 140, (MAP_TILE_HEIGHT * TILE_HEIGHT / 2) - 140, 'level-complete');
+    levelCompleteIcon = game.add.sprite(((MAP_TILE_WIDTH + 20) * TILE_WIDTH / 2), (MAP_TILE_HEIGHT * TILE_HEIGHT / 2), 'level-complete');
     levelCompleteIcon.scale.setTo(LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE, LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE);
     levelCompleteTimer = game.time.create(true);
     levelCompleteTimer.loop(LEVEL_COMPLETE_TIMER_TICK_INTERVAL, animateLevelCompleteComplete, this);
@@ -104,6 +104,10 @@ function animateLevelCompleteComplete()
         levelCompleteCurrentScale += LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE_INTERVAL;
         // Have it zoom to a larger icon
         levelCompleteIcon.scale.setTo(levelCompleteCurrentScale, levelCompleteCurrentScale);
+
+        levelCompleteIcon.position = new Phaser.Point(
+            calculateMapCenterRelativeToImageX(levelCompleteIcon.width),
+            calculateMapCenterRelativeToImageY(levelCompleteIcon.height));
     }
 }
 

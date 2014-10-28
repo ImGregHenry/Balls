@@ -11,8 +11,9 @@ const MAP_TILE_WIDTH = 50;
 const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const START_NUMBER_OF_BALLS = 4;
-const START_TARGET_PERCENT_COMPLETE = 65;
+const START_TARGET_PERCENT_COMPLETE = 5;
 const START_PLAYER_LIVES = 2;
+const BALL_VELOCITY = 200;
 //const PLAYER_VELOCITY = 90;
 
 //TODO: rearrange variables into appropriate files
@@ -143,6 +144,8 @@ function spawnBalls()
         balls.removeAll(true, true);
         allBallXVelocities = [];
         allBallYVelocities = [];
+        freezeTimeBallXVelocities = [];
+        freezeTimeBallYVelocities = [];
     }
 
     isBallMovementDisabled = false;
@@ -155,9 +158,9 @@ function spawnBalls()
     for (var i = 0; i < level_numberOfBalls; i++)
     {
         // Create each ball with the preset values
-        var minXY = MAP_BORDER_THICKNESS * 20;
-        var maxX = (MAP_TILE_WIDTH*20) - ((1+ MAP_BORDER_THICKNESS) * 20);
-        var maxY = (MAP_TILE_HEIGHT * 20) - ((1+MAP_BORDER_THICKNESS) * 20);
+        var minXY = MAP_BORDER_THICKNESS * TILE_WIDTH;
+        var maxX = (MAP_TILE_WIDTH * TILE_WIDTH) - ((1 + MAP_BORDER_THICKNESS) * TILE_WIDTH);
+        var maxY = (MAP_TILE_HEIGHT * TILE_HEIGHT) - ((1 + MAP_BORDER_THICKNESS) * TILE_HEIGHT);
         
         var randomXCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxX);
         var randomYCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxY);
@@ -171,8 +174,8 @@ function spawnBalls()
 
         //var ball = balls.create(i * 100 + 100, i * 50 + 50, 'ball');
         var ball = balls.create(randomXCoordinateSpawn, randomYCoordinateSpawn, 'ball');
-        ball.body.velocity.x = 200;
-        ball.body.velocity.y = 200;
+        ball.body.velocity.x = BALL_VELOCITY;
+        ball.body.velocity.y = BALL_VELOCITY;
         ball.body.collideWorldBounds = true;
         ball.body.bounce.y = 1;
         ball.body.bounce.x = 1;
@@ -196,6 +199,25 @@ function update()
 
         var playerXTile = getPlayerXTileIndex();
         var playerYTile = getPlayerYTileIndex();
+
+        if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+        {
+            startBulletTime();
+        }
+        else
+        {
+            stopBulletTime();
+        }
+
+        if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
+        {
+            freezeTime();
+        }
+        else
+        {
+            unfreezeTime();
+        }
+        
 
         // TODO: test whether move is valid or not before tweening
         if (cursors.left.isDown)

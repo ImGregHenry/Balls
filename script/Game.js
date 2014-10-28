@@ -81,6 +81,9 @@ function levelComplete()
     level_percentComplete = 0.0;
     level_totalFilledTiles = 0;
 
+    stopBulletTime();
+    unfreezeTime();
+
     nextLevelUpdates();
 
     drawMap();
@@ -128,6 +131,9 @@ function nextLevelUpdates()
 function restartGame()
 {
     isGamePaused = false;
+
+    stopBulletTime();
+    unfreezeTime();
 
     level_playerLives = START_PLAYER_LIVES;
     level_percentComplete = 0.0;
