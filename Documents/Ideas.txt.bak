@@ -1,4 +1,8 @@
 IDEAS
+-Mouse version of Geometry Wars 2: Pacifism
+-Scorched Earth
+-
+
 
 COMPLETE
 *- Percentage tracker
@@ -44,21 +48,28 @@ BUGS:
 %- Handle multiple percent cleared tweens
 
 ENHANCEMENTS
-- Ball acceleration
- 
-- Invulnerability
-- Invisible balls (or fade in and out)
-- Add level time limits
-- High scores tracking and db
-- Fastest clear speed tracked
-- Login information
-- Change colour scheme in settings
-- Add sound - movement, tile clearing, explosions, game over, level complete
-- Add music
-- Add mute button
-- Enemy balls AI
-- Begin powerups - or different game modes
-- Unique levels - custom maps
+\- Laser-beam clear (straight line fast clear)
+\- Bullet-time limit bar
+\- Bullet-time balls animate
+\- Freeze-time limit bar
+\- Freeze-time balls animate
+\- Ball acceleration
+\- Player acceleration
+\- Balls flip directions spontaneously
+\- Invulnerability
+\- Barbed wire tiles (destroy balls)
+\- Invisible balls (or fade in and out)
+\- Add level time limits
+\- High scores tracking and db
+\- Fastest clear speed tracked
+\- Login information
+\- Change colour scheme in settings
+\- Add sound - movement, tile clearing, explosions, game over, level complete
+\- Add music
+\- Add mute button
+\- Enemy balls AI
+\- Begin powerups - or different game modes
+\- Unique levels - custom maps
 
 ideaballs
 
