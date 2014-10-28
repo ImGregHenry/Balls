@@ -1,6 +1,8 @@
 ﻿
 var timerBetweenRounds;
 
+
+
 // Reset character back to start 
 function sendCharacterBackToStart()
 {
@@ -76,7 +78,7 @@ function levelComplete()
 {
     //TODO: add animation for end of level
     level_currentLevel++;
-    level_percentComplete = 0;
+    level_percentComplete = 0.0;
     level_totalFilledTiles = 0;
 
     nextLevelUpdates();
@@ -125,7 +127,7 @@ function restartGame()
     isGamePaused = false;
 
     level_playerLives = START_PLAYER_LIVES;
-    level_percentComplete = 0;
+    level_percentComplete = 0.0;
     level_totalFilledTiles = 0;
 
     // Reset the list of endangered tiles

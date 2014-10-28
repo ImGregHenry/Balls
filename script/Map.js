@@ -47,15 +47,20 @@ function fillTiles()
     {
         if (isCharInDangerZone)
         {
+            var percentClearedBefore = 100 * level_totalFilledTiles / level_totalEmptyTiles;
+            
             // Reset danger flag
             isCharInDangerZone = false;
 
             // Start flood-fill algorithm
             processFloodFlowFromArray(endangeredTiles);
 
+            startPercentCompleteAnimation(percentClearedBefore);
+
             // Safely cleared tiles.  Reset them to 'safe-zone' tiles
             clearEndangeredTiles(true);
 
+            
             if (isLevelComplete())
             {
                 spawnLevelCompleteAnimation();
@@ -64,6 +69,18 @@ function fillTiles()
     }
 
     return currentTile;
+}
+
+function startPercentCompleteAnimation(before)
+{
+    var percentCleared = Math.round((level_percentComplete - before) * 10) / 10 + "%";
+
+    var x_coordinate = endangeredTiles[endangeredTiles.length - 1].split(",")[0];
+    var y_coordinate = endangeredTiles[endangeredTiles.length - 1].split(",")[1];
+
+    
+    startpercentClearedTween(x_coordinate * TILE_WIDTH, y_coordinate * TILE_WIDTH, percentCleared);
+
 }
 
 // Convert 'danger-zone' tiles to 'safe-zone' or empty tiles

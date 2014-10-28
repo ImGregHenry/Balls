@@ -14,6 +14,8 @@ const GAME_OVER_TIMER_TICK_INTERVAL = 40;
 const GAME_OVER_DEFAULT_IMAGE_SCALE = 0.1;
 const GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL = 0.02;
 
+
+
 var boomIsIconBig = false;
 var boomIcon;
 var boomAnimateTimer;
@@ -165,3 +167,37 @@ function calculateMapCenterRelativeToImageY(imageSizeY)
     var y_starting_point = map_center_y - imageSizeY;
     return y_starting_point;
 }
+
+
+
+////////////////////////////
+// Percent cleared animation
+//////////////////////////////
+
+//const MAX_PERCENT_COMPLETE_SHIFT_ANIMATIONS = 20;
+//const PERCENT_CLEARED_TIMER_TICK_INTERVAL = 80;
+//const PERCENT_CLEARED_DEFAULT_IMAGE_SHIFT_X = 0.0;
+//const PERCENT_CLEARED_DEFAULT_IMAGE_SHIFT_Y = -5;
+
+
+
+//// Handle the boom animations
+//function animatePercentClearedComplete()
+//{
+//    percentClearedShiftCount++;
+//    if (percentClearedShiftCount == MAX_PERCENT_COMPLETE_SHIFT_ANIMATIONS)
+//    {
+//        // Animation complete
+//        percentClearedShiftCount = 0;
+//        percentClearedTimer.stop();
+//        percentClearedIcon.kill();
+
+//        // No action needed
+//    }
+//    else
+//    {
+//        // Have it zoom to a larger icon
+//        //percentClearedIcon.scale.setTo(percentClearedCurrentX, percentClearedCurrentY);
+//        percentClearedIcon.body.x += PERCENT_CLEARED_DEFAULT_IMAGE_SHIFT_X;
+//    }
+//}

@@ -160,7 +160,7 @@ function flow(x, y)
         if (flood_enemyTileArray.indexOf(x + "," + y) != -1)
         {
             fillTheseTiles = [];
-            console.log("ABORT FILL: " + x + "," + y);
+            //console.log("ABORT FILL: " + x + "," + y);
             flood_abort = true;
             return;
         }

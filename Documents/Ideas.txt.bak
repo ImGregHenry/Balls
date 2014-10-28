@@ -10,21 +10,57 @@ COMPLETE
 *-Add levels of varying difficulty
 *-Stars spawn in different locations
 *-Stars have variable speeds
+*-Add text for what percent was cleared
 
 BASIC FEATURES
+
 *-Continue game / start from beginning
 *-Highscores
 *-Can't move back on your own danger zone (warning: middle of square)
 *-Game over animation
 *-Help menu
-*-Game menu
+*-Game/Main menu
 *-Start button
+
+- main menu and revamp pause/restart
+- add real scoreboard 
+- add level timers and time limits
+- high scores tracking and db
+- fastest clear speed tracked
+- login information
+- modify ball spawn locations and speeds
+- add animations for scoreboard change
+
+- enemy balls AI
+- begin powerups - or different game modes
+- unique levels - custom maps
+- help menu / instructions
+- no red zone movement
+- change colour scheme in settings
+- add sound - movement, tile clearing, explosions, game over, level complete
+- add music
+- add mute button
 
 EXTRA FEATURES:
 -Customized characters
 
+BUGS:
+- fix tile fill algorithm for edge cases
+- fix bug where you can die after clearing
+- fix game over animation 
+- handle between games better
+- handle multiple percent cleared tweens
 
 ENHANCEMENTS
 -Ball acceleration
 -Powerups - speed, invulnerability
 -Invisible balls (or fade in and out)
+
+
+
+ideaballs
+
+
+
+
+

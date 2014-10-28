@@ -32,7 +32,7 @@ var map;
 var mapLayer;
 var balls;
 var cursors;
-var playerTween = null;
+
 
 var level_numberOfBalls;
 var level_playerLives;
@@ -189,18 +189,6 @@ function chooseRandomValueBetweenInterval(min, max)
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-// Animates player movement via tweening
-function startPlayerTween(x, y)
-{
-    if (playerTween == null || !playerTween.isRunning)
-    {
-        playerTween = game.add.tween(player);
-        playerTween.onComplete.add(playerTweenComplete, this);
-        playerTween.to({ x: x, y: y }, 50, Phaser.Easing.Linear.None, true);   //Phaser.Easing.Quadratic.InOut
-        playerTween.start();
-    }
-}
-
 // UPDATE: called constantly and handles user's controls
 function update()
 {
@@ -257,8 +245,6 @@ function playerTweenComplete()
 {
     fillTiles();
 }
-
-
 
 
 
