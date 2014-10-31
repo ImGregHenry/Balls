@@ -33,7 +33,9 @@ COMPLETE
 \- Add bullet time sound effect
 %- Fix game over animation
 %- Fix bullet time regeneration/drain after restart game
-
+%- Fix bug where bullet time sound happens always after death/level completed
+%- Stop game timer once level complete animation starts
+%- Reset bullet time bar when game is restarted
 
 CORE BETA GOALS
 *- Character life explodes on scoreboard
@@ -50,11 +52,9 @@ CORE BETA GOALS
  - Maintain scores as cookies
 
 BUGS:
-%%%- Make game timer stop once level complete animation starts
 %%%- Fix bullet time regen/drain rate
-%%%- Fix bug where bullet time pie chart gets frozen after being alt+tabbed
-%%%- Fix bug where bullet time sound happens twice after death/level completed
-%%%- Restart bullet time bar when restart button hit
+%%%- Fix bug where bullet time pie chart gets frozen
+%%%- Add looping to heartbeat sound for long bullet time cases
 %%- Clean up bullet time functionality
 %%- Handle multiple percent cleared tweens
 %%- Fix bug where you can die after clearing

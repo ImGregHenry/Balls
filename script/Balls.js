@@ -12,7 +12,7 @@ const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const START_NUMBER_OF_BALLS = 4;
 const START_TARGET_PERCENT_COMPLETE = 65;
-const START_PLAYER_LIVES = 10;
+const START_PLAYER_LIVES = 2;
 const BALL_VELOCITY = 200;
 //const PLAYER_VELOCITY = 90;
 
@@ -48,18 +48,6 @@ var fullMapArray;
 
 var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload, create: create, update: update });
 
-function gameOver()
-{
-    console.log("GAME OVER!");
-    pauseLevelTimer(true);
-    // Create the boom animation
-    spawnGameOverAnimation();
-
-    // Create a timer that waits for the completion of the game over animation
-    //timerBetweenRounds = game.time.create(true);
-    //timerBetweenRounds.add(GAME_OVER_TIMER_TICK_INTERVAL * MAX_GAME_OVER_ZOOM_ANIMATIONS, characterDiedHandler, this);
-    //timerBetweenRounds.start();
-}
 
 function preload()
 {
@@ -77,12 +65,11 @@ function preload()
     game.load.image('animation-boom', 'assets/boom.png', true);
     game.load.image('game-over', 'assets/GameOver.jpeg', true);
 
-
     game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
     game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
     game.load.audio('audio-bullet-time-start', 'assets/sounds/bullet-time-start.mp3', true);
 
-    //game.time.advancedTiming = true;
+    game.time.advancedTiming = true;
 }
 
 function create()

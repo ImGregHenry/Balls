@@ -2,6 +2,19 @@
 var timerBetweenRounds;
 
 
+function gameOver()
+{
+    console.log("GAME OVER!");
+    pauseLevelTimer(true);
+    // Create the boom animation
+    spawnGameOverAnimation();
+    createBulletTimeEnergyTimer();
+
+    // Create a timer that waits for the completion of the game over animation
+    //timerBetweenRounds = game.time.create(true);
+    //timerBetweenRounds.add(GAME_OVER_TIMER_TICK_INTERVAL * MAX_GAME_OVER_ZOOM_ANIMATIONS, characterDiedHandler, this);
+    //timerBetweenRounds.start();
+}
 
 // Reset character back to start 
 function sendCharacterBackToStart()
@@ -88,11 +101,6 @@ function disableAllMovementAndTimers(isDisable)
         stopBulletTime();
         unfreezeTime();
     }
-    else
-    {
-        startBulletTime();
-        freezeTime();
-    }
     
     setBallMovementDisabled(isDisable);
     setPlayerMovementDisabled(isDisable);
@@ -119,7 +127,8 @@ function levelComplete()
     createScoreboard();
 
     createLevelTimer();
-    createBulletTimeEnergyTimer();
+    //TODO: should bullet time reset between levels?
+    //createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
 }
 
@@ -141,7 +150,7 @@ function nextLevelUpdates()
         level_targetPercentComplete = START_TARGET_PERCENT_COMPLETE;
         level_percentComplete = 0;
     }
-        // Increment level difficulty
+    // Increment level difficulty
     else
     {
         level_numberOfBalls++;
@@ -184,7 +193,7 @@ function restartGame()
     createScoreboard();
 
     createLevelTimer();
-    //createBulletTimeEnergyTimer();
+    createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
 }
 

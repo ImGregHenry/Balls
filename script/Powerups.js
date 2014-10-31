@@ -11,44 +11,53 @@ const BULLET_TIME_ENERGY_REGEN_RATE = 0.001;
 const BULLET_TIME_ENERGY_TIME_INTERVAL = 1.0;
 const BULLET_TIME_MINIMUM_START_ENERGY = 0.5;
 
+var timer_bulletTime;
+
 function createBulletTimeEnergyTimer()
 {
-    game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, function ()
+    if (timer_bulletTime == null)
     {
-        if (!isGamePaused)
+        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, function ()
         {
-            // Drain bullet time energy
-            if (isBulletTime)
+            if (!isGamePaused)
             {
-                // Reduce bullet time energy
-                if (bulletTime_energy > BULLET_TIME_ENERGY_REGEN_RATE)
+                // Drain bullet time energy
+                if (isBulletTime)
                 {
-                    bulletTime_energy = bulletTime_energy - BULLET_TIME_ENERGY_BURN_RATE;
+                    // Reduce bullet time energy
+                    if (bulletTime_energy > BULLET_TIME_ENERGY_REGEN_RATE)
+                    {
+                        bulletTime_energy = bulletTime_energy - BULLET_TIME_ENERGY_BURN_RATE;
+                    }
+                    // Out of bullet time energy
+                    else
+                    {
+                        stopBulletTime();
+                    }
                 }
-                // Out of bullet time energy
-                else
-                {
-                    stopBulletTime();
-                }
-            }
-            // Regen bullet time energy
-            else
-            {
                 // Regen bullet time energy
-                if ((bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE) < 1.0)
-                {
-                    bulletTime_energy = bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE;
-                    //bulletTime_energy = bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE;
-                }
                 else
                 {
-                    bulletTime_energy = 1.0;
+                    // Regen bullet time energy
+                    if ((bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE) < 1.0)
+                    {
+                        bulletTime_energy = bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE;
+                    }
+                    // Bullet time energy is full
+                    else
+                    {
+                        bulletTime_energy = 1.0;
+                    }
                 }
+                //var text = isBulletTime ? "bulletTime" : "notBulletTime";
+                //console.log("progress: " + bulletTime_energy + " " + text);
             }
-            //var text = isBulletTime ? "bulletTime" : "notBulletTime";
-            //console.log("progress: " + bulletTime_energy + " " + text);
-        }
-    }, this);
+        }, this);
+    }
+    else
+    {
+        bulletTime_energy = 1.0;
+    }
 }
 
 var bulletTimeStartSound;
@@ -56,6 +65,8 @@ var bulletTimeHeartbeatSound;
 var gameSoundEffectVolume = 1.0;
 function startBulletTime()
 {
+    console.log("START bullet time: " + isBulletTime);
+
     // Can't enter bullet time if already freeze time
     if (isBulletTime || isFrozenTime)
         return;
@@ -94,7 +105,7 @@ function pauseBulletTime(isPause)
 
 function stopBulletTime()
 {
-    //console.log("called stop bullet time");
+    console.log("STOP bullet time: " + isBulletTime);
     if (!isBulletTime)
         return;
     isBulletTime = false;

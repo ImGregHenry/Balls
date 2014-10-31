@@ -76,6 +76,7 @@ function spawnLevelCompleteAnimation()
     //setPlayerMovementDisabled(true);
     //setBallMovementDisabled(true);
     disableAllMovementAndTimers(true);
+    pauseLevelTimer(true);
 
     //TODO: calculate exact location for boom explosion
     levelCompleteIcon = game.add.sprite(((MAP_TILE_WIDTH + 20) * TILE_WIDTH / 2), (MAP_TILE_HEIGHT * TILE_HEIGHT / 2), 'level-complete');

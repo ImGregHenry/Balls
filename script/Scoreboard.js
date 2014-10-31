@@ -31,7 +31,6 @@ function updateScoreboard_gameTimer()
     scoreboard_gameTimerText.setText(text);
 }
 
-
 // Create/recreate the scoreboard when needed
 function createScoreboard()
 {
