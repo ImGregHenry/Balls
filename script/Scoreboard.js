@@ -2,6 +2,14 @@
 const SCORE_TILE_TIER_BONUS = 100;
 const SCORE_TILE_TIER_VALUE = 10;
 
+const SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_X_COORDINATE = 1220;
+const SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_Y_COORDINATE = 5;
+const SCOREBOARD_CHARACTER_MAX_LIVES_PER_ROW = 7;
+const SCOREBOARD_CHARACTER_LIFE_SPACING = 25;
+const CHARACTER_PIXEL_SIZE = 20;
+
+var array_characterLifeSprites = [];
+
 var scoreboard_targetPercentCompleteText;
 var scoreboard_currentLevelText;
 var scoreboard_playerLivesText;
@@ -10,14 +18,13 @@ var scoreboard_gameTimerText;
 var scoreboard_pauseButton;
 var scoreboard_restartButton;
 var scoreboard_bulletTimeText;
-
 var scoreboard_percentCompleteText;
 var scoreboard_highScoreText;
 var scoreboard_scoreText;
 
-
 var scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1);
 var scoreboardTextStyle = { font: "bold 30px Arial", fill: "#FFFFFF" }; //E60A24
+
 var gameTimer;
 
 function updateScoreboard_gameTimer()
@@ -121,9 +128,6 @@ function updateScoreboard()
     level_percentComplete = (100 * level_totalFilledTiles / level_totalEmptyTiles);
     scoreboard_percentCompleteText.setText("Percent Complete: " + (Math.round(level_percentComplete * 10) / 10) + "%");
 
-    // update character lives
-    //scoreboard_playerLivesText.setText("Character Lives: " + level_playerLives);
-    
     // update score
     scoreboard_scoreText.setText("Score: " + level_currentScore);
     scoreboard_highScoreText.setText("High Score: " + level_highScore);
@@ -139,13 +143,6 @@ function scoreboardRemovePlayerLife()
     }
 }
 
-
-const SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_X_COORDINATE = 1220;
-const SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_Y_COORDINATE = 5;
-const SCOREBOARD_CHARACTER_MAX_LIVES_PER_ROW = 7;
-const SCOREBOARD_CHARACTER_LIFE_SPACING = 25;
-const CHARACTER_PIXEL_SIZE = 20;
-var array_characterLifeSprites = [];
 //TODO: handle maximum number of lives.
 function characterLivesDisplay()
 {

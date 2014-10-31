@@ -32,7 +32,7 @@ function fillTiles()
         isCharInDangerZone = true;
         map.fill(DANGER_ZONE_ID, x, y, 1, 1, mapLayer);
 
-        currentTile.setCollisionCallback(characterDiedStartRoundStartTimers, this);
+        currentTile.setCollisionCallback(playerDiedStartRoundStartTimers, this);
 
         // Track tiles in our array for flood-fill usage
         updateTileMapArray(x, y, DANGER_ZONE_ID);

@@ -3,8 +3,6 @@ const DANGER_ZONE_ID = 2;
 const EMPTY_ZONE_ID = 3;
 const SCOREBOARD_ZONE_ID = 4;
 
-
-
 const TILE_WIDTH = 20;
 const TILE_HEIGHT = 20;
 const MAP_TILE_WIDTH = 50;
@@ -12,7 +10,7 @@ const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const START_NUMBER_OF_BALLS = 4;
 const START_TARGET_PERCENT_COMPLETE = 65;
-const START_PLAYER_LIVES = 2;
+const START_PLAYER_LIVES = 0;
 const BALL_VELOCITY = 200;
 //const PLAYER_VELOCITY = 90;
 
@@ -64,10 +62,14 @@ function preload()
     game.load.image('level-complete', 'assets/level_complete.png', true);
     game.load.image('animation-boom', 'assets/boom.png', true);
     game.load.image('game-over', 'assets/GameOver.jpeg', true);
+    game.load.image('mute-icon', 'assets/MuteIcon.png', true);
+    game.load.image('x', 'assets/x.png', true);
 
     game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
     game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
     game.load.audio('audio-bullet-time-start', 'assets/sounds/bullet-time-start.mp3', true);
+    game.load.audio('audio-player-explodes', 'assets/sounds/player-explodes.mp3', true);
+    game.load.audio('audio-game-over', 'assets/sounds/game-over.wav', true);
 
     game.time.advancedTiming = true;
 }
@@ -83,6 +85,7 @@ function create()
     
     // Create the character
     player = game.add.sprite(0, 0, 'character');
+    game.add.button(1350, 750, 'mute-icon', MuteSound, true, 2, 1, 0);
     
     //  We need to enable physics on the player            
     game.physics.arcade.enable(player);
@@ -207,7 +210,7 @@ function chooseRandomValueBetweenInterval(min, max)
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-// UPDATE: called constantly and handles user's controls
+// UPDATE: called constantly and handles all user's controls
 function update()
 {
     //TODO: add fps text to game

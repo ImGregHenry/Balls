@@ -13,6 +13,9 @@ const BULLET_TIME_MINIMUM_START_ENERGY = 0.5;
 
 var timer_bulletTime;
 
+var bulletTimeStartSound;
+var bulletTimeHeartbeatSound;
+
 function createBulletTimeEnergyTimer()
 {
     if (timer_bulletTime == null)
@@ -60,12 +63,9 @@ function createBulletTimeEnergyTimer()
     }
 }
 
-var bulletTimeStartSound;
-var bulletTimeHeartbeatSound;
-var gameSoundEffectVolume = 1.0;
 function startBulletTime()
 {
-    console.log("START bullet time: " + isBulletTime);
+    //console.log("START bullet time: " + isBulletTime);
 
     // Can't enter bullet time if already freeze time
     if (isBulletTime || isFrozenTime)
@@ -77,8 +77,8 @@ function startBulletTime()
         return;
 
     
-    bulletTimeStartSound = game.add.audio('audio-bullet-time-start', gameSoundEffectVolume/4.0, false);
-    bulletTimeHeartbeatSound = game.add.audio('audio-bullet-time-heartbeat', gameSoundEffectVolume, false);
+    bulletTimeStartSound = GetBulletTimeStartSound();
+    bulletTimeHeartbeatSound = GetBulletTimeHeartbeatSound();
     bulletTimeStartSound.play();
     bulletTimeHeartbeatSound.play();
 
@@ -105,14 +105,14 @@ function pauseBulletTime(isPause)
 
 function stopBulletTime()
 {
-    console.log("STOP bullet time: " + isBulletTime);
+    //console.log("STOP bullet time: " + isBulletTime);
     if (!isBulletTime)
         return;
     isBulletTime = false;
 
     bulletTimeStartSound.stop();
     bulletTimeHeartbeatSound.stop();
-    bulletTimeStopSound = game.add.audio('audio-bullet-time-stop', gameSoundEffectVolume/4.0, false);
+    bulletTimeStopSound = GetBulletTimeStopSound();
     bulletTimeStopSound.play();
 
     for (var i = 0; i < balls.length; i++)

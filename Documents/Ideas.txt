@@ -12,8 +12,8 @@ COMPLETE
 *- Restart button
 *- Add death animation (explosion)
 *- Fill-in sectioned off safe-zones
-*- Add character lives
-*- Stop game after character runs out of lives 
+*- Add player lives
+*- Stop game after player runs out of lives 
 *- Add levels of varying difficulty
 *- Stars spawn in different locations
 *- Stars have variable speeds
@@ -21,11 +21,13 @@ COMPLETE
 *- Add level timers
 *- Add percent cleared animation
 *- Game over animation
+*- Added game over sound effect
+*- Added player death sound effect
 *- Enemy ball count
 *- Basic sound prototype
 *- Basic scoring system -> scaling with size of clear
 *- High score added to scoreboard for current session
-*- Change "character lives" scoreboard to use player image
+*- Change "player lives" scoreboard to use player image
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -36,10 +38,11 @@ COMPLETE
 %- Fix bug where bullet time sound happens always after death/level completed
 %- Stop game timer once level complete animation starts
 %- Reset bullet time bar when game is restarted
+%- Fixed bug with game over where sprite did not center immediately
 
 CORE BETA GOALS
-*- Character life explodes on scoreboard
-*- Character life adds and animates on scoreboard when new life gained
+*- Level complete sound effect
+*- Button for muting sound effects
 *- Tweak scaling of score
 *- High score speed
 *- Track/store scores on server
@@ -47,6 +50,7 @@ CORE BETA GOALS
 *- Game/Main menu
 *- Continue game / start from beginning 
 *- Modify ball spawn locations and speeds
+*- Add hotkeys for restarting, pausing, and accessing menu
 *- Animation for when bullet time is active (weight)
  - Largest single clear displayed
  - Maintain scores as cookies
@@ -74,11 +78,12 @@ ENHANCEMENTS (\\BETA)
 \- Add sound - movement, tile clearing, explosions, game over, level complete
 \- Add freeze time sound effect
 \- Add music
-\- Add mute button
-
-\- or different game modes
+\- Add mute music button
+\- Player life explodes on scoreboard
+\- Player life adds and animates on scoreboard when new life gained
+\- Different game modes?
 \- Unique levels - custom maps
-\- Customized characters
+\- Customized players
 \- Can't move back on your own danger zone (warning: middle of square)
 
 POWERUPS
@@ -91,10 +96,12 @@ POWERUPS
 \- Player acceleration
 \- Laser-beam clear (straight line fast clear)
 \- Balls flip directions spontaneously
-
+\- Balls increase speed with every bounce
 \- Barbed wire tiles (destroy balls)
 
 EXTRAS
 \- Score multipliers for consistently clearing
 \- Enemy attacking ball AI
 \- Player stats - average clear per level, average clear score, record speed, record high score, etc.
+\- Display bullet time left
+\- Increase bullet time maximum

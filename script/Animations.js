@@ -9,9 +9,9 @@ const LEVEL_COMPLETE_TIMER_TICK_INTERVAL = 50;
 const LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE = 0.1;
 var LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE_INTERVAL = 0.05;
 
-const MAX_GAME_OVER_TICKS = 160;
+const MAX_GAME_OVER_TICKS = 150;
 const MAX_GAME_OVER_ZOOM_ANIMATIONS = 115;
-const GAME_OVER_TIMER_TICK_INTERVAL = 38;
+const GAME_OVER_TIMER_TICK_INTERVAL = 30;
 const GAME_OVER_DEFAULT_IMAGE_SCALE = 0.08;
 const GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL = 0.02;
 
@@ -20,6 +20,7 @@ var boomIsIconBig = false;
 var boomIcon;
 var boomAnimateTimer;
 var boomAnimateCount = 0;
+var boomSound;
 
 var levelCompleteCounter;
 var levelCompleteIcon;
@@ -35,13 +36,13 @@ var levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
 var gameOverCurrentScale = 0;
 
 //TODO: reuse animation cycles between gameover/levelcomplete/boom
-//TODO: use a image centering algorithm for animations
-
 
 // Create the boom animation timer
 function spawnBoomAnimation(x, y)
 {
-    //TODO: calculate exact location for boom explosion
+    boomSound = GetExplosionSound();
+    boomSound.play();
+
     boomIcon = game.add.sprite(x - 30, y - 30, 'animation-boom');
     boomAnimateTimer = game.time.create(true);
     boomAnimateTimer.loop(BOOM_TIMER_TICK_INVERVALS, animateBoom, this);
@@ -73,8 +74,6 @@ function animateBoom()
 // Create the boom animation timer
 function spawnLevelCompleteAnimation()
 {
-    //setPlayerMovementDisabled(true);
-    //setBallMovementDisabled(true);
     disableAllMovementAndTimers(true);
     pauseLevelTimer(true);
 
@@ -98,8 +97,6 @@ function animateLevelCompleteComplete()
         levelCompleteIcon.kill();
 
         disableAllMovementAndTimers(false);
-        //setPlayerMovementDisabled(false);
-        //setBallMovementDisabled(false);
         levelComplete();
     }
     else
@@ -117,12 +114,12 @@ function animateLevelCompleteComplete()
 // Create the boom animation timer
 function spawnGameOverAnimation()
 {
-    //setPlayerMovementDisabled(true);
-    //setBallMovementDisabled(true);
     disableAllMovementAndTimers(true);
 
     //TODO: calculate exact location for boom explosion
-    gameOverIcon = game.add.sprite((MAP_TILE_WIDTH * TILE_WIDTH / 2) - 140, (MAP_TILE_HEIGHT * TILE_HEIGHT / 2) - 140, 'game-over');
+    //gameOverIcon = game.add.sprite((MAP_TILE_WIDTH * TILE_WIDTH / 2) - 140, (MAP_TILE_HEIGHT * TILE_HEIGHT / 2) - 140, 'game-over');
+    gameOverIcon = game.add.sprite(calculateMapCenterRelativeToImageX(0), calculateMapCenterRelativeToImageY(0), 'game-over');
+
     gameOverIcon.scale.setTo(GAME_OVER_DEFAULT_IMAGE_SCALE, GAME_OVER_DEFAULT_IMAGE_SCALE);
     gameOverTimer = game.time.create(true);
     gameOverTimer.loop(GAME_OVER_TIMER_TICK_INTERVAL, animategameOverComplete, this);
@@ -155,13 +152,11 @@ function animategameOverComplete()
     }
 }
 
-//TODO: use this to fix the image center problem
 function calculateMapCenterRelativeToImageX(imageSizeX)
 {
     var map_center_x = 0;
 
-    //map_center_x = MAP_TILE_WIDTH * TILE_WIDTH / 2;
-    map_center_x = (MAP_TILE_WIDTH + 20) * TILE_WIDTH / 2;
+    map_center_x = (MAP_TILE_WIDTH + TILE_WIDTH) * TILE_WIDTH / 2;
 
     var x_starting_point = map_center_x - (imageSizeX / 2);
     return x_starting_point;

@@ -1,18 +1,21 @@
-﻿
-var timerBetweenRounds;
-
+﻿var timerBetweenRounds;
+var gameOverSound;
 
 function gameOver()
 {
-    console.log("GAME OVER!");
+    //console.log("GAME OVER!");
     pauseLevelTimer(true);
+
+    gameOverSound = GetGameOverSound();
+    gameOverSound.play();
+
     // Create the boom animation
     spawnGameOverAnimation();
     createBulletTimeEnergyTimer();
 
     // Create a timer that waits for the completion of the game over animation
     //timerBetweenRounds = game.time.create(true);
-    //timerBetweenRounds.add(GAME_OVER_TIMER_TICK_INTERVAL * MAX_GAME_OVER_ZOOM_ANIMATIONS, characterDiedHandler, this);
+    //timerBetweenRounds.add(GAME_OVER_TIMER_TICK_INTERVAL * MAX_GAME_OVER_ZOOM_ANIMATIONS, playerDiedHandler, this);
     //timerBetweenRounds.start();
 }
 
@@ -41,7 +44,7 @@ function sendCharacterBackToStart()
 
 
 // Add the timers that handles the boom animation and the beginning of the next round
-function characterDiedStartRoundStartTimers(tileContext)
+function playerDiedStartRoundStartTimers(tileContext)
 {
     if (!isCharacterDeadAlready)
     {
@@ -61,21 +64,19 @@ function characterDiedStartRoundStartTimers(tileContext)
 
         // Create a timer that waits for the completion of the boom animation
         timerBetweenRounds = game.time.create(true);
-        timerBetweenRounds.add(BOOM_TIMER_TICK_INVERVALS * MAX_BOOM_ZOOM_ANIMATIONS, characterDiedHandler, this);
+        timerBetweenRounds.add(BOOM_TIMER_TICK_INVERVALS * MAX_BOOM_ZOOM_ANIMATIONS, playerDiedHandler, this);
         timerBetweenRounds.start();
     }
 }
 
 // Handlers resetting character after death.  
-function characterDiedHandler()
+function playerDiedHandler()
 {
     // Launches gameover if out of lives.
     if (level_playerLives == 0)
     {
         endangeredTiles = [];
         disableAllMovementAndTimers(true);
-        //setBallMovementDisabled(true);
-        //setPlayerMovementDisabled(true);
         scoreboardRemovePlayerLife();
         gameOver();
     }
@@ -83,8 +84,6 @@ function characterDiedHandler()
     {
         level_playerLives--;
         disableAllMovementAndTimers(false);
-        //setBallMovementDisabled(false);
-        //setPlayerMovementDisabled(false);
         scoreboardRemovePlayerLife();
 
         updateScoreboard();
@@ -127,7 +126,6 @@ function levelComplete()
     createScoreboard();
 
     createLevelTimer();
-    //TODO: should bullet time reset between levels?
     //createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
 }
