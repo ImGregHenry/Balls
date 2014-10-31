@@ -63,6 +63,7 @@ function characterDiedHandler()
         disableAllMovementAndTimers(true);
         //setBallMovementDisabled(true);
         //setPlayerMovementDisabled(true);
+        scoreboardRemovePlayerLife();
         gameOver();
     }
     else
@@ -71,6 +72,7 @@ function characterDiedHandler()
         disableAllMovementAndTimers(false);
         //setBallMovementDisabled(false);
         //setPlayerMovementDisabled(false);
+        scoreboardRemovePlayerLife();
 
         updateScoreboard();
         sendCharacterBackToStart();
@@ -128,7 +130,6 @@ function isLevelComplete()
     else
         return false;
 }
-
 
 function nextLevelUpdates()
 {

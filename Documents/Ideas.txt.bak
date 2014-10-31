@@ -35,8 +35,8 @@ COMPLETE
 
 
 CORE BETA GOALS
-*- Change "character lives" scoreboard to use player image
 *- Character life explodes on scoreboard
+*- Character life adds and animates on scoreboard when new life gained
 *- Tweak scaling of score
 *- High score speed
 *- Track/store scores on server

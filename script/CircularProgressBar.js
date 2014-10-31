@@ -66,10 +66,10 @@ PieProgress.prototype.chooseColour = function ()
 {
     //console.log(bulletTime_energy);
     if (isBulletTime || bulletTime_energy > 0.5)
-        return "#E60A24";
+        return "#FFFFFF";
     else if (bulletTime_energy < 0.5
         && !isBulletTime)
-        return "#FFFFFF";
+        return "#E60A24";
 }
 
 PieProgress.prototype.updateProgress = function ()

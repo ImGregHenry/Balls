@@ -25,6 +25,7 @@ COMPLETE
 *- Basic sound prototype
 *- Basic scoring system -> scaling with size of clear
 *- High score added to scoreboard for current session
+*- Change "character lives" scoreboard to use player image
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -35,7 +36,6 @@ COMPLETE
 
 
 CORE BETA GOALS
-*- Change "character lives" scoreboard to use player image
 *- Character life explodes on scoreboard
 *- Character life adds and animates on scoreboard when new life gained
 *- Tweak scaling of score

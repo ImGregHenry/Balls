@@ -12,7 +12,7 @@ const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const START_NUMBER_OF_BALLS = 4;
 const START_TARGET_PERCENT_COMPLETE = 65;
-const START_PLAYER_LIVES = 2;
+const START_PLAYER_LIVES = 10;
 const BALL_VELOCITY = 200;
 //const PLAYER_VELOCITY = 90;
 
@@ -123,7 +123,7 @@ function create()
 
 
 const BULLET_TIME_PROGRESS_BAR_X = 1100;
-const BULLET_TIME_PROGRESS_BAR_Y = 725;
+const BULLET_TIME_PROGRESS_BAR_Y = 735;
 function createBulletTimePieProgressBar()
 {
     var pie = new PieProgress(game, BULLET_TIME_PROGRESS_BAR_X, BULLET_TIME_PROGRESS_BAR_Y, 50);

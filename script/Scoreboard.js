@@ -36,12 +36,12 @@ function updateScoreboard_gameTimer()
 function createScoreboard()
 {
     var text;
-    var yCoordinate = 0;
+    var yCoordinate = 10;
 
     // Player Lives
     if (scoreboard_playerLivesText != null)
         scoreboard_playerLivesText.destroy(true);
-    text = "Character Lives: " + level_playerLives;
+    text = "Player Lives: ";
     scoreboard_playerLivesText = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
     //scoreboard_playerLivesText.fontWeight = "bold";
     yCoordinate += 50;
@@ -113,7 +113,7 @@ function createScoreboard()
     text = "Bullet Time:";
     scoreboard_bulletTimeText = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
 
-    //characterLivesDisplay();
+    characterLivesDisplay();
 }
 
 function updateScoreboard()
@@ -123,21 +123,58 @@ function updateScoreboard()
     scoreboard_percentCompleteText.setText("Percent Complete: " + (Math.round(level_percentComplete * 10) / 10) + "%");
 
     // update character lives
-    scoreboard_playerLivesText.setText("Character Lives: " + level_playerLives);
-
+    //scoreboard_playerLivesText.setText("Character Lives: " + level_playerLives);
+    
     // update score
     scoreboard_scoreText.setText("Score: " + level_currentScore);
     scoreboard_highScoreText.setText("High Score: " + level_highScore);
 }
 
-//var array_characterLifeSprites = [];
-//function characterLivesDisplay()
-//{
-//    for(var i = 0; i < level_characterLives; i++)
-//    {
-//        array_characterLifeSprites.push(game.add.sprite(0, 0, 'character'));
-//    }
-//}
+function scoreboardRemovePlayerLife()
+{
+    // Remove a sprite from the player lives
+    if (array_characterLifeSprites.length > 0)
+    {
+        var deadCharSprite = array_characterLifeSprites.pop();
+        deadCharSprite.destroy();
+    }
+}
+
+
+const SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_X_COORDINATE = 1220;
+const SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_Y_COORDINATE = 5;
+const SCOREBOARD_CHARACTER_MAX_LIVES_PER_ROW = 7;
+const SCOREBOARD_CHARACTER_LIFE_SPACING = 25;
+const CHARACTER_PIXEL_SIZE = 20;
+var array_characterLifeSprites = [];
+//TODO: handle maximum number of lives.
+function characterLivesDisplay()
+{
+    var x = SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_X_COORDINATE;
+    var y = SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_Y_COORDINATE;
+    var currentLivesInRow = 0;
+
+    // Display a sprite for each life the character has.
+    for (var i = 0; i < level_playerLives; i++)
+    {
+        array_characterLifeSprites.push(game.add.sprite(x, y, 'character'));
+        
+        currentLivesInRow++;
+
+        // Start new row of icons
+        if(currentLivesInRow >= SCOREBOARD_CHARACTER_MAX_LIVES_PER_ROW)
+        {
+            currentLivesInRow = 0;
+            x = SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_X_COORDINATE
+            y += SCOREBOARD_CHARACTER_LIFE_SPACING;
+        }
+        // Continue row
+        else
+        {
+            x += SCOREBOARD_CHARACTER_LIFE_SPACING;
+        }
+    }
+}
 
 
 //TODO: clean up the percent complete animation
