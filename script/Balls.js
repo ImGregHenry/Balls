@@ -11,7 +11,7 @@ const MAP_BORDER_THICKNESS = 2;
 const START_NUMBER_OF_BALLS = 4;
 const START_TARGET_PERCENT_COMPLETE = 65;
 const START_PLAYER_LIVES = 0;
-const BALL_VELOCITY = 200;
+const BALL_VELOCITY = 200.0;
 //const PLAYER_VELOCITY = 90;
 
 //TODO: rearrange variables into appropriate files
@@ -61,7 +61,7 @@ function preload()
     game.load.image('scoreboard-pause-button', 'assets/PauseButton.png', true);
     game.load.image('level-complete', 'assets/level_complete.png', true);
     game.load.image('animation-boom', 'assets/boom.png', true);
-    game.load.image('game-over', 'assets/GameOver.jpeg', true);
+    game.load.image('game-over', 'assets/GameOver.png', true);
     game.load.image('mute-icon', 'assets/MuteIcon.png', true);
     game.load.image('x', 'assets/x.png', true);
 
@@ -195,14 +195,19 @@ function spawnBalls()
 
         //var ball = balls.create(i * 100 + 100, i * 50 + 50, 'ball');
         var ball = balls.create(randomXCoordinateSpawn, randomYCoordinateSpawn, 'ball');
-        ball.body.velocity.x = BALL_VELOCITY;
-        ball.body.velocity.y = BALL_VELOCITY;
+        ball.body.velocity.x = BALL_VELOCITY * randomPositiveNegative();
+        ball.body.velocity.y = BALL_VELOCITY * randomPositiveNegative();
         ball.body.collideWorldBounds = true;
         ball.body.bounce.y = 1;
         ball.body.bounce.x = 1;
 
         balls.add(ball);
     }
+}
+
+function randomPositiveNegative()
+{
+    return Math.random() < 0.5 ? -1.0 : 1.0;
 }
 
 function chooseRandomValueBetweenInterval(min, max)

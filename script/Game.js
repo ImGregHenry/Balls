@@ -183,6 +183,8 @@ function restartGame()
     // Go through process of restarting the game
     drawMap();
 
+    game.add.button(1350, 750, 'mute-icon', MuteSound, true, 2, 1, 0);
+
     sendCharacterBackToStart();
     if (isPlayerMovementDisabled) setPlayerMovementDisabled(false);
 

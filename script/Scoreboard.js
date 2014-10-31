@@ -22,7 +22,7 @@ var scoreboard_percentCompleteText;
 var scoreboard_highScoreText;
 var scoreboard_scoreText;
 
-var scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1);
+var scoreboardXStartingPoint;
 var scoreboardTextStyle = { font: "bold 30px Arial", fill: "#FFFFFF" }; //E60A24
 
 var gameTimer;
@@ -43,6 +43,7 @@ function createScoreboard()
 {
     var text;
     var yCoordinate = 10;
+    scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1);
 
     // Player Lives
     if (scoreboard_playerLivesText != null)

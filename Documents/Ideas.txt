@@ -23,6 +23,7 @@ COMPLETE
 *- Game over animation
 *- Added game over sound effect
 *- Added player death sound effect
+*- Button for muting sound effects
 *- Enemy ball count
 *- Basic sound prototype
 *- Basic scoring system -> scaling with size of clear
@@ -42,7 +43,6 @@ COMPLETE
 
 CORE BETA GOALS
 *- Level complete sound effect
-*- Button for muting sound effects
 *- Tweak scaling of score
 *- High score speed
 *- Track/store scores on server
@@ -66,7 +66,10 @@ BUGS:
 %- Handle between games better
 %- Investigate fps lag
 
-ENHANCEMENTS (\\BETA)
+CODE FIXES:
+- Move all sprites/audio/buttons creations into a single file
+
+ENHANCEMENTS:
 \- Points for trapping a ball in a small area
 \- Add animations for scoreboard change
 \- Choose starting level
@@ -75,10 +78,9 @@ ENHANCEMENTS (\\BETA)
 \- Add level time limits
 \- High scores tracking and db
 \- Change colour scheme in settings
-\- Add sound - movement, tile clearing, explosions, game over, level complete
+\- Add sound - movement, tile clearing, level complete
 \- Add freeze time sound effect
 \- Add music
-\- Add mute music button
 \- Player life explodes on scoreboard
 \- Player life adds and animates on scoreboard when new life gained
 \- Different game modes?
