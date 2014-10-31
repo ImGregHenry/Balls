@@ -29,6 +29,7 @@ COMPLETE
 *- Basic scoring system -> scaling with size of clear
 *- High score added to scoreboard for current session
 *- Change "player lives" scoreboard to use player image
+*- Level complete sound effect
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -43,7 +44,7 @@ COMPLETE
 %- 
 
 CORE BETA GOALS
-*- Level complete sound effect
+
 *- Tweak scaling of score
 *- High score speed
 *- Track/store scores on server
@@ -56,6 +57,7 @@ CORE BETA GOALS
  - Maintain scores as cookies
 
 BUGS:
+%%%- Stop level timer during boom animation?
 %%%- Fix bullet time regen/drain rate
 %%%- Fix bug where bullet time pie chart gets frozen
 %%%- Add looping to heartbeat sound for long bullet time cases

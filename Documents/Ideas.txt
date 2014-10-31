@@ -29,6 +29,7 @@ COMPLETE
 *- Basic scoring system -> scaling with size of clear
 *- High score added to scoreboard for current session
 *- Change "player lives" scoreboard to use player image
+*- Level complete sound effect
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -40,10 +41,8 @@ COMPLETE
 %- Stop game timer once level complete animation starts
 %- Reset bullet time bar when game is restarted
 %- Fixed bug with game over where sprite did not center immediately
-%- 
 
 CORE BETA GOALS
-*- Level complete sound effect
 *- Tweak scaling of score
 *- High score speed
 *- Track/store scores on server
