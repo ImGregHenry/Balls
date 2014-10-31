@@ -40,6 +40,7 @@ COMPLETE
 %- Stop game timer once level complete animation starts
 %- Reset bullet time bar when game is restarted
 %- Fixed bug with game over where sprite did not center immediately
+%- 
 
 CORE BETA GOALS
 *- Level complete sound effect
@@ -49,13 +50,13 @@ CORE BETA GOALS
 *- Help menu
 *- Game/Main menu
 *- Continue game / start from beginning 
-*- Modify ball spawn locations and speeds
 *- Add hotkeys for restarting, pausing, and accessing menu
 *- Animation for when bullet time is active (weight)
  - Largest single clear displayed
  - Maintain scores as cookies
 
 BUGS:
+%%%- Stop level timer during boom animation?
 %%%- Fix bullet time regen/drain rate
 %%%- Fix bug where bullet time pie chart gets frozen
 %%%- Add looping to heartbeat sound for long bullet time cases

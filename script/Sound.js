@@ -1,4 +1,6 @@
-﻿var gameSoundEffectVolume = 1.0;
+﻿var isSoundMuted = false;
+var soundMuteX_Icon_Icon;
+var gameSoundEffectVolume = 1.0;
 
 function GetBulletTimeHeartbeatSound()
 {
@@ -25,8 +27,11 @@ function GetGameOverSound()
     return game.add.audio('audio-game-over', gameSoundEffectVolume / 2.0, false)
 }
 
-var isSoundMuted;
-var soundMuteX;
+function GetLevelCompleteSound()
+{
+    return game.add.audio('audio-level-complete', gameSoundEffectVolume, false)
+}
+
 function MuteSound()
 {
     // Toggle mute
@@ -39,13 +44,13 @@ function MuteSound()
         //TODO: stop all sounds in progress.
         game.sound.mute = true;
 
-        if(soundMuteX != null)
+        if(soundMuteX_Icon != null)
         {
-            soundMuteX.visible = true;
+            soundMuteX_Icon.visible = true;
         }
         else
         {
-            soundMuteX = game.add.sprite(1350, 750, 'x');
+            soundMuteX_Icon = game.add.sprite(1350, 750, 'x');
         }
     }
     // Enable all sounds
@@ -53,9 +58,9 @@ function MuteSound()
     {
         game.sound.mute = false;
 
-        if(soundMuteX != null)
+        if(soundMuteX_Icon != null)
         {
-            soundMuteX.visible = false;
+            soundMuteX_Icon.visible = false;
         }
     }
 }

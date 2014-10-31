@@ -71,6 +71,7 @@ function fillTiles()
             if (isLevelComplete())
             {
                 pauseLevelTimer();
+                GetLevelCompleteSound().play();
                 spawnLevelCompleteAnimation();
             }
         }

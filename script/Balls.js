@@ -10,7 +10,7 @@ const MAP_TILE_HEIGHT = 40;
 const MAP_BORDER_THICKNESS = 2;
 const START_NUMBER_OF_BALLS = 4;
 const START_TARGET_PERCENT_COMPLETE = 65;
-const START_PLAYER_LIVES = 0;
+const START_PLAYER_LIVES = 2;
 const BALL_VELOCITY = 200.0;
 //const PLAYER_VELOCITY = 90;
 
@@ -70,6 +70,7 @@ function preload()
     game.load.audio('audio-bullet-time-start', 'assets/sounds/bullet-time-start.mp3', true);
     game.load.audio('audio-player-explodes', 'assets/sounds/player-explodes.mp3', true);
     game.load.audio('audio-game-over', 'assets/sounds/game-over.wav', true);
+    game.load.audio('audio-level-complete', 'assets/sounds/level-completed.ogg', true);
 
     game.time.advancedTiming = true;
 }
