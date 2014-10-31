@@ -29,7 +29,6 @@ var mapLayer;
 var balls;
 var cursors;
 
-
 var level_numberOfBalls = 0;
 var level_playerLives = 0;
 var level_currentLevel = 0;
@@ -37,8 +36,8 @@ var level_percentComplete = 0.0;
 var level_targetPercentComplete = 0.0;
 var level_totalFilledTiles = 0;
 var level_totalEmptyTiles = 0;
-
-var scoreboard_percentCompleteTextBlock;
+var level_currentScore = 0;
+var level_highScore = 0;
 
 var timerBetweenRounds;
 
@@ -103,6 +102,11 @@ function create()
     player.body.collideWorldBounds = true;
 
     level_currentLevel = 1;
+    level_currentScore = 0;
+    level_highScore = 0;
+    level_totalFilledTiles = 0;
+    level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
+    
     nextLevelUpdates();
 
     spawnBalls();
@@ -115,14 +119,11 @@ function create()
     createLevelTimer();
     createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
-
-    level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
-    level_totalFilledTiles = 0;
 }
 
 
 const BULLET_TIME_PROGRESS_BAR_X = 1100;
-const BULLET_TIME_PROGRESS_BAR_Y = 700;
+const BULLET_TIME_PROGRESS_BAR_Y = 725;
 function createBulletTimePieProgressBar()
 {
     var pie = new PieProgress(game, BULLET_TIME_PROGRESS_BAR_X, BULLET_TIME_PROGRESS_BAR_Y, 50);

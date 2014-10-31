@@ -10,9 +10,6 @@
 
 //BasicGame.Boot = function (game) { };
 
-var pie;
-var pietween;
-var pieprogress;
 //BasicGame.Boot.prototype =
 //{
 //    preload: function ()
@@ -38,6 +35,14 @@ var pieprogress;
 //    }
 //};
 
+//game.state.add('Boot', BasicGame.Boot);
+//game.state.start('Boot');
+
+
+
+var pie;
+var pietween;
+var pieprogress;
 
 var PieProgress = function (game, x, y, radius, angle, weight)
 {
@@ -124,8 +129,3 @@ Object.defineProperty(PieProgress.prototype, 'weight', {
         this.updateProgress();
     }
 });
-
-
-
-//game.state.add('Boot', BasicGame.Boot);
-//game.state.start('Boot');

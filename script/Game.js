@@ -162,6 +162,7 @@ function restartGame()
     level_playerLives = START_PLAYER_LIVES;
     level_percentComplete = 0.0;
     level_totalFilledTiles = 0;
+    level_currentScore = 0;
 
     // Reset the list of endangered tiles
     endangeredTiles = [];
@@ -250,7 +251,7 @@ function createLevelTimer()
 
 function timer_levelTimerTick()
 {
-    updateScoreboard_GameTimer();
+    updateScoreboard_gameTimer();
 }
 
 function pauseLevelTimer(isPause)

@@ -1,24 +1,24 @@
 ﻿
-var percentClearedTextStyle = { font: "30px Arial", fill: "#E60A24" }; //ff0044
-var percentClearedTween = null;
-var percentClearedText;
-const PERCENT_CLEARED_ANIMATION_DISTANCE_Y = 10;
+var scoreGainedTextStyle = { font: "30px Arial", fill: "#E60A24" }; //ff0044
+var scoreGainedTween = null;
+var scoreGainedText;
+const SCORE_GAINED_ANIMATION_DISTANCE_Y = 10;
 // Animates percent complete text via tweening
-function startpercentClearedTween(x, y, animatedText)
+function startScoreGainedTween(x, y, animatedText)
 {
-    if (percentClearedTween == null || !percentClearedTween.isRunning)
+    if (scoreGainedTween == null || !scoreGainedTween.isRunning)
     {
-        percentClearedText = game.add.text(x, y, animatedText, percentClearedTextStyle);
-        percentClearedTween = game.add.tween(percentClearedText);
-        percentClearedTween.onComplete.add(percentClearedTweenComplete, this);
-        percentClearedTween.to({ x: x, y: y-PERCENT_CLEARED_ANIMATION_DISTANCE_Y }, 500, Phaser.Easing.Linear.None, true);   //Phaser.Easing.Quadratic.InOut
-        percentClearedTween.start();
+        scoreGainedText = game.add.text(x, y, animatedText, scoreGainedTextStyle);
+        scoreGainedTween = game.add.tween(scoreGainedText);
+        scoreGainedTween.onComplete.add(scoreGainedTweenComplete, this);
+        scoreGainedTween.to({ x: x, y: y - SCORE_GAINED_ANIMATION_DISTANCE_Y }, 500, Phaser.Easing.Linear.None, true);   //Phaser.Easing.Quadratic.InOut
+        scoreGainedTween.start();
     }
 }
 
-function percentClearedTweenComplete()
+function scoreGainedTweenComplete()
 {
-    percentClearedText.destroy(true);
+    scoreGainedText.destroy(true);
 }
 
 

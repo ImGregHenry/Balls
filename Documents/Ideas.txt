@@ -23,6 +23,8 @@ COMPLETE
 *- Game over animation
 *- Enemy ball count
 *- Basic sound prototype
+*- Basic scoring system -> scaling with size of clear
+*- High score added to scoreboard for current session
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -32,52 +34,67 @@ COMPLETE
 %- Fix bullet time regeneration/drain after restart game
 
 
-BASIC FEATURES
-*- High scores
+CORE BETA GOALS
+*- Change "character lives" scoreboard to use player image
+*- Character life explodes on scoreboard
+*- Character life adds and animates on scoreboard when new life gained
+*- Tweak scaling of score
+*- High score speed
+*- Track/store scores on server
 *- Help menu
 *- Game/Main menu
-*- Start button
 *- Continue game / start from beginning 
 *- Modify ball spawn locations and speeds
- - Add animations for scoreboard change
+*- Animation for when bullet time is active (weight)
  - Largest single clear displayed
- - Upgrade scoreboard
+ - Maintain scores as cookies
 
 BUGS:
-%- Clean up bullet time functionality
+%%%- Make game timer stop once level complete animation starts
+%%%- Fix bullet time regen/drain rate
+%%%- Fix bug where bullet time pie chart gets frozen after being alt+tabbed
+%%%- Fix bug where bullet time sound happens twice after death/level completed
+%%%- Restart bullet time bar when restart button hit
+%%- Clean up bullet time functionality
+%%- Handle multiple percent cleared tweens
+%%- Fix bug where you can die after clearing
 %- Fix tile fill algorithm for edge cases
-%- Fix bug where you can die after clearing
 %- Handle between games better
-%- Handle multiple percent cleared tweens
-%- Fix bug where bullet time pie chart gets frozen after being alt+tabbed
-%- Restart bullet time bar when restart button hit
 %- Investigate fps lag
 
-ENHANCEMENTS
-\- Laser-beam clear (straight line fast clear)
-\- Bullet-time balls animate
-\- Freeze-time limit bar
-\- Freeze-time balls animate
-\- Powerups pickups and power bar
+ENHANCEMENTS (\\BETA)
+\- Points for trapping a ball in a small area
+\- Add animations for scoreboard change
+\- Choose starting level
 \- Difficulty levels easy/hard
-\- Ball acceleration
-\- Player acceleration
-\- Balls flip directions spontaneously
-\- Invulnerability
-\- Barbed wire tiles (destroy balls)
 \- Invisible balls (or fade in and out)
 \- Add level time limits
 \- High scores tracking and db
-\- Fastest clear speed tracked
-\- Login information
 \- Change colour scheme in settings
 \- Add sound - movement, tile clearing, explosions, game over, level complete
 \- Add freeze time sound effect
 \- Add music
 \- Add mute button
-\- Enemy balls AI
+
 \- or different game modes
 \- Unique levels - custom maps
 \- Customized characters
 \- Can't move back on your own danger zone (warning: middle of square)
 
+POWERUPS
+\- Bullet-time balls animate
+\- Freeze-time limit bar
+\- Freeze-time balls animate
+\- Powerups pickups and power bar
+\- Invulnerability
+\- Ball acceleration
+\- Player acceleration
+\- Laser-beam clear (straight line fast clear)
+\- Balls flip directions spontaneously
+
+\- Barbed wire tiles (destroy balls)
+
+EXTRAS
+\- Score multipliers for consistently clearing
+\- Enemy attacking ball AI
+\- Player stats - average clear per level, average clear score, record speed, record high score, etc.

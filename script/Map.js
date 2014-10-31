@@ -47,9 +47,11 @@ function fillTiles()
     {
         if (isCharInDangerZone)
         {
-            var percentClearedBefore = level_percentComplete;
+            //TODO: cleanup percent cleared animation
+            //var percentClearedBefore = level_percentComplete;
             var percentClearedAnmiation_X = endangeredTiles[endangeredTiles.length - 1].split(",")[0];
             var percentClearedAnmiation_Y = endangeredTiles[endangeredTiles.length - 1].split(",")[1];
+            var tilesCleared = level_totalFilledTiles;
 
             // Reset danger flag
             isCharInDangerZone = false;
@@ -60,7 +62,11 @@ function fillTiles()
             // Safely cleared tiles.  Reset them to 'safe-zone' tiles
             clearEndangeredTiles(true);
 
-            startPercentCompleteAnimation(percentClearedBefore, percentClearedAnmiation_X, percentClearedAnmiation_Y);
+            //startPercentCompleteAnimation(percentClearedBefore, percentClearedAnmiation_X, percentClearedAnmiation_Y);
+            processScoreChanges(level_totalFilledTiles - tilesCleared, percentClearedAnmiation_X, percentClearedAnmiation_Y);
+
+            // Update the scoreboard with new values
+            updateScoreboard();
 
             if (isLevelComplete())
             {
@@ -71,16 +77,6 @@ function fillTiles()
     }
 
     return currentTile;
-}
-
-//TODO: clean up the percent complete animation
-function startPercentCompleteAnimation(percentCompleteBefore, percentClearedAnmiation_X, percentClearedAnmiation_Y)
-{
-    var diff = level_percentComplete - percentCompleteBefore;
-    var percentCleared = Math.round(diff * 10) / 10 + "%";
-    //console.log("Level_PercentComplete: " + level_percentComplete + " Before: " + percentCompleteBefore + " Diff: " + diff + " PercentCleared: " + percentCleared);
-    
-    startpercentClearedTween(percentClearedAnmiation_X * TILE_WIDTH, percentClearedAnmiation_Y * TILE_WIDTH, percentCleared);
 }
 
 // Convert 'danger-zone' tiles to 'safe-zone' or empty tiles
@@ -122,9 +118,6 @@ function updateMapTile(x, y, isSafeTile)
 
         // Keep the tile-map-array up-to-date
         updateTileMapArray(x, y, SAFE_ZONE_ID);
-
-        // Update score of percent filled
-        updateScoreboard();
     }
     else
     {
