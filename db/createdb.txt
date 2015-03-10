@@ -1,0 +1,25 @@
+
+CREATE TABLE BallsHighScore
+(
+  ID MEDIUMINT AUTO_INCREMENT PRIMARY KEY,
+  Username VARCHAR(50) NOT NULL,
+  HighScore BIGINT NOT NULL,
+  Level INT NOT NULL, 
+  DateCreated DATETIME NOT NULL
+);
+	
+INSERT INTO BallsHighScore (Username, HighScore, Level, DateCreated)
+VALUES ('AAA', 20000, 5, NOW()),
+ ('ACE', 20000, 5, NOW()),
+ ('ABC', 550000, 5, NOW()),
+ ('BOB', 4000, 5, NOW()),
+ ('GAY', 3000, 5, NOW()),
+ ('YAY', 2000, 5, NOW()),
+ ('RED', 1000, 5, NOW()),
+ ('GREG', 100000, 5, NOW()),
+ ('HENRY', 50000, 5, NOW());
+
+	
+SELECT * FROM BallsHighScore
+ORDER BY HighScore DESC
+LIMIT 5;
