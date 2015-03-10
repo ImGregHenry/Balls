@@ -37,36 +37,38 @@
 	<!--<script type="text/javascript" src="script/SubmitHighScore.js">
     </script>-->
 	
-	
-<button id="btnOpenSubmit">SUBMIT SCORE</button>
+		
+	<button id="btnOpenSubmitHighScore">SUBMIT HIGH SCORE</button>
+	<button id="btnViewHighScores">VIEW HIGH SCORE</button>
 
-<div id="overlay"></div>
 
-<div id="submitPopup">
-	<br/><br/>
-    <label for="score">Score</label>
-    <input type="text" name="txtSubmitScore" id="txtScore" value="10000" readonly="true" />
-    <br/>
-	<label for="User">User</label>
-	<input type="text" name="User" id="txtSubmitUser" value="AAA" />
-    <br />
-    <button id="btnSubmitClose">Close</button>
-    <button id="btnSubmitScore">Submit Score</button>
-	<input type="hidden" id="isSubmitted" name="isSubmitted" value="false" />
-	<br />
-	<label id="lblSubmitResult" name="SubmitResult"></label>
-</div>
+	<div id="overlay"></div>
 
-<div id="viewHighScores">
-	<table id="tblHighScore">
-		<tr>
-			<td>User</td>
-			<td>Level</td>
-			<td>Score</td>
-			<td>Date</td>
-		</tr>
-	</table>
-</div>
+	<div id="submitHighScorePopup">
+		<br/><br/>
+		<label for="score">Score</label>
+		<input type="text" name="txtSubmitScore" id="txtScore" value="10000" readonly="true" />
+		<br/>
+		<label for="User">User</label>
+		<input type="text" name="User" id="txtSubmitUser" value="AAA" />
+		<br />
+		<button id="btnSubmitHighScoreClose">Close</button>
+		<button id="btnSubmitScore">Submit Score</button>
+		<input type="hidden" id="isSubmitted" name="isSubmitted" value="false" />
+		<br />
+		<label id="lblSubmitResult" name="SubmitResult"></label>
+	</div>
+
+	<div id="viewHighScoresPopup">
+		<table id="tblHighScore">
+			<tr>
+				<td>User</td>
+				<td>Level</td>
+				<td>Score</td>
+				<td>Date</td>
+			</tr>
+		</table>
+	</div>
 
 </body>
 </html>

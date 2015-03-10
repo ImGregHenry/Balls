@@ -1,10 +1,8 @@
-﻿/*window.onload = function() {
-  document.getElementById("btnOpenSubmit").onclick = function(){
-      alert("SUCCESS");
-    */
+﻿
 $(document).ready(function(){
 
-	$("#btnSubmitScore").click(function() {
+	// Handle submission of high scores
+	$("#btnSubmitHighScore").click(function() {
 		  
 		 if($("#isSubmitted").val() !== "false")
 		 {
@@ -16,6 +14,7 @@ $(document).ready(function(){
 		var user = $("#txtSubmitUser").val();
 		var args = "username=" + user + "&score=" + score;
 		
+		// Make sure a username has been entered
 		if($("#txtSubmitUser").val() == '')
 		{
 			$("#lblSubmitResult").text("You must enter a username to submit.");
@@ -23,32 +22,53 @@ $(document).ready(function(){
 		}
 		
 		$.ajax({
-			url: 'db/submithighscore.php',                  //the script to call to get data          
+			url: 'db/submithighscore.php',
 			data: args,
 			type: 'post',
-			success: function (data)          //on receive of reply
+			success: function (data)
 			{
 				$("#isSubmitted").val("true");
 				$("#lblSubmitResult").text("Highscore has been submitted!");
 				return;
 			}
-			//TODO: handle errors
+			//TODO: handle errors for all ajax requests
 		});
 	});
 	
-    $('#btnOpenSubmit').click(function () {
+	// View high score loading
+	$("#btnViewHighScores").click(function() {
 		$("#overlay").show();
-		$("#submitPopup").show();
+		$("#viewHighScoresPopup").show();
+		 
+		//var score = $("#txtSubmitScore").val();
+		//var user = $("#txtSubmitUser").val();
+		args = '';
+		$.ajax({
+			url: 'db/gethighscores.php',
+			data: args,
+			type: 'post',
+			success: function (data)
+			{
+				alert(data);
+				//$('tblHighScore').append(data);
+				return;
+			}
+		});
+	});
+	
+    $('#btnOpenSubmitHighScore').click(function () {
+		$("#overlay").show();
+		$("#submitHighScorePopup").show();
     });
 	
-	$('#btnClose').click(function () {
+	$('#btnSubmitHighScoreClose').click(function () {
 		$("#overlay").hide();
-		$("#submitPopup").hide();
+		$("#submitHighScorePopup").hide();
     });
 	
 	// Click off the high score screen to remove
 	$('#overlay').click(function () {
 		$("#overlay").hide();
-		$("#submitPopup").hide();
+		$("#submitHighScorePopup").hide();
     });
 });

@@ -10,7 +10,21 @@
     z-index:99999;   
 }
 
-#submitPopup {
+#submitHighScorePopup {
+    display:none;
+    position:fixed;
+    left:50%;        
+    top:50%;         
+    width:300px;     
+    height:150px;
+    margin-top:-75px;
+    margin-left:-150px;
+    background:#FFFFFF;
+    border:2px solid #000;
+    z-index:100000;      
+}
+
+#viewHighScoresPopup {
     display:none;
     position:fixed;
     left:50%;        
