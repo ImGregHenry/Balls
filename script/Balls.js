@@ -44,10 +44,73 @@ var allBallYVelocities = [];
 var endangeredTiles = [];
 var fullMapArray;
 
+var game = new Phaser.Game(1400, 800, Phaser.CANVAS, 'BALLS', { preload: preload, create: create, update: update });
 
 
+function preload()
+{
+    game.load.tilemap('map', 'assets/maps/TileMap5.json', null, Phaser.Tilemap.TILED_JSON);
+ 
+    game.load.image('ball', 'assets/star.png');
+    game.load.image('character', 'assets/ball1.png');
+    game.load.image('tile-danger-zone', 'assets/tile-danger-zone.png', true);
+    game.load.image('tile-safe-zone', 'assets/tile-safe-zone.png', true);
+    game.load.image('tile-empty', 'assets/tile-empty.png', true);
+    game.load.image('tile-scoreboard', 'assets/tile-scoreboard.png', true);
+    game.load.image('scoreboard-restart-button', 'assets/RestartButton.png', true);
+    game.load.image('scoreboard-pause-button', 'assets/PauseButton.png', true);
+    game.load.image('level-complete', 'assets/level_complete.png', true);
+    game.load.image('animation-boom', 'assets/boom.png', true);
+    game.load.image('game-over', 'assets/GameOver.png', true);
+    game.load.image('mute-icon', 'assets/MuteIcon.png', true);
+    game.load.image('x', 'assets/x.png', true);
 
+    game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
+    game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
+    game.load.audio('audio-bullet-time-start', 'assets/sounds/bullet-time-start.mp3', true);
+    game.load.audio('audio-player-explodes', 'assets/sounds/player-explodes.mp3', true);
+    game.load.audio('audio-game-over', 'assets/sounds/game-over.wav', true);
+    game.load.audio('audio-level-complete', 'assets/sounds/level-completed.ogg', true);
 
+    game.time.advancedTiming = true;
+}
+
+function create()
+{
+    game.stage.backgroundColor = '#FFFFFF';
+    
+    drawMap();
+
+    //  We're going to be using physics, so enable the Arcade Physics system
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    
+    // Create the character
+    player = game.add.sprite(0, 0, 'character');
+    game.add.button(1350, 750, 'mute-icon', MuteSound, true, 2, 1, 0);
+    
+    //  We need to enable physics on the player            
+    game.physics.arcade.enable(player);
+    player.body.collideWorldBounds = true;
+
+    level_currentLevel = 1;
+    level_currentScore = 0;
+    level_highScore = 0;
+    level_totalFilledTiles = 0;
+    level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
+    
+    nextLevelUpdates();
+
+    spawnBalls();
+    
+    // Load the keyboard controls
+    cursors = game.input.keyboard.createCursorKeys();
+
+    createScoreboard();
+
+    createLevelTimer();
+    createBulletTimeEnergyTimer();
+    createBulletTimePieProgressBar();
+}
 
 
 const BULLET_TIME_PROGRESS_BAR_X = 1100;
@@ -153,6 +216,79 @@ function chooseRandomValueBetweenInterval(min, max)
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+// UPDATE: called constantly and handles all user's controls
+function update()
+{
+    //TODO: add fps text to game
+    //game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
+
+    if (!isGamePaused && !isPlayerMovementDisabled)
+    {
+        game.physics.arcade.collide(balls, balls);
+        game.physics.arcade.collide(balls, mapLayer);
+
+        var playerXTile = getPlayerXTileIndex();
+        var playerYTile = getPlayerYTileIndex();
+
+        if (!isCharacterDeadAlready)
+        {
+            if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
+            {
+                startBulletTime();
+            }
+            else
+            {
+                stopBulletTime();
+            }
+
+            if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
+            {
+                freezeTime();
+            }
+            else
+            {
+                unfreezeTime();
+            }
+        }
+        // TODO: test whether move is valid or not before tweening
+        if (cursors.left.isDown)
+        {
+            var currentTile = map.getTile(playerXTile - 1, playerYTile, mapLayer, false);
+
+            if (currentTile != null)
+            {
+                startPlayerTween(player.body.x - 20, player.body.y);
+            }
+        }
+        else if (cursors.right.isDown)
+        {
+            var currentTile = map.getTile(playerXTile + 1, playerYTile, mapLayer, false);
+
+            if (currentTile != null && currentTile.index != SCOREBOARD_ZONE_ID)
+            {
+                startPlayerTween(player.body.x + 20, player.body.y);
+            }
+        }
+        else if (cursors.up.isDown)
+        {
+            var currentTile = map.getTile(playerXTile, playerYTile - 1, mapLayer, false);
+
+            if (currentTile != null)
+            {
+                startPlayerTween(player.body.x, player.body.y - 20);
+            }
+        }
+        else if (cursors.down.isDown)
+        {
+            var currentTile = map.getTile(playerXTile, playerYTile + 1, mapLayer, false);
+
+            if (currentTile != null)
+            {
+                startPlayerTween(player.body.x, player.body.y + 20);
+            }
+        }
+    }
+}
 
 // Handles post-tweening events for player movement
 function playerTweenComplete()
