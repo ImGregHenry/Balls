@@ -278,3 +278,17 @@ function pauseLevelTimer(isPause)
         }
     }
 }
+
+function submitHighScorePopup()
+{
+	$('#overlay').show();
+	setHighScorePopupValues(level_currentScore, level_currentLevel);
+	
+	$('#submitHighScorePopup').show();
+}
+
+function setHighScorePopupValues(score, level)
+{
+	$('#txtSubmitLevel').val(level);
+	$('#txtSubmitScore').val(score);
+}

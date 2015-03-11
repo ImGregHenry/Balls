@@ -137,6 +137,7 @@ function animategameOverComplete()
         gameOverTimer.stop();
         gameOverIcon.kill();
 
+		submitHighScorePopup();
         //TODO: do something at end of game over animation?
     }
     else if (gameOverZoomCount <= MAX_GAME_OVER_ZOOM_ANIMATIONS)
