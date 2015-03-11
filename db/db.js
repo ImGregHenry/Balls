@@ -44,18 +44,19 @@ $(document).ready(function(){
 		$("#overlay").show();
 		$("#viewHighScoresPopup").show();
 		 
-		//var score = $("#txtSubmitScore").val();
-		//var user = $("#txtSubmitUser").val();
 		args = '';
 		$.ajax({
 			url: 'db/gethighscores.php',
 			data: args,
-			//datatype: 'json',
 			type: 'post',
 			success: function (data)
 			{
 				var data2 = $.parseJSON(data);
 				
+				// remove previous rows for fresh data
+				$("#tblHighScore").find("tr:gt(0)").remove();
+				   
+				//TODO: handle processing of table better.
 				$.each(data2, function(i, item) {
 						var str = '';
 						if(i === 0)
