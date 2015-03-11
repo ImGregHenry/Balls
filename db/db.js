@@ -3,23 +3,23 @@ $(document).ready(function(){
 
 	// Handle submission of high scores
 	$("#btnSubmitHighScore").click(function() {
-		  
+		  alert($("#isSubmitted").val() );
 		 if($("#isSubmitted").val() !== "false")
 		 {
-			$("#lblSubmitResult").text("Your highscore has already been submitted.");
+			$("#txtSubmitHighScoreMessage").text("Your highscore has already been submitted.");
 			return;
 		 }
 		 
-		var score = $("#txtSubmitScore").val();
+		var score = $("#txtSubmitScore").text();
 		var user = $("#txtSubmitUser").val();
-		var level = 7;
+		var level = $("#txtSubmitLevel").text();
 		var args = "username=" + user + "&score=" + score + "&level=" + level;
 		
 		//TODO: set max username size
 		// Make sure a username has been entered
 		if($("#txtSubmitUser").val() == '')
 		{
-			$("#lblSubmitResult").text("You must enter a username to submit.");
+			$("#txtSubmitHighScoreMessage").text("You must enter a username to submit.");
 			return;
 		}
 		
@@ -32,7 +32,7 @@ $(document).ready(function(){
 				// Set submitted flag
 				$("#isSubmitted").val("true");
 				
-				$("#lblSubmitResult").text("Highscore has been submitted!");
+				$("#txtSubmitHighScoreMessage").text("Highscore has been submitted!");
 				return;
 			}
 			//TODO: handle errors for all ajax requests

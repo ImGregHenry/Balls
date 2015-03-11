@@ -144,14 +144,15 @@ BasicGame.Game.prototype = {
                     stopBulletTime();
                 }
 
-                if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
+				//TODO: manage this freeze time functionality
+                /*if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
                 {
                     freezeTime();
                 }
                 else
                 {
                     unfreezeTime();
-                }
+                }*/
             }
             // TODO: test whether move is valid or not before tweening
             if (cursors.left.isDown)

@@ -43,19 +43,22 @@
 
 	<div id="overlay"></div>
 
+	<!-- //TODO: add a hidden variable for storing the high score values to reduce hacking -->
 	<div id="submitHighScorePopup">
-		<br/><br/>
-		<label for="score">Score</label>
-		<input type="text" name="SubmitScore" id="txtSubmitScore" value="10000" readonly="true" />
+		<label class="highScoreLabelText" >Score</label>
+		<label class="highScoreText" id="txtSubmitScore">50900</label>
 		<br/>
-		<label for="User">User</label>
-		<input type="text" name="User" id="txtSubmitUser" value="AAA" />
+		<label class="highScoreLabelText" >Level</label>
+		<label class="highScoreText" id="txtSubmitLevel">10</label>
+		<br/>
+		<label class="highScoreLabelText" >User</label>
+		<input class="highScoreTextBox"  type="text" id="txtSubmitUser" value="AAA" />
 		<br />
-		<button id="btnSubmitHighScoreClose">Close</button>
-		<button id="btnSubmitHighScore">Submit Score</button>
-		<input type="hidden" id="isSubmitted" name="isSubmitted" value="false" />
+		<button id="btnSubmitHighScore" class="flashyButton">Submit Score</button>
+		<button id="btnSubmitHighScoreClose" class="flashyButton">Close</button>
+		<input type="hidden" id="isSubmitted" value="false" />
 		<br />
-		<label id="lblSubmitResult" name="SubmitResult"></label>
+		<label id="txtSubmitHighScoreMessage" class="highScoreMessageText"></label>
 	</div>
 
 	<div id="viewHighScoresPopup" class="datagrid">

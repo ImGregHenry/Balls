@@ -289,6 +289,8 @@ function submitHighScorePopup()
 
 function setHighScorePopupValues(score, level)
 {
-	$('#txtSubmitLevel').val(level);
-	$('#txtSubmitScore').val(score);
+	$('#txtSubmitLevel').text(level);
+	$('#txtSubmitScore').text(score);
+	$('#txtSubmitHighScoreMessage').text('');
+	$('#isSubmitted').val('false');
 }
