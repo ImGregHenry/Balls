@@ -25,14 +25,34 @@
 		return array("FAIL", "No score found.");
 	}
 	
-	$con = mysql_connect($mysql_host, $mysql_user, $mysql_password);
-	$dbs = mysql_select_db($mysql_database, $con);
+	if(isset($_POST['level']) && !empty($_POST['level'])) 
+	{
+		$level = $_POST['level'];
+	}
+	else
+	{
+		return array("FAIL", "No level found.");
+	}
 	
-	$query = "INSERT INTO BallsHighScore (Username, HighScore, Level, DateCreated) "
-		. "VALUES ('" . $username . "', " . $score . ", 5, NOW())";
+	try {
+		$query = "INSERT INTO BallsHighScore (Username, HighScore, Level, DateCreated) "
+			. "VALUES (:username, :score, :level, NOW())";
+		
+		$conn = new PDO("mysql:host=$mysql_host;dbname=$mysql_database", $mysql_user, $mysql_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		
+		$stmt = $conn->prepare($query);
+		$stmt->bindParam(':username', $username, PDO::PARAM_STR, 20);
+		$stmt->bindParam(':score', $score, PDO::PARAM_INT);
+		$stmt->bindParam(':level', $level, PDO::PARAM_INT);
+		
+		$stmt->execute();
+	}
+	catch(PDOException $e)
+	{
+		echo "ERROR: $e";
+	}
 	
-	$result = mysql_query($query);
-	$array = array($result);
 	
 	echo json_encode($array);
 

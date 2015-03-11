@@ -34,10 +34,9 @@
     </script>
     <script type="text/javascript" src="script/Sound.js">
     </script>
-	<!--<script type="text/javascript" src="script/SubmitHighScore.js">
-    </script>-->
+	<!--<script type="text/javascript" src="script/SubmitHighScore.js"></script>-->
 	
-		
+	
 	<button id="btnOpenSubmitHighScore">SUBMIT HIGH SCORE</button>
 	<button id="btnViewHighScores">VIEW HIGH SCORE</button>
 
@@ -47,28 +46,31 @@
 	<div id="submitHighScorePopup">
 		<br/><br/>
 		<label for="score">Score</label>
-		<input type="text" name="txtSubmitScore" id="txtScore" value="10000" readonly="true" />
+		<input type="text" name="SubmitScore" id="txtSubmitScore" value="10000" readonly="true" />
 		<br/>
 		<label for="User">User</label>
 		<input type="text" name="User" id="txtSubmitUser" value="AAA" />
 		<br />
 		<button id="btnSubmitHighScoreClose">Close</button>
-		<button id="btnSubmitScore">Submit Score</button>
+		<button id="btnSubmitHighScore">Submit Score</button>
 		<input type="hidden" id="isSubmitted" name="isSubmitted" value="false" />
 		<br />
 		<label id="lblSubmitResult" name="SubmitResult"></label>
 	</div>
 
-	<div id="viewHighScoresPopup">
+	<div id="viewHighScoresPopup" class="datagrid">
 		<table id="tblHighScore">
-			<tr>
-				<td>User</td>
-				<td>Level</td>
-				<td>Score</td>
-				<td>Date</td>
-			</tr>
+			<thead>
+				<tr>
+					<th width=75>Rank</th>
+					<th width=300>User</th>
+					<th width=125>Score</th>
+					<th width=100>Level</th>
+					<th width=300>Date</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
 		</table>
 	</div>
-
 </body>
 </html>
