@@ -22,7 +22,8 @@ BasicGame.MainMenu.prototype = {
     {
         // load basic assets for this state 
 
-        this.load.image('name', 'assets/images/menu/PlayButton.png');
+        this.load.image('play-button', 'assets/images/menu/PlayButton.png');
+		this.load.image('view-highscores-button', 'assets/images/menu/ViewHighScoresButton.png');
         console.log("Main Menu: preload.");
     },
 
@@ -31,16 +32,17 @@ BasicGame.MainMenu.prototype = {
         console.log("Main Menu: create.");
         // place the assets and elements in their initial positions, create the state 
 
-        this.titleName = this.add.button(game.world.centerX - (135/2), game.world.centerY - (68/2), 'name', this.startGame);
-        
+		var playBtn = game.cache.getImage('play-button');
+        this.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
+		
+		var viewHighScoreBtn = game.cache.getImage('view-highscores-button');
+		this.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 200), 'view-highscores-button', this.startGame);
     },
 
     update: function ()
     {
         //console.log("Main Menu: update.");
         // your game loop goes here 
-
-        //this.titleName.x++;
     },
 
     startGame: function ()
