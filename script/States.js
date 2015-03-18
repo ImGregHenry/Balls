@@ -22,8 +22,8 @@ BasicGame.MainMenu.prototype = {
     {
         // load basic assets for this state 
 
-        this.load.image('play-button', 'assets/images/menu/PlayButton.png');
-		this.load.image('view-highscores-button', 'assets/images/menu/ViewHighScoresButton.png');
+        game.load.image('play-button', 'assets/images/menu/PlayButton.png');
+		game.load.image('view-highscores-button', 'assets/images/menu/ViewHighScoresButton.png');
         console.log("Main Menu: preload.");
     },
 
@@ -33,10 +33,10 @@ BasicGame.MainMenu.prototype = {
         // place the assets and elements in their initial positions, create the state 
 
 		var playBtn = game.cache.getImage('play-button');
-        this.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
+        game.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
 		
 		var viewHighScoreBtn = game.cache.getImage('view-highscores-button');
-		this.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 200), 'view-highscores-button', viewHighScorePopup);
+		game.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 200), 'view-highscores-button', viewHighScorePopup);
     },
 
     update: function ()
@@ -53,6 +53,10 @@ BasicGame.MainMenu.prototype = {
 }
 
 
+function goBackToMenu()
+{
+	
+}
 
 BasicGame.Game.prototype = {
     preload: function ()
@@ -67,6 +71,8 @@ BasicGame.Game.prototype = {
         game.load.image('tile-scoreboard', 'assets/images/tiles/tile-scoreboard.png', true);
         game.load.image('scoreboard-restart-button', 'assets/images/game/RestartButton.png', true);
         game.load.image('scoreboard-pause-button', 'assets/images/game/PauseButton.png', true);
+		game.load.image('view-highscores-button', 'assets/images/game/HighScoresButton.png');
+		game.load.image('menu-button', 'assets/images/game/MenuButton.png');
         game.load.image('level-complete', 'assets/images/game/level_complete.png', true);
         game.load.image('animation-boom', 'assets/images/game/boom.png', true);
         game.load.image('game-over', 'assets/images/game/GameOver.png', true);

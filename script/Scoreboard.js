@@ -17,6 +17,8 @@ var scoreboard_currentEnemyCountText;
 var scoreboard_gameTimerText;
 var scoreboard_pauseButton;
 var scoreboard_restartButton;
+var scoreboard_viewHighScoreButton;
+var scoreboard_menuButton;
 var scoreboard_bulletTimeText;
 var scoreboard_percentCompleteText;
 var scoreboard_highScoreText;
@@ -43,7 +45,7 @@ function createScoreboard()
 {
     var text;
     var yCoordinate = 10;
-    scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1);
+    scoreboardXStartingPoint = TILE_WIDTH * (MAP_TILE_WIDTH + 1) - 10;
 
     // Player Lives
     if (scoreboard_playerLivesText != null)
@@ -100,20 +102,30 @@ function createScoreboard()
         scoreboard_highScoreText.destroy(true);
     text = "High Score: " + level_highScore;
     scoreboard_highScoreText = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
-    yCoordinate += 50;
+    yCoordinate += 75;
 
     // Restart Button
     if (scoreboard_restartButton != null)
         scoreboard_restartButton.destroy(true);
     scoreboard_restartButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-restart-button', restartGame, this, 2, 1, 0);
-    yCoordinate += 100;
-
+    
     // Pause Button
     if (scoreboard_pauseButton != null)
         scoreboard_pauseButton.destroy(true);
-    scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-pause-button', pauseGame, this, 2, 1, 0);
-    yCoordinate += 100;
-
+    scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint + scoreboard_restartButton.width + 10, yCoordinate, 'scoreboard-pause-button', pauseGame, this, 2, 1, 0);
+    yCoordinate += 80;
+	
+	// View High Scores Button
+	if (scoreboard_viewHighScoreButton != null)
+		scoreboard_viewHighScoreButton.destroy(true);
+	scoreboard_viewHighScoreButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'view-highscores-button', viewHighScorePopup);
+	
+	// View High Scores Button
+	if (scoreboard_menuButton != null)
+		scoreboard_menuButton.destroy(true);
+	scoreboard_menuButton = game.add.button(scoreboardXStartingPoint + scoreboard_restartButton.width + 10, yCoordinate, 'menu-button', goBackToMenu);
+	yCoordinate += 95;
+	
     // Bullet Time Text
     if (scoreboard_bulletTimeText != null)
         scoreboard_bulletTimeText.destroy(true);
