@@ -62,6 +62,7 @@ BUGS:
 %%%%- Investigate fps lag -- tile filling
 %%%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
 %%%- Stop level timer during boom animation?
+%%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Clean up bullet time functionality
 %%- Handle multiple score animation tweens (only singular enabled)
 %%- Fix bug where you can die after clearing

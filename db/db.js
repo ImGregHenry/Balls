@@ -87,26 +87,26 @@ function loadHighScores()
 			   
 			//TODO: handle processing of table better.
 			$.each(data2, function(i, item) {
-					var str = '';
-					if(i === 0)
-						str += "<tbody>";
-					
-					var str = "<tr class=";
-					if (i % 2 == 0)
-						str += "\"alt\"";
-					
-					var rank = i+1;
-					
-					str += "><td>" + rank + "</td>";
-					str += "<td>" + item['UserName'] + "</td>";
-					str += "<td>" + item['HighScore'] + "</td>";
-					str += "<td>" + item['Level'] + "</td>";
-					str += "<td>" + item['DateCreated'] + "</td></tr>";
-					
-					if(i===9)
-						str += "</tbody>";
-					
-					$("#tblHighScore").append(str);
+				var str = '';
+				if(i === 0)
+					str += "<tbody>";
+				
+				var str = "<tr class=";
+				if (i % 2 == 0)
+					str += "\"alt\"";
+				
+				var rank = i+1;
+				
+				str += "><td>" + rank + "</td>";
+				str += "<td>" + item['UserName'] + "</td>";
+				str += "<td>" + item['HighScore'] + "</td>";
+				str += "<td>" + item['Level'] + "</td>";
+				str += "<td>" + item['DateCreated'] + "</td></tr>";
+				
+				if(i===9)
+					str += "</tbody>";
+				
+				$("#tblHighScore").append(str);
 			});
 		}
 	});
