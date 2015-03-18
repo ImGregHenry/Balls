@@ -31,8 +31,10 @@ COMPLETE
 *- Basic sound prototype
 *- Basic scoring system -> scaling with size of clear
 *- High score added to scoreboard for current session
+*- Track/store scores on server
 *- Change "player lives" scoreboard to use player image
 *- Level complete sound effect
+*- Game/Main menu
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -45,32 +47,33 @@ COMPLETE
 %- Reset bullet time bar when game is restarted
 %- Fixed bug with game over where sprite did not center immediately
 
+
 CORE BETA GOALS
 *- Tweak scaling of score
 *- High score speed
-*- Track/store scores on server
 *- Help menu
-*- Game/Main menu
 *- Continue game / start from beginning 
 *- Add hotkeys for restarting, pausing, and accessing menu
-*- Animation for when bullet time is active (weight)
+*- Animation on circular display for when bullet time is active (weight)
  - Largest single clear displayed
  - Maintain scores as cookies
 
 BUGS:
+%%%%- Investigate fps lag -- tile filling
+%%%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
 %%%- Stop level timer during boom animation?
-%%%- Fix bullet time regen/drain rate
-%%%- Fix bug where bullet time pie chart gets frozen
-%%%- Add looping to heartbeat sound for long bullet time cases
 %%- Clean up bullet time functionality
-%%- Handle multiple percent cleared tweens
+%%- Handle multiple score animation tweens (only singular enabled)
 %%- Fix bug where you can die after clearing
+%%- Fix bug where stars can exit the tile map
 %- Fix tile fill algorithm for edge cases
 %- Handle between games better
-%- Investigate fps lag
+
 
 CODE FIXES:
 - Move all sprites/audio/buttons creations into a single file
+- 
+
 
 ENHANCEMENTS:
 \- Points for trapping a ball in a small area

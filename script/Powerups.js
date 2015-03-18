@@ -6,8 +6,8 @@ var freezeTimeBallXVelocities = [];
 var freezeTimeBallYVelocities = [];
 
 var bulletTime_energy = 1.000;
-const BULLET_TIME_ENERGY_BURN_RATE = 0.002;
-const BULLET_TIME_ENERGY_REGEN_RATE = 0.001;
+const BULLET_TIME_ENERGY_BURN_RATE = 0.005;
+const BULLET_TIME_ENERGY_REGEN_RATE = 0.002;
 const BULLET_TIME_ENERGY_TIME_INTERVAL = 1.0;
 const BULLET_TIME_MINIMUM_START_ENERGY = 0.5;
 
@@ -66,7 +66,7 @@ function createBulletTimeEnergyTimer()
 function startBulletTime()
 {
     //console.log("START bullet time: " + isBulletTime);
-
+	
     // Can't enter bullet time if already freeze time
     if (isBulletTime || isFrozenTime)
         return;
