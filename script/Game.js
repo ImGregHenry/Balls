@@ -266,7 +266,7 @@ function timer_levelTimerTick()
 
 function pauseLevelTimer(isPause)
 {
-    if (gameOverTimer != null)
+	if (gameOverTimer != null)
     {
         if (isPause)
         {

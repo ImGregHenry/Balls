@@ -91,16 +91,20 @@ function startBulletTime()
 
 function pauseBulletTime(isPause)
 {
-    if(isPause)
-    {
-        bulletTimeStartSound.pause();
-        bulletTimeHeartbeatSound.pause();
-    }
-    else
-    {
-        bulletTimeStartSound.resume();
-        bulletTimeHeartbeatSound.resume();
-    }
+    if(bulletTimeStartSound != null 
+		&& bulletTimeHeartbeatSound != null)
+	{
+		if(isPause)
+		{
+			bulletTimeStartSound.pause();
+			bulletTimeHeartbeatSound.pause();
+		}
+		else
+		{
+			bulletTimeStartSound.resume();
+			bulletTimeHeartbeatSound.resume();
+		}
+	}
 }
 
 function stopBulletTime()
