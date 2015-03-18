@@ -20,15 +20,16 @@ CREATE TABLE BallsHighScore
 );
 	
 INSERT INTO BallsHighScore (Username, HighScore, Level, DateCreated)
-VALUES ('AAA', 20000, 5, NOW()),
- ('ACE', 20000, 5, NOW()),
- ('ABC', 550000, 5, NOW()),
- ('BOB', 4000, 5, NOW()),
- ('GAY', 3000, 5, NOW()),
- ('YAY', 2000, 5, NOW()),
- ('RED', 1000, 5, NOW()),
- ('GREG', 100000, 5, NOW()),
- ('HENRY', 50000, 5, NOW());
+VALUES ('GOD', 150000, 7, NOW()),
+ ('ACE', 125000, 6, NOW()),
+ ('EZ123', 100000, 5, NOW()),
+ ('BEAST', 75000, 5, NOW()),
+ ('BOB', 50000, 4, NOW()),
+ ('YAY', 25000, 3, NOW()),
+ ('PHASER', 15000, 2, NOW()),
+ ('IWIN', 10000, 2, NOW()),
+ ('OKAY', 5000, 1, NOW()),
+ ('AWWW', 2500, 1, NOW());
 
 
 -- Sample select statement
