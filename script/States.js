@@ -20,8 +20,6 @@ function applicationEntry()
 BasicGame.MainMenu.prototype = {
     preload: function ()
     {
-        // load basic assets for this state 
-
         game.load.image('play-button', 'assets/images/menu/PlayButton.png');
 		game.load.image('view-highscores-button', 'assets/images/menu/ViewHighScoresButton.png');
         console.log("Main Menu: preload.");
@@ -30,8 +28,9 @@ BasicGame.MainMenu.prototype = {
     create: function ()
     {
         console.log("Main Menu: create.");
-        // place the assets and elements in their initial positions, create the state 
-
+        
+		game.stage.backgroundColor = '#000000';
+		
 		var playBtn = game.cache.getImage('play-button');
         game.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
 		
@@ -41,13 +40,12 @@ BasicGame.MainMenu.prototype = {
 
     update: function ()
     {
-        //console.log("Main Menu: update.");
-        // your game loop goes here 
+		
     },
 
     startGame: function ()
     {
-        console.log("transition from menu.");
+        console.log("Exiting main menu.");
         game.state.start('Game');
     }
 }
@@ -55,7 +53,8 @@ BasicGame.MainMenu.prototype = {
 
 function goBackToMenu()
 {
-	
+	console.log("Transitioned back to main menu.");
+    game.state.start('MainMenu');
 }
 
 BasicGame.Game.prototype = {
@@ -91,7 +90,7 @@ BasicGame.Game.prototype = {
 
     create: function ()
     {
-        game.stage.backgroundColor = '#FFFFFF';
+        game.stage.backgroundColor = '#000000';
 
         drawMap();
 
