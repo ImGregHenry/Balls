@@ -1,7 +1,7 @@
 <?php 
 
-	//$mysql_host = "mysql9.000webhost.com";
-	$mysql_host = "localhost";
+	$mysql_host = "mysql9.000webhost.com";
+	//$mysql_host = "localhost";
 	$mysql_database = "a8597555_scores";
 	$mysql_user = "a8597555_superg";
 	$mysql_password = "Password1";

@@ -36,7 +36,7 @@ BasicGame.MainMenu.prototype = {
         this.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
 		
 		var viewHighScoreBtn = game.cache.getImage('view-highscores-button');
-		this.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 200), 'view-highscores-button', this.startGame);
+		this.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 200), 'view-highscores-button', viewHighScorePopup);
     },
 
     update: function ()

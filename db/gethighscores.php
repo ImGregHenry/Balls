@@ -1,14 +1,14 @@
 <?php 
 
-	//$mysql_host = "mysql9.000webhost.com";
-	$mysql_host = "localhost";
+	$mysql_host = "mysql9.000webhost.com";
+	//$mysql_host = "localhost";
 	$mysql_database = "a8597555_scores";
 	$mysql_user = "a8597555_superg";
 	$mysql_password = "Password1";
 	$mysql_tableName = "BallsHighScore";
 	
 	try{
-		$query = "SELECT UserName, HighScore, Level, DateCreated FROM BallsHighScore ORDER BY HighScore DESC LIMIT 10";
+		$query = "SELECT UserName, HighScore, Level,  DATE_FORMAT(DateCreated, '%b %e, %Y') AS DateCreated FROM BallsHighScore ORDER BY HighScore DESC LIMIT 10";
 
 		
 		$conn = new PDO("mysql:host=$mysql_host;dbname=$mysql_database", $mysql_user, $mysql_password);

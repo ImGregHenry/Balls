@@ -1,4 +1,15 @@
+-- Create the user that can access the database
+CREATE USER 'a8597555_superg'@'localhost' IDENTIFIED BY 'Password1';
 
+
+-- Create and select the database
+CREATE DATABASE a8597555_scores;
+GRANT ALL PRIVILEGES ON * . * TO 'a8597555_superg'@'localhost';
+
+USE a8597555_scores;
+
+
+-- Create the table and insert data
 CREATE TABLE BallsHighScore
 (
   ID MEDIUMINT AUTO_INCREMENT PRIMARY KEY,
@@ -19,7 +30,9 @@ VALUES ('AAA', 20000, 5, NOW()),
  ('GREG', 100000, 5, NOW()),
  ('HENRY', 50000, 5, NOW());
 
-	
-SELECT * FROM BallsHighScore
-ORDER BY HighScore DESC
-LIMIT 5;
+
+-- Sample select statement
+
+-- SELECT * FROM BallsHighScore
+-- ORDER BY HighScore DESC
+-- LIMIT 10;

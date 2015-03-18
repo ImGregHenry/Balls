@@ -294,3 +294,12 @@ function setHighScorePopupValues(score, level)
 	$('#txtSubmitHighScoreMessage').text('');
 	$('#isSubmitted').val('false');
 }
+
+function viewHighScorePopup()
+{
+	$('#overlay').show();
+	$('#viewHighScoresPopup').show();
+	
+	loadHighScores();
+}
+
