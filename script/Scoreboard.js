@@ -107,12 +107,12 @@ function createScoreboard()
     // Restart Button
     if (scoreboard_restartButton != null)
         scoreboard_restartButton.destroy(true);
-    scoreboard_restartButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-restart-button', restartGame, this, 2, 1, 0);
+    scoreboard_restartButton = game.add.button(scoreboardXStartingPoint, yCoordinate, 'scoreboard-restart-button', restartGame);
     
     // Pause Button
     if (scoreboard_pauseButton != null)
         scoreboard_pauseButton.destroy(true);
-    scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint + scoreboard_restartButton.width + 10, yCoordinate, 'scoreboard-pause-button', pauseGame, this, 2, 1, 0);
+    scoreboard_pauseButton = game.add.button(scoreboardXStartingPoint + scoreboard_restartButton.width + 10, yCoordinate, 'scoreboard-pause-button', pauseGame);
     yCoordinate += 80;
 	
 	// View High Scores Button
@@ -135,6 +135,10 @@ function createScoreboard()
     characterLivesDisplay();
 }
 
+function temp()
+{
+
+}
 function updateScoreboard()
 {
     // update percent

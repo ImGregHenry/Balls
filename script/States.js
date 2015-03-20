@@ -117,6 +117,18 @@ BasicGame.Game.prototype = {
 
         // Load the keyboard controls
         cursors = game.input.keyboard.createCursorKeys();
+        
+        // Add pause game hotkey
+        var key = game.input.keyboard.addKey(Phaser.Keyboard.P);
+        key.onDown.add(pauseGame, this);
+        
+        // Add restart game hotkey
+        var key = game.input.keyboard.addKey(Phaser.Keyboard.R);
+        key.onDown.add(restartGame, this);
+
+        // Add go to menu hotkey
+        var key = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+        key.onDown.add(goBackToMenu, this);
 
         createScoreboard();
 
@@ -150,7 +162,7 @@ BasicGame.Game.prototype = {
                 {
                     stopBulletTime();
                 }
-
+                
 				//TODO: manage this freeze time functionality
                 /*if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
                 {
@@ -162,7 +174,7 @@ BasicGame.Game.prototype = {
                 }*/
             }
             // TODO: test whether move is valid or not before tweening
-            if (cursors.left.isDown)
+            if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
             {
                 var currentTile = map.getTile(playerXTile - 1, playerYTile, mapLayer, false);
 
@@ -171,7 +183,7 @@ BasicGame.Game.prototype = {
                     startPlayerTween(player.body.x - 20, player.body.y);
                 }
             }
-            else if (cursors.right.isDown)
+            else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D))
             {
                 var currentTile = map.getTile(playerXTile + 1, playerYTile, mapLayer, false);
 
@@ -180,7 +192,7 @@ BasicGame.Game.prototype = {
                     startPlayerTween(player.body.x + 20, player.body.y);
                 }
             }
-            else if (cursors.up.isDown)
+            else if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W))
             {
                 var currentTile = map.getTile(playerXTile, playerYTile - 1, mapLayer, false);
 
@@ -189,7 +201,7 @@ BasicGame.Game.prototype = {
                     startPlayerTween(player.body.x, player.body.y - 20);
                 }
             }
-            else if (cursors.down.isDown)
+            else if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.S))
             {
                 var currentTile = map.getTile(playerXTile, playerYTile + 1, mapLayer, false);
 

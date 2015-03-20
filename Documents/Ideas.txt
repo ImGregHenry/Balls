@@ -35,11 +35,13 @@ COMPLETE
 *- Change "player lives" scoreboard to use player image
 *- Level complete sound effect
 *- Game/Main menu
+*- Add hotkeys for restarting, pausing, and accessing menu
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
 \- Bullet-time limit bar
 \- Add bullet time sound effect
+\- High scores tracking and db
 %- Fix game over animation
 %- Fix bullet time regeneration/drain after restart game
 %- Fix bug where bullet time sound happens always after death/level completed
@@ -49,31 +51,33 @@ COMPLETE
 
 
 CORE BETA GOALS
-*- Tweak scaling of score
-*- High score speed
+*- Tweak scaling of score (balancing)
+*- Add a pause icon when the game is paused
+*- Add X over mute icon when muted
 *- Help menu
 *- Continue game / start from beginning 
-*- Add hotkeys for restarting, pausing, and accessing menu
 *- Animation on circular display for when bullet time is active (weight)
- - Largest single clear displayed
+ - Display bonus for clearing large area
  - Maintain scores as cookies
 
 BUGS:
+%%%%- Garbage collection problems (restart fps lag)
+%%%%- Use hidden fields for high score submission
 %%%%- Investigate fps lag -- tile filling
-%%%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
-%%%- Stop level timer during boom animation?
+%%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Clean up bullet time functionality
 %%- Handle multiple score animation tweens (only singular enabled)
-%%- Fix bug where you can die after clearing
 %%- Fix bug where stars can exit the tile map
+%%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
+%- Stop level timer during boom animation?
 %- Fix tile fill algorithm for edge cases
 %- Handle between games better
 
 
 CODE FIXES:
 - Move all sprites/audio/buttons creations into a single file
-- 
+- TileMap.fill to be replaced by TileMap.putTile
 
 
 ENHANCEMENTS:
@@ -83,7 +87,6 @@ ENHANCEMENTS:
 \- Difficulty levels easy/hard
 \- Invisible balls (or fade in and out)
 \- Add level time limits
-\- High scores tracking and db
 \- Change colour scheme in settings
 \- Add sound - movement, tile clearing, level complete
 \- Add freeze time sound effect
