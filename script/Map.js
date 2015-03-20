@@ -107,10 +107,10 @@ function updateMapTile(x, y, isSafeTile)
     // Redraw the tile to the appropriate tile type --> based on whether clearing was successful (player didn't die)
     if (isSafeTile)
     {
-        map.fill(SAFE_ZONE_ID, x, y, 1, 1, mapLayer);
-
         // Enable collision since it is now a safe-zone tile
         currentTile.setCollision(true, true, true, true);
+
+        map.fill(SAFE_ZONE_ID, x, y, 1, 1, mapLayer);
 
         // Increment the tile counter
         level_totalFilledTiles++;
@@ -120,13 +120,13 @@ function updateMapTile(x, y, isSafeTile)
     }
     else
     {
+        // Disable collisions on this tile since it is now an empty-zone
+        currentTile.setCollision(false, false, false, false);
+
         // Redraw the tile
         map.fill(EMPTY_ZONE_ID, x, y, 1, 1, mapLayer);
 
         updateTileMapArray(x, y, EMPTY_ZONE_ID);
-
-        // Disable collisions on this tile since it is now an empty-zone
-        currentTile.setCollision(false, false, false, false);
     }
 }
 

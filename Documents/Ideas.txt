@@ -44,6 +44,10 @@ COMPLETE
 \- Bullet-time limit bar
 \- Add bullet time sound effect
 \- High scores tracking and db
+
+%%%- Bullet time doesn't work after going to the main menu (the timer dies).
+%%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
+%%- Clean up bullet time functionality
 %- Fix game over animation
 %- Fix bullet time regeneration/drain after restart game
 %- Fix bug where bullet time sound happens always after death/level completed
@@ -63,16 +67,13 @@ CORE BETA GOALS
  - Level select
 
 BUGS:
+???%%%- Fix bug where you can die after clearing
 %%%%- Garbage collection problems (restart fps lag)
 %%%%- Use hidden fields for high score submission
 %%%%- Investigate fps lag -- tile filling
-%%%- Bullet time doesn't work after going to the main menu (the timer dies).
-%%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
-%%- Clean up bullet time functionality
 %%- Handle multiple score animation tweens (only singular enabled)
 %%- Fix bug where stars can exit the tile map
-%%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
 %- Stop level timer during boom animation?
 %- Fix tile fill algorithm for edge cases
 %- Handle between games better

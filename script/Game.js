@@ -11,12 +11,7 @@ function gameOver()
 
     // Create the boom animation
     spawnGameOverAnimation();
-    createBulletTimeEnergyTimer();
-
-    // Create a timer that waits for the completion of the game over animation
-    //timerBetweenRounds = game.time.create(true);
-    //timerBetweenRounds.add(GAME_OVER_TIMER_TICK_INTERVAL * MAX_GAME_OVER_ZOOM_ANIMATIONS, playerDiedHandler, this);
-    //timerBetweenRounds.start();
+    resetBulletTimeEnergy();
 }
 
 // Reset character back to start 
