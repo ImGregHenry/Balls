@@ -44,23 +44,13 @@ function MuteSound()
         //TODO: stop all sounds in progress.
         game.sound.mute = true;
 
-        if(soundMuteX_Icon != null)
-        {
-            soundMuteX_Icon.visible = true;
-        }
-        else
-        {
-            soundMuteX_Icon = game.add.sprite(1350, 750, 'x');
-        }
+        showMuteXIcon(true);
     }
     // Enable all sounds
     else
     {
         game.sound.mute = false;
 
-        if(soundMuteX_Icon != null)
-        {
-            soundMuteX_Icon.visible = false;
-        }
+        showMuteXIcon(false);
     }
 }

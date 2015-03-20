@@ -15,6 +15,8 @@ const GAME_OVER_TIMER_TICK_INTERVAL = 30;
 const GAME_OVER_DEFAULT_IMAGE_SCALE = 0.08;
 const GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL = 0.06;
 
+var pauseIcon;
+var soundMuteX_Icon;
 
 var boomIsIconBig = false;
 var boomIcon;
@@ -35,8 +37,18 @@ var gameOverZoomCount = 0;
 var levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
 var gameOverCurrentScale = 0;
 
-//TODO: reuse animation cycles between gameover/levelcomplete/boom
 
+function togglePauseIcon()
+{
+    pauseIcon.visible = !pauseIcon.visible;
+}
+
+function showMuteXIcon(isSetVisible)
+{
+    soundMuteX_Icon.visible = isSetVisible;
+}
+
+//TODO: reuse animation cycles between gameover/levelcomplete/boom
 // Create the boom animation timer
 function spawnBoomAnimation(x, y)
 {

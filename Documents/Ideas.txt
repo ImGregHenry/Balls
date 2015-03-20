@@ -36,6 +36,8 @@ COMPLETE
 *- Level complete sound effect
 *- Game/Main menu
 *- Add hotkeys for restarting, pausing, and accessing menu
+*- Add a pause icon when the game is paused
+*- Add X over mute icon when muted
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -52,8 +54,6 @@ COMPLETE
 
 CORE BETA GOALS
 *- Tweak scaling of score (balancing)
-*- Add a pause icon when the game is paused
-*- Add X over mute icon when muted
 *- Help menu
 *- Continue game / start from beginning 
 *- Animation on circular display for when bullet time is active (weight)
@@ -64,6 +64,7 @@ BUGS:
 %%%%- Garbage collection problems (restart fps lag)
 %%%%- Use hidden fields for high score submission
 %%%%- Investigate fps lag -- tile filling
+%%%- Bullet time doesn't work after going to the main menu.
 %%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Clean up bullet time functionality
@@ -78,7 +79,7 @@ BUGS:
 CODE FIXES:
 - Move all sprites/audio/buttons creations into a single file
 - TileMap.fill to be replaced by TileMap.putTile
-
+- Find map center for images (ie. pause button)
 
 ENHANCEMENTS:
 \- Points for trapping a ball in a small area

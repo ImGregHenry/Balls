@@ -135,10 +135,6 @@ function createScoreboard()
     characterLivesDisplay();
 }
 
-function temp()
-{
-
-}
 function updateScoreboard()
 {
     // update percent

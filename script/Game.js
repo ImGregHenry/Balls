@@ -207,6 +207,8 @@ function pauseGame()
     setBallMovementDisabled(isGamePaused);
     pauseBulletTime(isGamePaused);
     pauseLevelTimer(isGamePaused);
+
+    togglePauseIcon();
 }
 
 function setPlayerMovementDisabled(isDisabled)

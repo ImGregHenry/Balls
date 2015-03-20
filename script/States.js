@@ -77,6 +77,7 @@ BasicGame.Game.prototype = {
         game.load.image('game-over', 'assets/images/game/GameOver.png', true);
         game.load.image('mute-icon', 'assets/images/game/MuteIcon.png', true);
         game.load.image('x', 'assets/images/game/x.png', true);
+        game.load.image('icon-paused', 'assets/images/game/Paused.png', true);
 
         game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
         game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
@@ -99,7 +100,14 @@ BasicGame.Game.prototype = {
 
         // Create the character
         player = game.add.sprite(0, 0, 'character');
-        game.add.button(1350, 750, 'mute-icon', MuteSound, true, 2, 1, 0);
+        
+        game.add.button(1350, 750, 'mute-icon', MuteSound);
+        soundMuteX_Icon = game.add.button(1350, 750, 'x', MuteSound);
+        soundMuteX_Icon.visible = isSoundMuted;
+
+        pauseIcon = game.add.sprite(450, 350, 'icon-paused');
+        pauseIcon.bringToTop();
+        pauseIcon.visible = false;
 
         //  We need to enable physics on the player            
         game.physics.arcade.enable(player);
