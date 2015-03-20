@@ -46,12 +46,9 @@ var fullMapArray;
 
 
 
-
-
-
-
 const BULLET_TIME_PROGRESS_BAR_X = 1100;
 const BULLET_TIME_PROGRESS_BAR_Y = 735;
+
 function createBulletTimePieProgressBar()
 {
     var pie = new PieProgress(game, BULLET_TIME_PROGRESS_BAR_X, BULLET_TIME_PROGRESS_BAR_Y, 50);
@@ -60,7 +57,7 @@ function createBulletTimePieProgressBar()
     
     if (pietween != null)
     {
-        game.world.remove(pietween);
+        game.world.remove(pietween, true);
     }
     
     pietween = game.add.tween(pie);
@@ -69,38 +66,11 @@ function createBulletTimePieProgressBar()
     pietween.start();
 }
 
-
-function drawMap()
-{
-    if (map != null)
-    {
-        map.destroy();
-    }
-
-    map = game.add.tilemap('map');
-    
-    // Disable collisions on empty zone spaces, enable collisions with every other tile
-    map.setCollisionByExclusion([parseInt(EMPTY_ZONE_ID)], 1);
-
-    // Add all the tile sets being used on the map
-    map.addTilesetImage('tile-scoreboard', 'tile-scoreboard', 20, 20, 0, 0, 1);
-    map.addTilesetImage('tile-safe-zone', 'tile-safe-zone', 20, 20, 0, 0, 1);
-    map.addTilesetImage('tile-danger-zone', 'tile-danger-zone', 20, 20, 0, 0, 2);
-    map.addTilesetImage('tile-empty', 'tile-empty', 20, 20, 0, 0, 3);
-
-    // Create the layer from the .json file
-    mapLayer = map.createLayer('Tile Layer 1');
-    mapLayer.resizeWorld();
-
-    // Used for flood-fill-analysis
-    createTileMapArray();
-}
-
 function spawnBalls()
 {
     if (balls != null)
     {
-        balls.removeAll(true, true);
+        balls.destroy(true);
         allBallXVelocities = [];
         allBallYVelocities = [];
         freezeTimeBallXVelocities = [];

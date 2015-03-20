@@ -17,6 +17,10 @@ const GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL = 0.06;
 
 var pauseIcon;
 var soundMuteX_Icon;
+var bulletIcon;
+var muteButton;
+
+var player;
 
 var boomIsIconBig = false;
 var boomIcon;
@@ -37,6 +41,31 @@ var gameOverZoomCount = 0;
 var levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
 var gameOverCurrentScale = 0;
 
+function bringGameSpritesToTop()
+{
+    player.bringToTop();
+    soundMuteX_Icon.bringToTop();
+    bulletIcon.bringToTop();
+    muteButton.bringToTop();
+}
+
+function createGameSprites()
+{
+    // Create the character
+    player = game.add.sprite(0, 0, 'character');
+    
+    game.add.button(1350, 750, 'mute-icon', MuteSound);
+    soundMuteX_Icon = game.add.button(1350, 750, 'x', MuteSound);
+    soundMuteX_Icon.visible = isSoundMuted;
+
+    pauseIcon = game.add.sprite(450, 350, 'icon-paused');
+    pauseIcon.bringToTop();
+    pauseIcon.visible = false;
+
+    bulletIcon = game.add.sprite(1075, 707, 'icon-bullet');
+
+    muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
+}
 
 function togglePauseIcon()
 {
@@ -70,7 +99,7 @@ function animateBoom()
         boomAnimateCount = 0;
         boomAnimateTimer.stop();
 
-        boomIcon.kill();
+        boomIcon.destroy();
     }
     else
     {
@@ -106,7 +135,7 @@ function animateLevelCompleteComplete()
         levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
         levelCompleteZoomCount = 0;
         levelCompleteTimer.stop();
-        levelCompleteIcon.kill();
+        levelCompleteIcon.destroy();
 
         disableAllMovementAndTimers(false);
         levelComplete();

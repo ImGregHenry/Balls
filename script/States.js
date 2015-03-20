@@ -73,6 +73,7 @@ BasicGame.Game.prototype = {
         game.load.image('mute-icon', 'assets/images/game/MuteIcon.png', true);
         game.load.image('x', 'assets/images/game/x.png', true);
         game.load.image('icon-paused', 'assets/images/game/Paused.png', true);
+        game.load.image('icon-bullet', 'assets/images/game/Bullet.png', true);
 
         game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
         game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
@@ -93,28 +94,20 @@ BasicGame.Game.prototype = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        // Create the character
-        player = game.add.sprite(0, 0, 'character');
-        
-        game.add.button(1350, 750, 'mute-icon', MuteSound);
-        soundMuteX_Icon = game.add.button(1350, 750, 'x', MuteSound);
-        soundMuteX_Icon.visible = isSoundMuted;
-
-        pauseIcon = game.add.sprite(450, 350, 'icon-paused');
-        pauseIcon.bringToTop();
-        pauseIcon.visible = false;
+        createGameSprites();
 
         //  We need to enable physics on the player            
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
 
+        // Reset game stats
         level_currentLevel = 1;
         level_currentScore = 0;
         level_highScore = 0;
         level_totalFilledTiles = 0;
         level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
 
-
+        // Create bullet time event looper
         timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
 
         nextLevelUpdates();
@@ -137,7 +130,6 @@ BasicGame.Game.prototype = {
         key.onDown.add(goBackToMenu, this);
 
         createScoreboard();
-
         createLevelTimer();
         resetBulletTimeEnergy();
         createBulletTimePieProgressBar();

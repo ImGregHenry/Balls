@@ -1,4 +1,36 @@
 ﻿
+
+function drawMap()
+{
+    if (map != null)
+    {
+        map.destroy();
+    }
+
+    map = game.add.tilemap('map');
+    
+    // Disable collisions on empty zone spaces, enable collisions with every other tile
+    map.setCollisionByExclusion([parseInt(EMPTY_ZONE_ID)], 1);
+
+    // Add all the tile sets being used on the map
+    map.addTilesetImage('tile-scoreboard', 'tile-scoreboard', 20, 20, 0, 0, 1);
+    map.addTilesetImage('tile-safe-zone', 'tile-safe-zone', 20, 20, 0, 0, 1);
+    map.addTilesetImage('tile-danger-zone', 'tile-danger-zone', 20, 20, 0, 0, 2);
+    map.addTilesetImage('tile-empty', 'tile-empty', 20, 20, 0, 0, 3);
+
+    if(mapLayer != null)
+    {
+        mapLayer.destroy(true);
+    }
+
+    // Create the layer from the .json file
+    mapLayer = map.createLayer('Tile Layer 1');
+    mapLayer.resizeWorld();
+
+    // Used for flood-fill-analysis
+    createTileMapArray();
+}
+
 // Get tile X-index within the tilemap
 function getPlayerXTileIndex()
 {
@@ -134,6 +166,7 @@ function updateMapTile(x, y, isSafeTile)
 // Creates a tilemap array for tracking tile values (used for flood-filling)
 function createTileMapArray()
 {
+    delete fullMapArray;
     fullMapArray = [];
     for (var y = 0; y < MAP_TILE_HEIGHT; y++)
     {
@@ -144,6 +177,7 @@ function createTileMapArray()
             rowArray.push(index);
         }
         fullMapArray.push(rowArray);
+        delete rowArray;
     }
 }
 

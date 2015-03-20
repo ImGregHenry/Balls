@@ -27,6 +27,7 @@ function sendCharacterBackToStart()
     {
         playerTween.stop();
     }
+
     player.destroy(true);
     player = game.add.sprite(0, 0, 'character');
 
@@ -169,6 +170,7 @@ function restartGame()
     level_currentScore = 0;
 
     // Reset the list of endangered tiles
+    delete endangeredTiles;
     endangeredTiles = [];
 
     // Stop all player tweens
@@ -179,18 +181,15 @@ function restartGame()
     // Go through process of restarting the game
     drawMap();
 
-    game.add.button(1350, 750, 'mute-icon', MuteSound, true, 2, 1, 0);
-
     sendCharacterBackToStart();
     if (isPlayerMovementDisabled) setPlayerMovementDisabled(false);
 
-    spawnBalls();
+    //spawnBalls();
 
     createScoreboard();
-
     createLevelTimer();
-    createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
+    bringGameSpritesToTop();
 }
 
 

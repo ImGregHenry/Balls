@@ -44,7 +44,7 @@ COMPLETE
 \- Bullet-time limit bar
 \- Add bullet time sound effect
 \- High scores tracking and db
-
+%%%%- Basic garbage collection implemented.
 %%%- Bullet time doesn't work after going to the main menu (the timer dies).
 %%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
 %%- Clean up bullet time functionality
@@ -62,15 +62,17 @@ CORE BETA GOALS
 *- Continue game / start from beginning 
 *- Animation on circular display for when bullet time is active (weight)
  - Display bonus for clearing large area
- - Maintain scores as cookies
- - Caching of high score / mute
+ - Caching of high score / mute / highest level (for level select)
  - Level select
+ - Multiple circular bars.  
+ - Add bullet time image.
 
 BUGS:
 ???%%%- Fix bug where you can die after clearing
+%%%%%- Investigate fps lag -- tile filling (http://www.html5gamedevs.com/forum/14-phaser/)
 %%%%- Garbage collection problems (restart fps lag)
+%%%%- Destroy layers and map on each re-draw
 %%%%- Use hidden fields for high score submission
-%%%%- Investigate fps lag -- tile filling
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Handle multiple score animation tweens (only singular enabled)
 %%- Fix bug where stars can exit the tile map
@@ -82,7 +84,7 @@ BUGS:
 CODE FIXES:
 - Move all sprites/audio/buttons creations into a single file
 - TileMap.fill to be replaced by TileMap.putTile
-- Find map center for images (ie. pause button)
+- Remove hard coding of image positions
 
 ENHANCEMENTS:
 \- Points for trapping a ball in a small area

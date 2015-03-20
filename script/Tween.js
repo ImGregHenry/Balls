@@ -29,8 +29,14 @@ function startPlayerTween(x, y)
 {
     if (playerTween == null || !playerTween.isRunning)
     {
+        // Remove old tween
+        if(playerTween != null)
+            playerTween.stop(false);
+
         playerTween = game.add.tween(player);
+    
         playerTween.onComplete.add(playerTweenComplete, this);
+        
         playerTween.to({ x: x, y: y }, 50, Phaser.Easing.Linear.None, true);   //Phaser.Easing.Quadratic.InOut
         playerTween.start();
     }
