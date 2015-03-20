@@ -165,7 +165,7 @@ function restartGame()
     isGamePaused = false;
 
     stopBulletTime();
-    resetBulletTime();
+    resetBulletTimeEnergy();
     unfreezeTime();
 
     level_playerLives = START_PLAYER_LIVES;

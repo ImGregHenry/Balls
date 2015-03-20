@@ -114,6 +114,9 @@ BasicGame.Game.prototype = {
         level_totalFilledTiles = 0;
         level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
 
+
+        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
+
         nextLevelUpdates();
 
         spawnBalls();
@@ -136,7 +139,7 @@ BasicGame.Game.prototype = {
         createScoreboard();
 
         createLevelTimer();
-        createBulletTimeEnergyTimer();
+        resetBulletTimeEnergy();
         createBulletTimePieProgressBar();
     },
 

@@ -59,12 +59,14 @@ CORE BETA GOALS
 *- Animation on circular display for when bullet time is active (weight)
  - Display bonus for clearing large area
  - Maintain scores as cookies
+ - Caching of high score / mute
+ - Level select
 
 BUGS:
 %%%%- Garbage collection problems (restart fps lag)
 %%%%- Use hidden fields for high score submission
 %%%%- Investigate fps lag -- tile filling
-%%%- Bullet time doesn't work after going to the main menu.
+%%%- Bullet time doesn't work after going to the main menu (the timer dies).
 %%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Clean up bullet time functionality

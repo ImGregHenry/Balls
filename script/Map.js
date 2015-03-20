@@ -15,8 +15,6 @@ function getPlayerYTileIndex()
     return Math.round(position / TILE_HEIGHT);
 }
 
-
-
 //TODO: rename this function to something more descriptive
 function fillTiles()
 {

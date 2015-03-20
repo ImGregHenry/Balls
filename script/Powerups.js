@@ -16,24 +16,7 @@ var timer_bulletTime;
 var bulletTimeStartSound;
 var bulletTimeHeartbeatSound;
 
-function createBulletTimeEnergyTimer()
-{
-    if (timer_bulletTime === null || (typeof timer_bulletTime === 'undefined'))
-    {
-        bulletTime_energy = 1.000;
-        
-        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
-    }
-    else
-    {
-        bulletTime_energy = 1.000;
-        timer_bulletTime.timer.destroy();
-        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
-        console.debug(timer_bulletTime);
-        //timer_bulletTime.start();
-    }
-}
-  
+
 function bulletTimeTick()
 {
     if (!isGamePaused)
@@ -135,7 +118,7 @@ function stopBulletTime()
     }    
 }
 
-function resetBulletTime()
+function resetBulletTimeEnergy()
 {
     bulletTime_energy = 1.0;
 }
