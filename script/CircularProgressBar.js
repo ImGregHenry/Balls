@@ -48,7 +48,12 @@ var PieProgress = function (game, x, y, radius, angle, weight)
 {
     this._radius = radius;
     this._weight = weight || 0.25;
-    this.bmp = game.add.bitmapData((this._radius * 2) + (this._weight * (this._radius * 0.6)), (this._radius * 2) + (this._weight * (this._radius * 0.6)));
+    
+    if(this.bmp != null || (typeof this.bmp === 'undefined'))
+    {
+        this.bmp = game.add.bitmapData((this._radius * 2) + (this._weight * (this._radius * 0.6)), (this._radius * 2) + (this._weight * (this._radius * 0.6)));
+    }
+    
     Phaser.Sprite.call(this, game, x, y, this.bmp);
 
     this.anchor.set(0.5);

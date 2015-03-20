@@ -22,14 +22,11 @@ BasicGame.MainMenu.prototype = {
     {
         game.load.image('play-button', 'assets/images/menu/PlayButton.png');
 		game.load.image('view-highscores-button', 'assets/images/menu/ViewHighScoresButton.png');
-        console.log("Main Menu: preload.");
     },
 
     create: function ()
     {
-        console.log("Main Menu: create.");
-        
-		game.stage.backgroundColor = '#000000';
+        game.stage.backgroundColor = '#000000';
 		
 		var playBtn = game.cache.getImage('play-button');
         game.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
@@ -45,7 +42,6 @@ BasicGame.MainMenu.prototype = {
 
     startGame: function ()
     {
-        console.log("Exiting main menu.");
         game.state.start('Game');
     }
 }
@@ -53,7 +49,6 @@ BasicGame.MainMenu.prototype = {
 
 function goBackToMenu()
 {
-	console.log("Transitioned back to main menu.");
     game.state.start('MainMenu');
 }
 

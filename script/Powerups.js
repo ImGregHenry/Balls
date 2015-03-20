@@ -18,48 +18,56 @@ var bulletTimeHeartbeatSound;
 
 function createBulletTimeEnergyTimer()
 {
-    if (timer_bulletTime == null)
+    if (timer_bulletTime === null || (typeof timer_bulletTime === 'undefined'))
     {
-        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, function ()
-        {
-            if (!isGamePaused)
-            {
-                // Drain bullet time energy
-                if (isBulletTime)
-                {
-                    // Reduce bullet time energy
-                    if (bulletTime_energy > BULLET_TIME_ENERGY_REGEN_RATE)
-                    {
-                        bulletTime_energy = bulletTime_energy - BULLET_TIME_ENERGY_BURN_RATE;
-                    }
-                    // Out of bullet time energy
-                    else
-                    {
-                        stopBulletTime();
-                    }
-                }
-                // Regen bullet time energy
-                else
-                {
-                    // Regen bullet time energy
-                    if ((bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE) < 1.0)
-                    {
-                        bulletTime_energy = bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE;
-                    }
-                    // Bullet time energy is full
-                    else
-                    {
-                        bulletTime_energy = 1.0;
-                    }
-                }
-                //var text = isBulletTime ? "bulletTime" : "notBulletTime";
-                //console.log("progress: " + bulletTime_energy + " " + text);
-            }
-        }, this);
+        bulletTime_energy = 1.000;
+        
+        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
     }
     else
     {
-        bulletTime_energy = 1.0;
+        bulletTime_energy = 1.000;
+        timer_bulletTime.timer.destroy();
+        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
+        console.debug(timer_bulletTime);
+        //timer_bulletTime.start();
+    }
+}
+  
+function bulletTimeTick()
+{
+    if (!isGamePaused)
+    {
+        // Drain bullet time energy
+        if (isBulletTime)
+        {
+            // Drain bullet time energy
+            if (bulletTime_energy > BULLET_TIME_ENERGY_REGEN_RATE)
+            {
+                bulletTime_energy = bulletTime_energy - BULLET_TIME_ENERGY_BURN_RATE;
+            }
+            // Out of bullet time energy
+            else
+            {
+                stopBulletTime();
+            }
+        }
+        // Regen bullet time energy
+        else
+        {
+            // Regen bullet time energy
+            if ((bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE) < 1.0)
+            {
+                bulletTime_energy = bulletTime_energy + BULLET_TIME_ENERGY_REGEN_RATE;
+            }
+            // Bullet time energy is full
+            else
+            {
+                bulletTime_energy = 1.0;
+            }
+        }
+        //var text = isBulletTime ? "bulletTime" : "notBulletTime";
+        //console.log("progress: " + bulletTime_energy + " " + text);
     }
 }
 
@@ -125,6 +133,11 @@ function stopBulletTime()
         balls.getAt(i).body.velocity.y = BALL_VELOCITY * getVelocityScalingDirection(balls.getAt(i).body.velocity.y);
         //BULLET_TIME_BALL_SPEED_RATIO;
     }    
+}
+
+function resetBulletTime()
+{
+    bulletTime_energy = 1.0;
 }
 
 function getVelocityScalingDirection(val)
