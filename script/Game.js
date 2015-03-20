@@ -184,7 +184,7 @@ function restartGame()
     sendCharacterBackToStart();
     if (isPlayerMovementDisabled) setPlayerMovementDisabled(false);
 
-    //spawnBalls();
+    spawnBalls();
 
     createScoreboard();
     createLevelTimer();
