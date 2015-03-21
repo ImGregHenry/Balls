@@ -159,7 +159,7 @@ function scoreboardRemovePlayerLife()
     if (array_characterLifeSprites.length > 0)
     {
         var deadCharSprite = array_characterLifeSprites.pop();
-        deadCharSprite.destroy();
+        deadCharSprite.destroy(true);
     }
 }
 
@@ -169,6 +169,9 @@ function characterLivesDisplay()
     var x = SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_X_COORDINATE;
     var y = SCOREBOARD_CHARACTER_LIFE_DISPLAY_STARTING_Y_COORDINATE;
     var currentLivesInRow = 0;
+
+    while(array_characterLifeSprites.length > 0)
+        scoreboardRemovePlayerLife();
 
     // Display a sprite for each life the character has.
     for (var i = 0; i < level_playerLives; i++)

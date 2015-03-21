@@ -78,7 +78,8 @@ CORE BETA GOALS
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
-?%%%- Fix bug where you can die after clearing
+%%%- Player lives are not dropping on the scoreboard when they die
+?%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Handle multiple score animation tweens (only singular enabled)
 %%- Verify no simple ways of hacking high scores
