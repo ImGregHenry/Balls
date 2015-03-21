@@ -106,6 +106,7 @@ BasicGame.Game.prototype = {
         level_highScore = 0;
         level_totalFilledTiles = 0;
         level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
+        isGamePaused = false;
 
         // Create bullet time event looper
         timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
@@ -139,9 +140,6 @@ BasicGame.Game.prototype = {
     // UPDATE: called constantly and handles all user's controls
     update: function ()
     {
-        //TODO: add fps text to game
-        //game.debug.text(game.time.fps || '--', 2, 14, "#00ff00");
-
         if (!isGamePaused && !isPlayerMovementDisabled)
         {
             game.physics.arcade.collide(balls, balls);

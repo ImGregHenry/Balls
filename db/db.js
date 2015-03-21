@@ -10,9 +10,9 @@ $(document).ready(function() {
 			return;
 		}
 		 
-		var score = $("#txtSubmitScore").text();
+		var score = $("#hiddenHighScore").text();
 		var user = $("#txtSubmitUser").val();
-		var level = $("#txtSubmitLevel").text();
+		var level = $("#hiddenLevel").text();
 		var args = "username=" + user + "&score=" + score + "&level=" + level;
 		
 		//TODO: set max username size

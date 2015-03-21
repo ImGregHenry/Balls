@@ -68,9 +68,9 @@ function createGameSprites()
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 }
 
-function togglePauseIcon()
+function showPauseIcon(isSetVisible)
 {
-    pauseIcon.visible = !pauseIcon.visible;
+    pauseIcon.visible = isSetVisible;
 }
 
 function showMuteXIcon(isSetVisible)

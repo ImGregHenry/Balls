@@ -3,7 +3,6 @@ var gameOverSound;
 
 function gameOver()
 {
-    //console.log("GAME OVER!");
     pauseLevelTimer(true);
 
     gameOverSound = GetGameOverSound();
@@ -160,6 +159,7 @@ function nextLevelUpdates()
 function restartGame()
 {
     isGamePaused = false;
+    showPauseIcon(isGamePaused);
 
     stopBulletTime();
     resetBulletTimeEnergy();
@@ -196,15 +196,18 @@ function restartGame()
 
 function pauseGame()
 {
-    // Toggle game paused
-    isGamePaused = !isGamePaused;
-    //console.log("isPaused:" + isGamePaused);
-    setPlayerMovementDisabled(isGamePaused);
-    setBallMovementDisabled(isGamePaused);
-    pauseBulletTime(isGamePaused);
-    pauseLevelTimer(isGamePaused);
+    if (!isCharacterDeadAlready)
+    {
+        // Toggle game paused
+        isGamePaused = !isGamePaused;
+        
+        setPlayerMovementDisabled(isGamePaused);
+        setBallMovementDisabled(isGamePaused);
+        pauseBulletTime(isGamePaused);
+        pauseLevelTimer(isGamePaused);
 
-    togglePauseIcon();
+        showPauseIcon(isGamePaused);
+    }
 }
 
 function setPlayerMovementDisabled(isDisabled)
@@ -289,6 +292,8 @@ function setHighScorePopupValues(score, level)
 {
 	$('#txtSubmitLevel').text(level);
 	$('#txtSubmitScore').text(score);
+    $('#hiddenLevel').text(level);
+    $('#hiddenHighScore').text(score);
 	$('#txtSubmitHighScoreMessage').text('');
 	$('#isSubmitted').val('false');
 }
