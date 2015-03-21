@@ -122,7 +122,8 @@ function levelComplete()
 
     //TODO: reset bullet time on level complete?
     createLevelTimer();
-    createBulletTimePieProgressBar();
+    createBulletTimePieProgressBar(false);
+    createPowerUpPieProgressBar(false);
     bringGameSpritesToTop();
 }
 
@@ -189,7 +190,8 @@ function restartGame()
 
     createScoreboard();
     createLevelTimer();
-    createBulletTimePieProgressBar();
+    createBulletTimePieProgressBar(false);
+    createPowerUpPieProgressBar(false);
     bringGameSpritesToTop();
 }
 

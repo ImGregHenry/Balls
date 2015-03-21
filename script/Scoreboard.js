@@ -20,6 +20,7 @@ var scoreboard_restartButton;
 var scoreboard_viewHighScoreButton;
 var scoreboard_menuButton;
 var scoreboard_bulletTimeText;
+var scoreboard_powerUpText;
 var scoreboard_percentCompleteText;
 var scoreboard_highScoreText;
 var scoreboard_scoreText;
@@ -132,6 +133,12 @@ function createScoreboard()
     text = "Bullet Time:";
     scoreboard_bulletTimeText = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
 
+   // Power Up Text
+    /*if (scoreboard_powerUpText != null)
+        scoreboard_powerUpText.destroy(true);
+    text = "Power Up:";
+    scoreboard_powerUpText = game.add.text(scoreboardXStartingPoint + 200, yCoordinate, text, scoreboardTextStyle);*/
+
     characterLivesDisplay();
 }
 
@@ -166,6 +173,7 @@ function characterLivesDisplay()
     // Display a sprite for each life the character has.
     for (var i = 0; i < level_playerLives; i++)
     {
+        //TODO: destroy these sprites when restarting game
         array_characterLifeSprites.push(game.add.sprite(x, y, 'character'));
         
         currentLivesInRow++;

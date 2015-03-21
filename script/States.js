@@ -178,7 +178,8 @@ BasicGame.Game.prototype = {
         createScoreboard();
         createLevelTimer();
         resetBulletTimeEnergy();
-        createBulletTimePieProgressBar();
+        createBulletTimePieProgressBar(true);
+        createPowerUpPieProgressBar(true);
     },
 
 

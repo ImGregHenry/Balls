@@ -39,33 +39,28 @@
 //game.state.start('Boot');
 
 
-
 var pie;
 var pietween;
 var pieprogress;
+var bmp_bulletTimePie;
+var pieBulletTimeRadius = 50;
+var pieBulletTimeWeight = 0.25;
 
 var PieProgress = function (game, x, y, radius, angle, weight)
 {
-    this._radius = radius;
-    this._weight = weight || 0.25;
+var pieBulletTimeRadius = 50;
+var pieBulletTimeWeight = 0.25;
     
-    if(this.bmp != null || (typeof this.bmp === 'undefined'))
-    {
-        this.bmp = game.add.bitmapData((this._radius * 2) + (this._weight * (this._radius * 0.6)), (this._radius * 2) + (this._weight * (this._radius * 0.6)));
-    }
+    Phaser.Sprite.call(this, game, x, y, bmp_bulletTimePie);
     
-    Phaser.Sprite.call(this, game, x, y, this.bmp);
-
     this.anchor.set(0.5);
     this.angle = angle || -90;
-    //this.color = color || "#fff";
     this.color = this.chooseColour();
     this.updateProgress();
 }
 
 PieProgress.prototype = Object.create(Phaser.Sprite.prototype);
 PieProgress.prototype.constructor = PieProgress;
-
 
 PieProgress.prototype.chooseColour = function ()
 {
@@ -82,28 +77,35 @@ PieProgress.prototype.updateProgress = function ()
 
     progress = Phaser.Math.clamp(progress, 0.00001, 0.99999);
     
-    this.bmp.clear();
-    this.bmp.ctx.strokeStyle = this.chooseColour();
-    this.bmp.ctx.lineWidth = this._weight * this._radius;
-    this.bmp.ctx.beginPath();
-    this.bmp.ctx.arc(this.bmp.width * 0.5, this.bmp.height * 0.5, this._radius - 15, 0, (Math.PI * 2) * progress, false);
-    this.bmp.ctx.stroke();
-    this.bmp.dirty = true;
+    bmp_bulletTimePie.clear();
+    
+    bmp_bulletTimePie.ctx.strokeStyle = this.chooseColour();
+    bmp_bulletTimePie.ctx.lineWidth = pieBulletTimeWeight * pieBulletTimeRadius;
+    bmp_bulletTimePie.ctx.beginPath();
+
+    bmp_bulletTimePie.ctx.arc(bmp_bulletTimePie.width * 0.5, 
+        bmp_bulletTimePie.height * 0.5, 
+        pieBulletTimeRadius - 15, 0, 
+        (Math.PI * 2) * progress, false);
+
+    bmp_bulletTimePie.ctx.stroke();
+    bmp_bulletTimePie.dirty = true;
 };
 
 PieProgress.prototype.updateBmdSize = function ()
 {
-    this.bmp.resize((this._radius * 2) + (this._weight * (this._radius * 0.6)), (this._radius * 2) + (this._weight * (this._radius * 0.6)));
+    bmp_bulletTimePie.resize((pieBulletTimeRadius * 2) + (pieBulletTimeWeight * (pieBulletTimeRadius * 0.6)), 
+        (pieBulletTimeRadius * 2) + (pieBulletTimeWeight * (pieBulletTimeRadius * 0.6)));
 };
 
 Object.defineProperty(PieProgress.prototype, 'radius', {
     get: function ()
     {
-        return this._radius;
+        return pieBulletTimeRadius;
     },
     set: function (val)
     {
-        this._radius = (val > 0 ? val : 0);
+        pieBulletTimeRadius = (val > 0 ? val : 0);
         this.updateBmdSize();
         this.updateProgress();
     }
@@ -124,11 +126,11 @@ Object.defineProperty(PieProgress.prototype, 'progress', {
 Object.defineProperty(PieProgress.prototype, 'weight', {
     get: function ()
     {
-        return this._weight;
+        return pieBulletTimeWeight;
     },
     set: function (val)
     {
-        this._weight = Phaser.Math.clamp(val, 0.001, 0.999);
+        pieBulletTimeWeight = Phaser.Math.clamp(val, 0.001, 0.999);
         this.updateBmdSize();
         this.updateProgress();
     }

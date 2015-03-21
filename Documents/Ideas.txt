@@ -6,9 +6,6 @@ IDEA BALLS
 http://www.html5gamedevs.com/topic/9716-circle-progress-bar/
 http://soluka.fr/docs/phaser/v1.1.6/doc/Phaser.BitmapData.html
 
-TODO:
-- move jquery and phaser js files into different folder name
-
 
 COMPLETE
 *- Percentage tracker
@@ -44,6 +41,7 @@ COMPLETE
 \- Bullet-time limit bar
 \- Add bullet time sound effect
 \- High scores tracking and db
+\- Create powerup pie chart bar
 -- TileMap.fill to be replaced by TileMap.putTile
 %%%%%- Investigate fps lag -- tile filling
 %%%%- Use hidden fields for high score submission
@@ -60,18 +58,21 @@ COMPLETE
 %- Reset bullet time bar when game is restarted
 %- Fixed bug with game over where sprite did not center immediately
 
-
+*- Added
 CORE BETA GOALS
 *- Tweak scaling of score (balancing)
 *- Help menu
-*- Continue game / start from beginning 
-*- Animation on circular display for when bullet time is active (weight)
+*- Max time to complete a level
+*- Continue game / start from beginning
 *- Loading screen when preloading
+*- Game music
+*- Separate muting for music and sound effects
  - Display bonus for clearing large area
  - Caching of high score / mute / highest level (for level select)
  - Level select
  - Multiple circular bars.  
  - Add bullet time image.
+ - Force game focus --> game.stage.disableVisibilityChange = true;
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
@@ -91,6 +92,8 @@ CODE FIXES:
 -- Remove hard coding of image positions
 -- Function name fixes, wtf: playerDiedStartRoundStartTimers
 -- Fix function names "updateTile...etc."
+-- Move jquery and phaser js files into different folder name
+-- Separate states into new folder and different files
 
 ENHANCEMENTS:
 \- Points for trapping a ball in a small area
@@ -102,9 +105,9 @@ ENHANCEMENTS:
 \- Change colour scheme in settings
 \- Add sound - movement, tile clearing, level complete
 \- Add freeze time sound effect
-\- Add music
 \- Player life explodes on scoreboard
 \- Player life adds and animates on scoreboard when new life gained
+\- Sound plays for new life added
 \- Different game modes?
 \- Unique levels - custom maps
 \- Customized players
@@ -112,10 +115,11 @@ ENHANCEMENTS:
 
 POWERUPS
 \- Bullet-time balls animate
+\- Score multiplier
 \- Freeze-time limit bar
 \- Freeze-time balls animate
-\- Powerups pickups and power bar
-\- Invulnerability
+\- Powerups pickups
+\- Invulnerability and SuperSized ball
 \- Ball acceleration
 \- Player acceleration
 \- Laser-beam clear (straight line fast clear)
@@ -129,3 +133,4 @@ EXTRAS
 \- Player stats - average clear per level, average clear score, record speed, record high score, etc.
 \- Display bullet time left
 \- Increase bullet time maximum
+\- Animation on circular display for when bullet time is active (weight)

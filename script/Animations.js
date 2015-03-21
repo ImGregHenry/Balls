@@ -15,6 +15,12 @@ const GAME_OVER_TIMER_TICK_INTERVAL = 30;
 const GAME_OVER_DEFAULT_IMAGE_SCALE = 0.08;
 const GAME_OVER_DEFAULT_IMAGE_SCALE_INTERVAL = 0.06;
 
+const BULLET_TIME_PROGRESS_BAR_X = 1100;
+const BULLET_TIME_PROGRESS_BAR_Y = 735;
+
+const POWER_UP_PROGRESS_BAR_X = 1275;
+const POWER_UP_PROGRESS_BAR_Y = 735;
+
 var pauseIcon;
 var soundMuteX_Icon;
 var bulletIcon;
@@ -40,6 +46,67 @@ var gameOverZoomCount = 0;
 
 var levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
 var gameOverCurrentScale = 0;
+
+
+function createPowerUpPieProgressBar(isFirstCreate)
+{
+    return;
+    if(isFirstCreate)
+    {
+        bmp_powerUpPie = game.add.bitmapData((piePowerUpRadius * 2) + (piePowerUpWeight * (piePowerUpRadius * 0.6)), 
+            (piePowerUpRadius * 2) + (piePowerUpWeight * (piePowerUpRadius * 0.6)));
+    }
+
+    if(piePowerUp == null)
+    {
+        piePowerUp = new PiePowerUpProgress(game, POWER_UP_PROGRESS_BAR_X, POWER_UP_PROGRESS_BAR_Y, 50);
+        piePowerUp.setVisible(true);
+        game.world.add(piePowerUp);
+    }
+
+    if (piePowerUpTween != null)
+    {
+        game.world.remove(piePowerUpTween, true);
+    }
+    
+    piePowerUpTween = game.add.tween(piePowerUp);
+    piePowerUpTween.to({ progress: bulletTime_energy }, Infinity, Phaser.Easing.Linear.None, true);
+    piePowerUpTween.start();
+}
+
+function setPowerUpPieProgressBarVisible(isSetVisible)
+{
+    if(piePowerUp != null)
+        piePowerUp.setVisible(isSetVisible);
+}
+
+function createBulletTimePieProgressBar(isFirstCreate)
+{
+    if(isFirstCreate)
+    {
+        bmp_bulletTimePie = game.add.bitmapData((pieBulletTimeRadius * 2) + (pieBulletTimeWeight * (pieBulletTimeRadius * 0.6)), 
+            (pieBulletTimeRadius * 2) + (pieBulletTimeWeight * (pieBulletTimeRadius * 0.6)));
+    }
+
+    if (pietween != null)
+    {
+        game.world.remove(pietween, true);
+        delete pietween;
+    }
+
+    if(pie != null)
+    {
+        game.world.remove(pie, true);
+        delete pie; 
+    }
+    
+    pie = new PieProgress(game, BULLET_TIME_PROGRESS_BAR_X, BULLET_TIME_PROGRESS_BAR_Y, 50);
+    game.world.add(pie);
+    
+    pietween = game.add.tween(pie);
+    pietween.to({ progress: bulletTime_energy }, Infinity, Phaser.Easing.Linear.None, true); //Phaser.Easing.Quadratic.Out, true, 0, 0, true);   //Infinity
+    pietween.start();
+}
 
 function bringGameSpritesToTop()
 {
