@@ -1,5 +1,4 @@
-﻿
-//RAY CASTING WIKI
+﻿//RAY CASTING WIKI
 //https://en.wikipedia.org/wiki/Point_in_polygon#Ray_casting_algorithm
 // MY QUESTION:
 //http://stackoverflow.com/questions/25089749/tile-filling-algorithm-for-game/25089932#25090212
@@ -13,6 +12,9 @@
 /////////////////////////////////////////////
 /////////////////////////////////////////////
 
+var fillTheseTiles = [];
+var flood_abort;
+
 function processFloodFlowFromArray(tilePath)
 {
     //console.log("Entered Flood-Fill.");
@@ -22,15 +24,12 @@ function processFloodFlowFromArray(tilePath)
 
     CreateEnemyTileArray();
 
-    //console.log("ENEMY: " + flood_enemyTileArray);
-
     for (var i = 0; i < startTiles.length; i++)
     {
         var x = parseInt(startTiles[i].split(',')[0]);
         var y = parseInt(startTiles[i].split(',')[1]);
         FloodFillAreaFromStartPoint(x, y);
     }
-
 }
 
 function updateTheseTiles(theseTiles, value)
@@ -77,11 +76,10 @@ function getEnemyYTileIndex(enemy)
 
 function ChooseFloodFillStartTiles(tilePath)
 {
-    //TODO: determine which tiles to test with   
+    //TODO: determine which tiles to test with
     var x = parseInt(tilePath[0].split(',')[0]);
     var y = parseInt(tilePath[0].split(',')[1]);
-    //console.log("Flood Fill start: " + x + "," + y);
-
+    
     // RIGHT
     var test1X = x + 1;
     var test1Y = y;
@@ -98,38 +96,28 @@ function ChooseFloodFillStartTiles(tilePath)
 
     var flood_startTiles = [];
 
-    var currentTile = map.getTile(test1X, test1Y, mapLayer, false);
-    //console.log("TestPoint1: " + test1X + "," + test1Y + ". Index:" + currentTile.index);
+    var currentTile = map.getTile(test1X, test1Y, layer_map, false);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test1X + "," + test1Y);
 
-    currentTile = map.getTile(test2X, test2Y, mapLayer, false);
-    //console.log("TestPoint2: " + test2X + "," + test2Y + ". Index:" + currentTile.index);
+    currentTile = map.getTile(test2X, test2Y, layer_map, false);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test2X + "," + test2Y);
 
-    currentTile = map.getTile(test3X, test3Y, mapLayer, false);
-    //console.log("TestPoint3: " + test3X + "," + test3Y + ". Index:" + currentTile.index);
+    currentTile = map.getTile(test3X, test3Y, layer_map, false);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test3X + "," + test3Y);
 
-    currentTile = map.getTile(test4X, test4Y, mapLayer, false);
-    //console.log("TestPoint4: " + test4X + "," + test4Y + ". Index:" + currentTile.index);
+    currentTile = map.getTile(test4X, test4Y, layer_map, false);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test4X + "," + test4Y);
 
     //console.log("Total points being tested: " + flood_startTiles.length);
     return flood_startTiles;
 }
 
-function FloodFillAreaFromStartPoint(currX, currY)
-{
-    //console.log("STARTING DR. FILL TEST.  X:" + currX + ". Y:" + currY);
-    drFillSafeTest(currX, currY);
-}
 
 ////http://stackoverflow.com/questions/22645767/flood-fill-for-2d-int-array-optimization-in-java
 ////http://stackoverflow.com/questions/22053759/multidimensional-array-fill
 
-var fillTheseTiles = [];
 
-function drFillSafeTest(x, y)
+function FloodFillAreaFromStartPoint(x, y)
 {
     fillTheseTiles = [];
     flood_abort = false;
@@ -145,7 +133,6 @@ function drFillSafeTest(x, y)
     updateTheseTiles(fillTheseTiles, SAFE_ZONE_ID);
 }
 
-var flood_abort;
 function flow(x, y)
 {
     if (flood_abort)

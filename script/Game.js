@@ -121,8 +121,8 @@ function levelComplete()
 
     createScoreboard();
 
+    //TODO: reset bullet time on level complete?
     createLevelTimer();
-    //createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
     bringGameSpritesToTop();
 }

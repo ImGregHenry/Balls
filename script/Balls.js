@@ -22,8 +22,6 @@ var isCharacterDeadAlready = false;
 var isCharInDangerZone = false;
 var isSoundEffectsEnabled = true;
 
-var map;
-var mapLayer;
 var balls;
 var cursors;
 
@@ -93,8 +91,6 @@ function spawnBalls()
         
         var randomXCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxX);
         var randomYCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxY);
-        //console.log("ChosenX: " + randomXCoordinateSpawn + ". minX:" + minXY + ". maxX:" + maxX);
-        //console.log("ChosenY: " + randomYCoordinateSpawn + ". minY:" + minXY + ". maxY:" + maxY);
 
         //TODO: add crazy mode where velocity chosen like this
         //const TOTAL_BALL_VELOCITY = 400;

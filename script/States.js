@@ -55,8 +55,8 @@ function goBackToMenu()
 BasicGame.Game.prototype = {
     preload: function ()
     {
-        game.load.tilemap('map', 'assets/maps/TileMap5.json', null, Phaser.Tilemap.TILED_JSON);
-
+        game.load.tilemap('map-gamearea', 'assets/maps/TileMap5.json', null, Phaser.Tilemap.TILED_JSON);
+        
         game.load.image('ball', 'assets/images/game/star.png');
         game.load.image('character', 'assets/images/game/ball1.png');
         game.load.image('tile-danger-zone', 'assets/images/tiles/tile-danger-zone.png', true);
@@ -145,7 +145,8 @@ BasicGame.Game.prototype = {
         if (!isGamePaused && !isPlayerMovementDisabled)
         {
             game.physics.arcade.collide(balls, balls);
-            game.physics.arcade.collide(balls, mapLayer);
+            game.physics.arcade.collide(balls, layer_map);
+            game.physics.arcade.collide(balls, layer_dangerZone);
 
             var playerXTile = getPlayerXTileIndex();
             var playerYTile = getPlayerYTileIndex();
@@ -174,7 +175,7 @@ BasicGame.Game.prototype = {
             // TODO: test whether move is valid or not before tweening
             if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
             {
-                var currentTile = map.getTile(playerXTile - 1, playerYTile, mapLayer, false);
+                var currentTile = map.getTile(playerXTile - 1, playerYTile, layer_map, false);
 
                 if (currentTile != null)
                 {
@@ -183,7 +184,7 @@ BasicGame.Game.prototype = {
             }
             else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D))
             {
-                var currentTile = map.getTile(playerXTile + 1, playerYTile, mapLayer, false);
+                var currentTile = map.getTile(playerXTile + 1, playerYTile, layer_map, false);
 
                 if (currentTile != null && currentTile.index != SCOREBOARD_ZONE_ID)
                 {
@@ -192,7 +193,7 @@ BasicGame.Game.prototype = {
             }
             else if (cursors.up.isDown || game.input.keyboard.isDown(Phaser.Keyboard.W))
             {
-                var currentTile = map.getTile(playerXTile, playerYTile - 1, mapLayer, false);
+                var currentTile = map.getTile(playerXTile, playerYTile - 1, layer_map, false);
 
                 if (currentTile != null)
                 {
@@ -201,7 +202,7 @@ BasicGame.Game.prototype = {
             }
             else if (cursors.down.isDown || game.input.keyboard.isDown(Phaser.Keyboard.S))
             {
-                var currentTile = map.getTile(playerXTile, playerYTile + 1, mapLayer, false);
+                var currentTile = map.getTile(playerXTile, playerYTile + 1, layer_map, false);
 
                 if (currentTile != null)
                 {

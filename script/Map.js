@@ -1,4 +1,7 @@
-﻿
+﻿var map;
+var map_scoreboard;
+var layer_map;
+var layer_dangerZone;
 
 function drawMap()
 {
@@ -7,26 +10,27 @@ function drawMap()
         map.destroy();
     }
 
-    map = game.add.tilemap('map');
+    map = game.add.tilemap('map-gamearea');
     
     // Disable collisions on empty zone spaces, enable collisions with every other tile
-    map.setCollisionByExclusion([parseInt(EMPTY_ZONE_ID)], 1);
-
+    map.setCollisionByExclusion([parseInt(EMPTY_ZONE_ID)], true);
+    
     // Add all the tile sets being used on the map
-    map.addTilesetImage('tile-scoreboard', 'tile-scoreboard', 20, 20, 0, 0, 1);
     map.addTilesetImage('tile-safe-zone', 'tile-safe-zone', 20, 20, 0, 0, 1);
     map.addTilesetImage('tile-danger-zone', 'tile-danger-zone', 20, 20, 0, 0, 2);
     map.addTilesetImage('tile-empty', 'tile-empty', 20, 20, 0, 0, 3);
 
-    if(mapLayer != null)
-    {
-        mapLayer.destroy(true);
-    }
+    if(layer_map != null)
+        layer_map.destroy(true);
+    if(layer_dangerZone != null)
+        layer_dangerZone.destroy(true);
 
     // Create the layer from the .json file
-    mapLayer = map.createLayer('Tile Layer 1');
-    mapLayer.resizeWorld();
+    layer_map = map.createLayer('Tile Layer 1');
+    layer_map.resizeWorld();
 
+    layer_dangerZone = map.createBlankLayer('layer-danger-zone', MAP_TILE_WIDTH, MAP_TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+    
     // Used for flood-fill-analysis
     createTileMapArray();
 }
@@ -53,32 +57,36 @@ function fillTiles()
     var x = getPlayerXTileIndex();
     var y = getPlayerYTileIndex();
 
-    var currentTile = map.getTile(x, y, mapLayer, false);
+    var currentTile = map.getTile(x, y, layer_map, false);
 
     if (currentTile == null)
         console.log("ERROR: tile not found.");
     else if (currentTile.index == EMPTY_ZONE_ID)
     {
-        isCharInDangerZone = true;
-        map.fill(DANGER_ZONE_ID, x, y, 1, 1, mapLayer);
+        var dangerTile = map.getTile(x, y, layer_dangerZone, false);
 
-        currentTile.setCollisionCallback(playerDiedStartRoundStartTimers, this);
+        // Only do things if the tile was not already in danger zone
+        if (dangerTile == null)
+        {
+            // Place an endangered tile and get the resulting tile
+            dangerTile = map.putTile(DANGER_ZONE_ID, x, y, layer_dangerZone);
 
-        // Track tiles in our array for flood-fill usage
-        updateTileMapArray(x, y, DANGER_ZONE_ID);
+            dangerTile.setCollisionCallback(playerDiedStartRoundStartTimers, this);
+            
+            // Set danger zone flag
+            isCharInDangerZone = true;
+            
+            // Track tiles in our array for flood-fill usage
+            updateTileMapArray(x, y, DANGER_ZONE_ID);
 
-        endangeredTiles.push(x + "," + y);
-    }
-    else if (currentTile.index == DANGER_ZONE_ID)
-    {
-        // TODO: character cannot re-enter a danger-zone tile
+            endangeredTiles.push(x + "," + y);
+        }
     }
     else if (currentTile.index == SAFE_ZONE_ID)
     {
         if (isCharInDangerZone)
         {
             //TODO: cleanup percent cleared animation
-            //var percentClearedBefore = level_percentComplete;
             var percentClearedAnmiation_X = endangeredTiles[endangeredTiles.length - 1].split(",")[0];
             var percentClearedAnmiation_Y = endangeredTiles[endangeredTiles.length - 1].split(",")[1];
             var tilesCleared = level_totalFilledTiles;
@@ -121,7 +129,6 @@ function clearEndangeredTiles(isSafeTile)
         var y = parseInt(endangeredTiles[i].split(",")[1]);
 
         updateMapTile(x, y, isSafeTile);
-        //console.log("Clearing: " + vals[0] + "," + vals[1] + " OF " + endangeredTiles.length + ". isSafe: " + isSafeTile);
     }
 
     // Reset the endangered tiles array
@@ -130,19 +137,19 @@ function clearEndangeredTiles(isSafeTile)
 
 function updateMapTile(x, y, isSafeTile)
 {
-    // Get the current tile that was just converted to a safe zone
-    var currentTile = map.getTile(x, y, mapLayer, false);
+    // Remove the danger zone tile, either way
+    map.removeTile(x, y, layer_dangerZone);
 
-    // Clear the death method from the tile
-    currentTile.setCollisionCallback(null, this);
-
-    // Redraw the tile to the appropriate tile type --> based on whether clearing was successful (player didn't die)
+    // Redraw the tile to the appropriate tile type 
+    // Successful clear --> convert to safe tiles
     if (isSafeTile)
     {
+        map.putTile(SAFE_ZONE_ID, x, y, layer_map);
+
+        var currentTile = map.getTile(x, y, layer_map, false);
+
         // Enable collision since it is now a safe-zone tile
         currentTile.setCollision(true, true, true, true);
-
-        map.fill(SAFE_ZONE_ID, x, y, 1, 1, mapLayer);
 
         // Increment the tile counter
         level_totalFilledTiles++;
@@ -150,14 +157,10 @@ function updateMapTile(x, y, isSafeTile)
         // Keep the tile-map-array up-to-date
         updateTileMapArray(x, y, SAFE_ZONE_ID);
     }
+    // Failed clear --> keep empty zone tile
     else
     {
-        // Disable collisions on this tile since it is now an empty-zone
-        currentTile.setCollision(false, false, false, false);
-
-        // Redraw the tile
-        map.fill(EMPTY_ZONE_ID, x, y, 1, 1, mapLayer);
-
+        // Update the tile map array with new value
         updateTileMapArray(x, y, EMPTY_ZONE_ID);
     }
 }
@@ -167,14 +170,20 @@ function updateMapTile(x, y, isSafeTile)
 function createTileMapArray()
 {
     delete fullMapArray;
+
     fullMapArray = [];
     for (var y = 0; y < MAP_TILE_HEIGHT; y++)
     {
         var rowArray = [];
         for (var x = 0; x < MAP_TILE_WIDTH; x++)
         {
-            var index = map.getTile(x, y).index;
-            rowArray.push(index);
+            var tile = map.getTile(x, y, layer_map);
+            
+            if(tile != null)
+            {
+                var index = tile.index;
+                rowArray.push(index);
+            }
         }
         fullMapArray.push(rowArray);
         delete rowArray;
@@ -189,7 +198,6 @@ function clearDangerTilesInTileMapArray(value)
         {
             if (fullMapArray[y][x] == DANGER_ZONE_ID)
                 fullMapArray[y][x] = value;
-
         }
     }
 }
@@ -198,17 +206,4 @@ function clearDangerTilesInTileMapArray(value)
 function updateTileMapArray(x, y, value)
 {
     fullMapArray[y][x] = value;
-    //var currentTile = map.getTile(parseInt(x), parseInt(y), mapLayer, false);
-    //TODO: fix this tile map update????
-}
-
-
-function getMapLevelCenterPixelX()
-{
-
-}
-
-function getMapLevelCenterPixelY()
-{
-
 }
