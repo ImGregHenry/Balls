@@ -44,9 +44,10 @@ var gameOverCurrentScale = 0;
 function bringGameSpritesToTop()
 {
     player.bringToTop();
-    soundMuteX_Icon.bringToTop();
     bulletIcon.bringToTop();
+    pauseIcon.bringToTop();
     muteButton.bringToTop();
+    soundMuteX_Icon.bringToTop();
 }
 
 function createGameSprites()

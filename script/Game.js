@@ -124,6 +124,7 @@ function levelComplete()
     createLevelTimer();
     //createBulletTimeEnergyTimer();
     createBulletTimePieProgressBar();
+    bringGameSpritesToTop();
 }
 
 function isLevelComplete()
