@@ -44,6 +44,8 @@ COMPLETE
 \- Create powerup pie chart bar
 -- TileMap.fill to be replaced by TileMap.putTile
 %%%%%- Investigate fps lag -- tile filling
+%%%%- Can't use hotkeys for typing into high scores
+%%%%- Garbage collection problems (restart fps lag)
 %%%%- Use hidden fields for high score submission
 %%%%- Destroy layers and map on each full re-draw
 %%%%- Basic garbage collection implemented.
@@ -76,16 +78,15 @@ CORE BETA GOALS
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
-%%%%- Garbage collection problems (restart fps lag)
-%%%%- Can't use hotkeys for typing into high scores
 ?%%%- Fix bug where you can die after clearing
-%%%- Verify no simple ways of hacking high scores
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Handle multiple score animation tweens (only singular enabled)
+%%- Verify no simple ways of hacking high scores
 %%- Fix bug where stars can exit the tile map
 %- Stop level timer during boom animation?
 %- Fix tile fill algorithm for edge cases (choose starting points)
 %- Handle between games better
+%- Game restart with major abuse causes lag
 
 CODE FIXES:
 -- Move all sprites/audio/buttons creations into a single file

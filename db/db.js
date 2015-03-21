@@ -46,6 +46,9 @@ $(document).ready(function() {
 		$("#overlay").hide();
 		$("#viewHighScoresPopup").hide();
 		$("#submitHighScorePopup").hide();
+
+		// Re-enable keyboard controls
+		game.input.keyboard.start();
     });
 	
 	/////////////////////
@@ -54,11 +57,15 @@ $(document).ready(function() {
     $('#btnOpenSubmitHighScore').click(function () {
 		$("#overlay").show();
 		$("#submitHighScorePopup").show();
+
+		// Disable in-game controls
+		game.input.keyboard.stop();
     });
 	
 	$('#btnSubmitHighScoreClose').click(function () {
 		$("#overlay").hide();
 		$("#submitHighScorePopup").hide();
+		game.input.keyboard.start();
     });
 	
 	// View high score loading
