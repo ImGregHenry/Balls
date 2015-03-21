@@ -32,6 +32,7 @@ BasicGame.MainMenu.prototype = {
         game.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
 		
 		var viewHighScoreBtn = game.cache.getImage('view-highscores-button');
+        //TODO: image location hard coding
 		game.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 200), 'view-highscores-button', viewHighScorePopup);
     },
 
@@ -46,9 +47,54 @@ BasicGame.MainMenu.prototype = {
     }
 }
 
+// Resets all in game settings when
+
+function resestAllGameSettings()
+{
+    // Reset game stats
+    level_currentLevel = 1;
+    level_currentScore = 0;
+    level_highScore = 0;
+    level_totalFilledTiles = 0;
+    level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
+    isGamePaused = false;
+    isPlayerMovementDisabled = false;
+    isCharacterDeadAlready = false;
+
+    isBallMovementDisabled = false;
+    isPlayerMovementDisabled = false;
+    isGamePaused = false;
+    isCharacterDeadAlready = false;
+    isCharInDangerZone = false;
+    isSoundEffectsEnabled = true;
+
+    level_numberOfBalls = 0;
+    level_playerLives = 0;
+    level_currentLevel = 0;
+    level_percentComplete = 0.0;
+    level_targetPercentComplete = 0.0;
+    level_totalFilledTiles = 0;
+    level_totalEmptyTiles = 0;
+    level_currentScore = 0;
+    level_highScore = 0;
+    
+    showMuteXIcon(isSoundMuted);
+
+    // Reset the character tween if it is in progress
+    if (playerTween != null && playerTween.isRunning)
+    {
+        playerTween.stop();
+    }
+
+    allBallXVelocities = [];
+    allBallYVelocities = [];
+    endangeredTiles = [];
+}
 
 function goBackToMenu()
 {
+    stopBulletTime();
+    resestAllGameSettings();
     game.state.start('MainMenu');
 }
 
@@ -106,7 +152,6 @@ BasicGame.Game.prototype = {
         level_highScore = 0;
         level_totalFilledTiles = 0;
         level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
-        isGamePaused = false;
 
         // Create bullet time event looper
         timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
@@ -140,12 +185,12 @@ BasicGame.Game.prototype = {
     // UPDATE: called constantly and handles all user's controls
     update: function ()
     {
+        game.physics.arcade.collide(balls, balls);
+        game.physics.arcade.collide(balls, layer_map);
+        game.physics.arcade.collide(balls, layer_dangerZone);
+
         if (!isGamePaused && !isPlayerMovementDisabled)
         {
-            game.physics.arcade.collide(balls, balls);
-            game.physics.arcade.collide(balls, layer_map);
-            game.physics.arcade.collide(balls, layer_dangerZone);
-
             var playerXTile = getPlayerXTileIndex();
             var playerYTile = getPlayerYTileIndex();
 
