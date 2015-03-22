@@ -17,8 +17,6 @@ var flood_abort;
 
 function processFloodFlowFromArray(tilePath)
 {
-    //console.log("Entered Flood-Fill.");
-
     var startTiles = [];
     startTiles = ChooseFloodFillStartTiles(tilePath);
 
@@ -108,7 +106,6 @@ function ChooseFloodFillStartTiles(tilePath)
     currentTile = map.getTile(test4X, test4Y, layer_map, false);
     if (currentTile.index == EMPTY_ZONE_ID) flood_startTiles.push(test4X + "," + test4Y);
 
-    //console.log("Total points being tested: " + flood_startTiles.length);
     return flood_startTiles;
 }
 

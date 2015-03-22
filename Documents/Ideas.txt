@@ -42,6 +42,9 @@ COMPLETE
 \- Add bullet time sound effect
 \- High scores tracking and db
 \- Create powerup pie chart bar
+\- Freeze-time limit bar
+\- Powerups pickups
+
 -- TileMap.fill to be replaced by TileMap.putTile
 %%%%%- Investigate fps lag -- tile filling
 %%%%- Can't use hotkeys for typing into high scores
@@ -49,10 +52,12 @@ COMPLETE
 %%%%- Use hidden fields for high score submission
 %%%%- Destroy layers and map on each full re-draw
 %%%%- Basic garbage collection implemented.
+%%%- Player lives are not dropping on the scoreboard when they die
 %%%- Bullet time doesn't work after going to the main menu (the timer dies).
 %%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
 %%- Clean up bullet time functionality
 %%- Fix sprites disappearing after level end
+%%- Fix bug where X icon is not always on top of mute icon
 %- Fix game over animation
 %- Fix bullet time regeneration/drain after restart game
 %- Fix bug where bullet time sound happens always after death/level completed
@@ -78,10 +83,10 @@ CORE BETA GOALS
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
-%%%- Player lives are not dropping on the scoreboard when they die
 ?%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Handle multiple score animation tweens (only singular enabled)
+%%- Remove possibility of overlapping stars at spawn time
 %%- Verify no simple ways of hacking high scores
 %%- Fix bug where stars can exit the tile map
 %- Stop level timer during boom animation?
@@ -96,6 +101,7 @@ CODE FIXES:
 -- Fix function names "updateTile...etc."
 -- Move jquery and phaser js files into different folder name
 -- Separate states into new folder and different files
+-- create a class for coordinates (x,y)
 
 ENHANCEMENTS:
 \- Points for trapping a ball in a small area
@@ -118,9 +124,7 @@ ENHANCEMENTS:
 POWERUPS
 \- Bullet-time balls animate
 \- Score multiplier
-\- Freeze-time limit bar
 \- Freeze-time balls animate
-\- Powerups pickups
 \- Invulnerability and SuperSized ball
 \- Ball acceleration
 \- Player acceleration
@@ -133,6 +137,5 @@ EXTRAS
 \- Score multipliers for consistently clearing
 \- Enemy attacking ball AI
 \- Player stats - average clear per level, average clear score, record speed, record high score, etc.
-\- Display bullet time left
 \- Increase bullet time maximum
 \- Animation on circular display for when bullet time is active (weight)

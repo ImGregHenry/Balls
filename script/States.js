@@ -120,6 +120,7 @@ BasicGame.Game.prototype = {
         game.load.image('x', 'assets/images/game/x.png', true);
         game.load.image('icon-paused', 'assets/images/game/Paused.png', true);
         game.load.image('icon-bullet', 'assets/images/game/Bullet.png', true);
+        game.load.image('powerup-snowflake', 'assets/images/game/snowflake.png', true);
 
         game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
         game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
@@ -153,27 +154,15 @@ BasicGame.Game.prototype = {
         level_totalFilledTiles = 0;
         level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
 
-        // Create bullet time event looper
+        // Create bullet time and powerup event looper
         timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
+        timer_powerUpTime = game.time.events.loop(POWER_UP_FREEZE_ENERGY_TIME_INTERVAL, freezeTimeTick, this);
 
         nextLevelUpdates();
 
         spawnBalls();
 
-        // Load the keyboard controls
-        cursors = game.input.keyboard.createCursorKeys();
-        
-        // Add pause game hotkey
-        var key = game.input.keyboard.addKey(Phaser.Keyboard.P);
-        key.onDown.add(pauseGame, this);
-        
-        // Add restart game hotkey
-        var key = game.input.keyboard.addKey(Phaser.Keyboard.R);
-        key.onDown.add(restartGame, this);
-
-        // Add go to menu hotkey
-        var key = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
-        key.onDown.add(goBackToMenu, this);
+        setupGameControls();
 
         createScoreboard();
         createLevelTimer();
@@ -189,6 +178,8 @@ BasicGame.Game.prototype = {
         game.physics.arcade.collide(balls, balls);
         game.physics.arcade.collide(balls, layer_map);
         game.physics.arcade.collide(balls, layer_dangerZone);
+
+        //game.physics.arcade.collide(powerup_snowflake);
 
         if (!isGamePaused && !isPlayerMovementDisabled)
         {
@@ -216,7 +207,6 @@ BasicGame.Game.prototype = {
                     unfreezeTime();
                 }*/
             }
-            // TODO: test whether move is valid or not before tweening
             if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
             {
                 var currentTile = map.getTile(playerXTile - 1, playerYTile, layer_map, false);

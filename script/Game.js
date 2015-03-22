@@ -1,6 +1,25 @@
 ﻿var timerBetweenRounds;
 var gameOverSound;
 
+
+function setupGameControls()
+{
+    // Load the keyboard controls
+    cursors = game.input.keyboard.createCursorKeys();
+    
+    // Add pause game hotkey
+    var key = game.input.keyboard.addKey(Phaser.Keyboard.P);
+    key.onDown.add(pauseGame, this);
+    
+    // Add restart game hotkey
+    var key = game.input.keyboard.addKey(Phaser.Keyboard.R);
+    key.onDown.add(restartGame, this);
+
+    // Add go to menu hotkey
+    var key = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    key.onDown.add(goBackToMenu, this);
+}
+
 function gameOver()
 {
     pauseLevelTimer(true);

@@ -133,13 +133,27 @@ function createScoreboard()
     text = "Bullet Time:";
     scoreboard_bulletTimeText = game.add.text(scoreboardXStartingPoint, yCoordinate, text, scoreboardTextStyle);
 
-   // Power Up Text
-    /*if (scoreboard_powerUpText != null)
-        scoreboard_powerUpText.destroy(true);
-    text = "Power Up:";
-    scoreboard_powerUpText = game.add.text(scoreboardXStartingPoint + 200, yCoordinate, text, scoreboardTextStyle);*/
-
     characterLivesDisplay();
+}
+
+function showPowerUpScoreboardText(isSetVisible)
+{
+    if(isSetVisible)
+    {
+        // Power Up Text
+        if (scoreboard_powerUpText != null)
+        {
+            scoreboard_powerUpText.destroy(true);
+            text = "Power Up:";
+            scoreboard_powerUpText = game.add.text(scoreboardXStartingPoint + 200, yCoordinate, text, scoreboardTextStyle);
+        }
+    }
+    else
+    {
+        if (scoreboard_powerUpText != null)
+            scoreboard_powerUpText.destroy(true);
+    }
+    
 }
 
 function updateScoreboard()

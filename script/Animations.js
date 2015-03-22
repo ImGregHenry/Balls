@@ -50,7 +50,6 @@ var gameOverCurrentScale = 0;
 
 function createPowerUpPieProgressBar(isFirstCreate)
 {
-    return;
     if(isFirstCreate)
     {
         bmp_powerUpPie = game.add.bitmapData((piePowerUpRadius * 2) + (piePowerUpWeight * (piePowerUpRadius * 0.6)), 
@@ -60,7 +59,7 @@ function createPowerUpPieProgressBar(isFirstCreate)
     if(piePowerUp == null)
     {
         piePowerUp = new PiePowerUpProgress(game, POWER_UP_PROGRESS_BAR_X, POWER_UP_PROGRESS_BAR_Y, 50);
-        piePowerUp.setVisible(true);
+        piePowerUp.setVisible(false);
         game.world.add(piePowerUp);
     }
 
@@ -121,18 +120,48 @@ function createGameSprites()
 {
     // Create the character
     player = game.add.sprite(0, 0, 'character');
-    
+
+    pauseIcon = game.add.sprite(450, 350, 'icon-paused');
+    pauseIcon.visible = false;
+
+    // Create snowflake at start, but hide it
+    powerup_snowflake = game.add.sprite(40, 40, 'powerup-snowflake');
+    powerup_snowflake.kill();
+
+    scoreboard_powerup_snowflake = game.add.sprite(40, 40, 'powerup-snowflake');
+    scoreboard_powerup_snowflake.kill();
+
+    //spawnPowerUp(80,80);
+
+    muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
+
     game.add.button(1350, 750, 'mute-icon', MuteSound);
     soundMuteX_Icon = game.add.button(1350, 750, 'x', MuteSound);
     soundMuteX_Icon.visible = isSoundMuted;
-
-    pauseIcon = game.add.sprite(450, 350, 'icon-paused');
-    pauseIcon.bringToTop();
-    pauseIcon.visible = false;
+    soundMuteX_Icon.bringToTop();
 
     bulletIcon = game.add.sprite(1075, 707, 'icon-bullet');
+}
 
-    muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
+var powerup_snowflake;
+function addPowerUpSnowFlake(x, y)
+{
+    //TODO: choose random location
+    //TODO: add collisions to powerups
+    if(powerup_snowflake != null)
+    {
+        //powerup_snowflake.enableBody = true;
+        //game.physics.arcade.enable(powerup_snowflake);
+
+        powerup_snowflake.reset(x,y);
+
+        powerup_snowflake.bringToTop();
+    }
+}
+
+function removePowerUpSnowFlake()
+{
+    powerup_snowflake.kill();
 }
 
 function showPauseIcon(isSetVisible)

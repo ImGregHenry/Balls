@@ -48,9 +48,6 @@ var pieBulletTimeWeight = 0.25;
 
 var PieProgress = function (game, x, y, radius, angle, weight)
 {
-var pieBulletTimeRadius = 50;
-var pieBulletTimeWeight = 0.25;
-    
     Phaser.Sprite.call(this, game, x, y, bmp_bulletTimePie);
     
     this.anchor.set(0.5);
@@ -64,7 +61,6 @@ PieProgress.prototype.constructor = PieProgress;
 
 PieProgress.prototype.chooseColour = function ()
 {
-    //console.log(bulletTime_energy);
     if (bulletTime_energy > 0.5)
         return "#FFFFFF";
     else if (bulletTime_energy < 0.5)

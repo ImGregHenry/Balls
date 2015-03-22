@@ -29,10 +29,9 @@ PiePowerUpProgress.prototype.setVisible = function (isSetVisible)
 
 PiePowerUpProgress.prototype.chooseColour = function ()
 {
-    //console.log(bulletTime_energy);
-    if (bulletTime_energy > 0.5)
-        return "#FFFFFF";
-    else if (bulletTime_energy < 0.5)
+    if (powerUp_energy > 0.5)
+        return "#00CCFF";
+    else if (powerUp_energy < 0.25)
         return "#E60A24";
 }
 PiePowerUpProgress.prototype.setFront = function ()
@@ -44,7 +43,7 @@ PiePowerUpProgress.prototype.updateProgress = function ()
 {
     if(piePowerUpVisible)
     {
-         var progress = bulletTime_energy;
+        var progress = powerUp_energy;
 
         progress = Phaser.Math.clamp(progress, 0.00001, 0.99999);
         
@@ -52,7 +51,13 @@ PiePowerUpProgress.prototype.updateProgress = function ()
         bmp_powerUpPie.ctx.strokeStyle = this.chooseColour();
         bmp_powerUpPie.ctx.lineWidth = piePowerUpWeight * piePowerUpRadius;
         bmp_powerUpPie.ctx.beginPath();
-        bmp_powerUpPie.ctx.arc(bmp_powerUpPie.width * 0.5, bmp_powerUpPie.height * 0.5, piePowerUpRadius - 15, 0, (Math.PI * 2) * progress, false);
+        
+        bmp_powerUpPie.ctx.arc(bmp_powerUpPie.width * 0.5, 
+            bmp_powerUpPie.height * 0.5,
+            piePowerUpRadius - 15, 0, (
+            Math.PI * 2) * progress, 
+            false);
+
         bmp_powerUpPie.ctx.stroke();
         bmp_powerUpPie.dirty = true;
     }

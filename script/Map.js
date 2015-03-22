@@ -51,11 +51,57 @@ function getPlayerYTileIndex()
     return Math.round(position / TILE_HEIGHT);
 }
 
-//TODO: rename this function to something more descriptive
-function fillTiles()
+// Get tile index within the tilemap
+function getTileIndex(pixel)
+{
+    var position = pixel;
+
+    return Math.round(position / TILE_WIDTH);
+}
+
+var powerup_tileLocations = [];
+function isPowerUpTileLocation(x, y)
+{
+
+    for(var i = 0; i < powerup_tileLocations.length; i++)
+    {
+        if((x + "," + y) == powerup_tileLocations[i])
+            return true;
+    }
+
+    return false;
+}
+
+function setPowerUpTileLocations(pixel_x, pixel_y)
+{
+    delete powerup_tileLocations;
+    powerup_tileLocations = [];
+
+    var x = getTileIndex(pixel_x);
+    var y = getTileIndex(pixel_y);
+
+    powerup_tileLocations.push(x + "," + y);
+    powerup_tileLocations.push((x+1) + "," + y);
+    powerup_tileLocations.push(x + "," + (y+1));
+    powerup_tileLocations.push((x+1) + "," + (y+1));
+}
+
+function clearPowerUpTileLocations()
+{
+    delete powerup_tileLocations;
+    powerup_tileLocations = [];
+}
+
+function processTileFilling()
 {
     var x = getPlayerXTileIndex();
     var y = getPlayerYTileIndex();
+
+    if(isPowerUpTileLocation(x, y))
+    {
+        // player picked up a powerup
+        powerUpPickedUp();
+    }
 
     var currentTile = map.getTile(x, y, layer_map, false);
 
