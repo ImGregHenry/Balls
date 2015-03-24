@@ -21,6 +21,9 @@ const BULLET_TIME_PROGRESS_BAR_Y = 735;
 const POWER_UP_PROGRESS_BAR_X = 1275;
 const POWER_UP_PROGRESS_BAR_Y = 735;
 
+const POWER_UP_SCOREBOARD_SNOWFLAKE_X = 1256;
+const POWER_UP_SCOREBOARD_SNOWFLAKE_Y = 715;
+
 var pauseIcon;
 var soundMuteX_Icon;
 var bulletIcon;
@@ -39,6 +42,9 @@ var levelCompleteIcon;
 var levelCompleteTimer;
 var levelCompleteZoomCount = 0;
 
+var powerup_snowflake;
+var scoreboard_powerup_snowflake;
+
 var gameOverCounter;
 var gameOverIcon;
 var gameOverTimer;
@@ -47,6 +53,18 @@ var gameOverZoomCount = 0;
 var levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
 var gameOverCurrentScale = 0;
 
+
+function showScoreboardPowerUpIcon(isSetVisible)
+{
+    if(isSetVisible)
+    {
+        scoreboard_powerup_snowflake.reset(POWER_UP_SCOREBOARD_SNOWFLAKE_X, POWER_UP_SCOREBOARD_SNOWFLAKE_Y);
+    }
+    else
+    {
+        scoreboard_powerup_snowflake.kill();
+    }
+}
 
 function createPowerUpPieProgressBar(isFirstCreate)
 {
@@ -114,6 +132,8 @@ function bringGameSpritesToTop()
     pauseIcon.bringToTop();
     muteButton.bringToTop();
     soundMuteX_Icon.bringToTop();
+    powerup_snowflake.bringToTop();
+    scoreboard_powerup_snowflake.bringToTop();
 }
 
 function createGameSprites()
@@ -128,11 +148,9 @@ function createGameSprites()
     powerup_snowflake = game.add.sprite(40, 40, 'powerup-snowflake');
     powerup_snowflake.kill();
 
-    scoreboard_powerup_snowflake = game.add.sprite(40, 40, 'powerup-snowflake');
+    scoreboard_powerup_snowflake = game.add.sprite(80, 80, 'powerup-snowflake');
     scoreboard_powerup_snowflake.kill();
-
-    //spawnPowerUp(80,80);
-
+    
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 
     game.add.button(1350, 750, 'mute-icon', MuteSound);
@@ -143,7 +161,6 @@ function createGameSprites()
     bulletIcon = game.add.sprite(1075, 707, 'icon-bullet');
 }
 
-var powerup_snowflake;
 function addPowerUpSnowFlake(x, y)
 {
     //TODO: choose random location

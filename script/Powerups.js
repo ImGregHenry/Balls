@@ -143,11 +143,13 @@ function freezeTime()
     // Can't enter freeze time if already bullet time
     if (isFrozenTime || isBulletTime)
         return;
+    
     isFrozenTime = true;
     isPowerUpActive = true;
     piePowerUpVisible = true;
 
-    showPowerUpScoreboardText(true);
+    // Display text and powerup icon on scoreboard
+    showPowerUpScoreboardInfo(true);
 
     // Store ball velocities and set then set them to 0
     for (var i = 0; i < balls.length; i++)
@@ -168,7 +170,7 @@ function unfreezeTime()
     isPowerUpActive = false;
     piePowerUpVisible = false;
 
-    showPowerUpScoreboardText(false);
+    showPowerUpScoreboardInfo(false);
 
     // Restore original ball velocities
     for (var i = 0; i < balls.length; i++)
