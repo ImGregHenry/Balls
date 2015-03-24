@@ -136,7 +136,7 @@ function createScoreboard()
     characterLivesDisplay();
 }
 
-function showPowerUpScoreboardInfo(isSetVisible)
+function showPowerUpScoreboardInfo(isSetVisible, type)
 {
     if(isSetVisible)
     {
@@ -154,7 +154,7 @@ function showPowerUpScoreboardInfo(isSetVisible)
             scoreboard_powerUpText.destroy(true);
     }
     
-    showScoreboardPowerUpIcon(isSetVisible);
+    showScoreboardPowerUpIcon(isSetVisible, type);
 }
 
 function updateScoreboard()

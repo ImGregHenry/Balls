@@ -62,34 +62,61 @@ function getTileIndex(pixel)
 var powerup_tileLocations = [];
 function isPowerUpTileLocation(x, y)
 {
-
     for(var i = 0; i < powerup_tileLocations.length; i++)
     {
-        if((x + "," + y) == powerup_tileLocations[i])
-            return true;
+        var str = x + "," + y;
+        // if starts with
+        if(powerup_tileLocations[i].indexOf(str) === 0)
+        {
+            return true
+        }
     }
 
     return false;
 }
 
-function setPowerUpTileLocations(pixel_x, pixel_y)
+function setPowerUpTileLocations(pixel_x, pixel_y, powerUpType)
 {
-    delete powerup_tileLocations;
-    powerup_tileLocations = [];
+    //delete powerup_tileLocations;
+    //powerup_tileLocations = [];
 
     var x = getTileIndex(pixel_x);
     var y = getTileIndex(pixel_y);
 
-    powerup_tileLocations.push(x + "," + y);
-    powerup_tileLocations.push((x+1) + "," + y);
-    powerup_tileLocations.push(x + "," + (y+1));
-    powerup_tileLocations.push((x+1) + "," + (y+1));
+    powerup_tileLocations.push(x + "," + y + "," + powerUpType);
+    powerup_tileLocations.push((x+1) + "," + y + "," + powerUpType);
+    powerup_tileLocations.push(x + "," + (y+1) + "," + powerUpType);
+    powerup_tileLocations.push((x+1) + "," + (y+1) + "," + powerUpType);
 }
 
-function clearPowerUpTileLocations()
+function getPowerUpTypeAtTile(x, y)
 {
-    delete powerup_tileLocations;
-    powerup_tileLocations = [];
+    for(var i = 0; i < powerup_tileLocations.length; i++)
+    {
+        var str = x + "," + y;
+        // if starts with
+        if(powerup_tileLocations[i].indexOf(str) === 0)
+        { 
+            return powerup_tileLocations[i].split(',')[2];
+        }
+    }
+}
+
+function clearPowerUpTileLocations(powerUpType)
+{
+    var arrayIndex = powerup_tileLocations.length;
+    for(var i = 0; i < powerup_tileLocations.length; i++)
+    {
+        // if starts with
+        if(powerup_tileLocations[i].split(',')[2] === powerUpType)
+        {
+            powerup_tileLocations.splice(i, 1);
+            i--;
+        }
+    }
+
+    //delete powerup_tileLocations;
+    //powerup_tileLocations = [];
 }
 
 function processTileFilling()
@@ -99,8 +126,10 @@ function processTileFilling()
 
     if(isPowerUpTileLocation(x, y))
     {
+        var type = getPowerUpTypeAtTile(x, y);
+
         // player picked up a powerup
-        powerUpPickedUp();
+        powerUpPickedUp(type);
     }
 
     var currentTile = map.getTile(x, y, layer_map, false);

@@ -1,43 +1,17 @@
-﻿const BULLET_TIME_BALL_VELOCITY = 100;
-var isBulletTime = false;
-var isFrozenTime = false;
-
-var freezeTimeBallXVelocities = [];
-var freezeTimeBallYVelocities = [];
-
-var bulletTime_energy = 1.000;
-const BULLET_TIME_ENERGY_BURN_RATE = 0.005;
-const BULLET_TIME_ENERGY_REGEN_RATE = 0.002;
+const BULLET_TIME_ENERGY_BURN_RATE = 0.0055;
+const BULLET_TIME_ENERGY_REGEN_RATE = 0.0015;
 const BULLET_TIME_ENERGY_TIME_INTERVAL = 1.0;
 const BULLET_TIME_MINIMUM_START_ENERGY = 0.5;
 
-var powerUp_energy = 1.000;
-const POWER_UP_FREEZE_ENERGY_BURN_RATE = 0.0045;
-const POWER_UP_FREEZE_ENERGY_TIME_INTERVAL = 1.0;
+const BULLET_TIME_BALL_VELOCITY = 100;
 
+var bulletTime_energy = 1.000;
+var isBulletTime = false;
 var timer_bulletTime;
-var timer_powerUpTime;
 
 var bulletTimeStartSound;
 var bulletTimeHeartbeatSound;
 
-var isPowerUpActive = false;
-
-
-function spawnPowerUp(x, y)
-{
-    //TODO: handle type of powerup
-    addPowerUpSnowFlake(x, y);
-    setPowerUpTileLocations(x, y);
-}
-
-function powerUpPickedUp()
-{
-    clearPowerUpTileLocations();
-    removePowerUpSnowFlake();
-
-    freezeTime();
-}
 
 function bulletTimeTick()
 {
@@ -69,7 +43,8 @@ function bulletTimeTick()
 function startBulletTime()
 {
     // Can't enter bullet time if already freeze time
-    if (isBulletTime || isFrozenTime)
+    // am i blind
+    if (isBulletTime || isFreezeTimeActive)
         return;
 
     if (bulletTime_energy > BULLET_TIME_MINIMUM_START_ENERGY)
@@ -136,67 +111,4 @@ function getVelocityScalingDirection(val)
         return 1.0;
     else
         return -1.0;
-}
-
-function freezeTime()
-{
-    // Can't enter freeze time if already bullet time
-    if (isFrozenTime || isBulletTime)
-        return;
-    
-    isFrozenTime = true;
-    isPowerUpActive = true;
-    piePowerUpVisible = true;
-
-    // Display text and powerup icon on scoreboard
-    showPowerUpScoreboardInfo(true);
-
-    // Store ball velocities and set then set them to 0
-    for (var i = 0; i < balls.length; i++)
-    {
-        freezeTimeBallXVelocities[i] = balls.getAt(i).body.velocity.x;
-        freezeTimeBallYVelocities[i] = balls.getAt(i).body.velocity.y;
-        balls.getAt(i).body.velocity.x = 0;
-        balls.getAt(i).body.velocity.y = 0;
-    }
-}
-
-function unfreezeTime()
-{
-    if (!isFrozenTime)
-        return;
-    
-    isFrozenTime = false;
-    isPowerUpActive = false;
-    piePowerUpVisible = false;
-
-    showPowerUpScoreboardInfo(false);
-
-    // Restore original ball velocities
-    for (var i = 0; i < balls.length; i++)
-    {
-        balls.getAt(i).body.velocity.x = freezeTimeBallXVelocities[i];
-        balls.getAt(i).body.velocity.y = freezeTimeBallYVelocities[i];
-    }
-}
-
-function freezeTimeTick()
-{
-    if (!isGamePaused)
-    {
-        // Drain bullet time energy
-        if (isPowerUpActive && isFrozenTime)
-        {
-            // Drain bullet time energy
-            if (powerUp_energy > POWER_UP_FREEZE_ENERGY_BURN_RATE)
-            {
-                powerUp_energy = powerUp_energy - POWER_UP_FREEZE_ENERGY_BURN_RATE;
-            }
-            // Out of bullet time energy
-            else
-            {
-                unfreezeTime();
-            }
-        }
-    }
 }

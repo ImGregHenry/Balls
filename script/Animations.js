@@ -42,8 +42,10 @@ var levelCompleteIcon;
 var levelCompleteTimer;
 var levelCompleteZoomCount = 0;
 
+var powerup_lightningbolt;
 var powerup_snowflake;
 var scoreboard_powerup_snowflake;
+var scoreboard_powerup_lightningbolt;
 
 var gameOverCounter;
 var gameOverIcon;
@@ -54,15 +56,26 @@ var levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
 var gameOverCurrentScale = 0;
 
 
-function showScoreboardPowerUpIcon(isSetVisible)
+function showScoreboardPowerUpIcon(isSetVisible, powerUpType)
 {
     if(isSetVisible)
     {
-        scoreboard_powerup_snowflake.reset(POWER_UP_SCOREBOARD_SNOWFLAKE_X, POWER_UP_SCOREBOARD_SNOWFLAKE_Y);
+        if(powerUpType == POWERUPS.FREEZE_TIME)
+            scoreboard_powerup_snowflake.reset(POWER_UP_SCOREBOARD_SNOWFLAKE_X, POWER_UP_SCOREBOARD_SNOWFLAKE_Y);
+        else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
+            scoreboard_powerup_lightningbolt.reset(POWER_UP_SCOREBOARD_SNOWFLAKE_X, POWER_UP_SCOREBOARD_SNOWFLAKE_Y);
+        //else if(powerUpType == POWERUPS.DIAMOND)
+        //else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
     }
     else
     {
-        scoreboard_powerup_snowflake.kill();
+        if(powerUpType == POWERUPS.FREEZE_TIME)
+            scoreboard_powerup_snowflake.kill();
+        else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
+            scoreboard_powerup_lightningbolt.kill();
+        //else if(powerUpType == POWERUPS.DIAMOND)
+        //else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
+       
     }
 }
 
@@ -150,7 +163,15 @@ function createGameSprites()
 
     scoreboard_powerup_snowflake = game.add.sprite(80, 80, 'powerup-snowflake');
     scoreboard_powerup_snowflake.kill();
-    
+
+    powerup_lightningbolt = game.add.sprite(80, 80, 'powerup-lightningbolt');
+    powerup_lightningbolt.kill();
+
+    scoreboard_powerup_lightningbolt = game.add.sprite(80, 80, 'powerup-lightningbolt');
+    scoreboard_powerup_lightningbolt.kill();
+
+    spawnPowerUp(60, 60, POWERUPS.FREEZE_TIME);
+    spawnPowerUp(900, 700, POWERUPS.LIGHTNING_SPEED);
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 
     game.add.button(1350, 750, 'mute-icon', MuteSound);
@@ -161,24 +182,62 @@ function createGameSprites()
     bulletIcon = game.add.sprite(1075, 707, 'icon-bullet');
 }
 
-function addPowerUpSnowFlake(x, y)
+function addPowerUpToMap(x, y, powerUpType)
 {
-    //TODO: choose random location
-    //TODO: add collisions to powerups
-    if(powerup_snowflake != null)
+    if(powerUpType == POWERUPS.FREEZE_TIME)
     {
-        //powerup_snowflake.enableBody = true;
-        //game.physics.arcade.enable(powerup_snowflake);
-
-        powerup_snowflake.reset(x,y);
-
-        powerup_snowflake.bringToTop();
+        //TODO: add collisions to powerups
+        if(powerup_snowflake != null)
+        {
+            //powerup_snowflake.enableBody = true;
+            //game.physics.arcade.enable(powerup_snowflake);
+            powerup_snowflake.reset(x, y);
+            powerup_snowflake.bringToTop();
+        }
+    }
+    else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
+    {
+        if(powerup_lightningbolt != null)
+        {
+            powerup_lightningbolt.reset(x, y);
+            powerup_lightningbolt.bringToTop();
+        }
+    }
+    else if(powerUpType == POWERUPS.DIAMOND)
+    {
+        
+    }
+    else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
+    {
+        
     }
 }
 
-function removePowerUpSnowFlake()
+function removeMapPowerUp(powerUpType)
 {
-    powerup_snowflake.kill();
+     if(powerUpType == POWERUPS.FREEZE_TIME)
+    {
+        //TODO: add collisions to powerups
+        if(powerup_snowflake != null)
+        {
+            powerup_snowflake.kill();
+        }
+    }
+    else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
+    {
+        if(powerup_lightningbolt != null)
+        {
+            powerup_lightningbolt.kill();
+        }
+    }
+    else if(powerUpType == POWERUPS.DIAMOND)
+    {
+        
+    }
+    else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
+    {
+        
+    }
 }
 
 function showPauseIcon(isSetVisible)
@@ -190,6 +249,8 @@ function showMuteXIcon(isSetVisible)
 {
     soundMuteX_Icon.visible = isSetVisible;
 }
+
+
 
 //TODO: reuse animation cycles between gameover/levelcomplete/boom
 // Create the boom animation timer

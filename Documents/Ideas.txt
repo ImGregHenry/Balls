@@ -44,6 +44,9 @@ COMPLETE
 \- Create powerup pie chart bar
 \- Freeze-time limit bar
 \- Powerups pickups
+\- Player lightning speed
+\- Freeze-time balls animate
+
 
 -- TileMap.fill to be replaced by TileMap.putTile
 %%%%%- Investigate fps lag -- tile filling
@@ -85,16 +88,18 @@ BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
 ?%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
-%%- Handle multiple score animation tweens (only singular enabled)
-%%- Remove possibility of overlapping stars at spawn time
+%%%- Handle multiple score animation tweens (only singular enabled)
 %%- Verify no simple ways of hacking high scores
 %%- Fix bug where stars can exit the tile map
+%- Remove possibility of overlapping stars at spawn time
 %- Stop level timer during boom animation?
 %- Fix tile fill algorithm for edge cases (choose starting points)
 %- Handle between games better
 %- Game restart with major abuse causes lag
 
 CODE FIXES:
+-- Add namespacing
+-- Create a file strictly for managing sprites (remove from animations)
 -- Move all sprites/audio/buttons creations into a single file
 -- Remove hard coding of image positions
 -- Function name fixes, wtf: playerDiedStartRoundStartTimers
@@ -104,6 +109,7 @@ CODE FIXES:
 -- create a class for coordinates (x,y)
 
 ENHANCEMENTS:
+\- Level complete bonus score
 \- Points for trapping a ball in a small area
 \- Add animations for scoreboard change
 \- Choose starting level
@@ -122,12 +128,11 @@ ENHANCEMENTS:
 \- Can't move back on your own danger zone (warning: middle of square)
 
 POWERUPS
-\- Bullet-time balls animate
+\- Diamond powerup for bonus score
+\- Extra lives
 \- Score multiplier
-\- Freeze-time balls animate
 \- Invulnerability and SuperSized ball
 \- Ball acceleration
-\- Player acceleration
 \- Laser-beam clear (straight line fast clear)
 \- Balls flip directions spontaneously
 \- Balls increase speed with every bounce

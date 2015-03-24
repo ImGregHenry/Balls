@@ -119,8 +119,9 @@ BasicGame.Game.prototype = {
         game.load.image('mute-icon', 'assets/images/game/MuteIcon.png', true);
         game.load.image('x', 'assets/images/game/x.png', true);
         game.load.image('icon-paused', 'assets/images/game/Paused.png', true);
-        game.load.image('icon-bullet', 'assets/images/powerups/Bullet.png', true);
+        game.load.image('icon-bullet', 'assets/images/powerups/bullet.png', true);
         game.load.image('powerup-snowflake', 'assets/images/powerups/snowflake.png', true);
+        game.load.image('powerup-lightningbolt', 'assets/images/powerups/lightningbolt.png', true);
 
         game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
         game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);
@@ -156,7 +157,7 @@ BasicGame.Game.prototype = {
 
         // Create bullet time and powerup event looper
         timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
-        timer_powerUpTime = game.time.events.loop(POWER_UP_FREEZE_ENERGY_TIME_INTERVAL, freezeTimeTick, this);
+        timer_powerUpTime = game.time.events.loop(POWER_UP_TICK_TIME_INTERVAL, powerUpTimeTick, this);
 
         nextLevelUpdates();
 

@@ -1,4 +1,7 @@
-﻿
+﻿const POWER_UP_FREEZE_TIME_COLOUR = "#00CCFF";
+const POWER_UP_LIGHTNING_SPEED_COLOUR = "#FFFF00"
+const POWER_UP_LOW_ENERGY_COLOUR = "#E60A24";
+
 var piePowerUp;
 var piePowerUpTween;
 var piePowerUpProgress;
@@ -30,9 +33,14 @@ PiePowerUpProgress.prototype.setVisible = function (isSetVisible)
 PiePowerUpProgress.prototype.chooseColour = function ()
 {
     if (powerUp_energy > 0.5)
-        return "#00CCFF";
+    {
+        if(isFreezeTimeActive)
+            return POWER_UP_FREEZE_TIME_COLOUR;
+        else if(isLightningSpeedActive)
+            return POWER_UP_LIGHTNING_SPEED_COLOUR;
+    }
     else if (powerUp_energy < 0.25)
-        return "#E60A24";
+        return POWER_UP_LOW_ENERGY_COLOUR;
 }
 PiePowerUpProgress.prototype.setFront = function ()
 {

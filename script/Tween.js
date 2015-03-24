@@ -1,8 +1,14 @@
-﻿
+﻿const SCORE_GAINED_ANIMATION_DISTANCE_Y = 10;
+const CHARACTER_SPEED = 50;
+const CHARACTER_LIGHTNING_SPEED = 15;
+
 var scoreGainedTextStyle = { font: "30px Arial", fill: "#E60A24" }; //ff0044
 var scoreGainedTween = null;
 var scoreGainedText;
-const SCORE_GAINED_ANIMATION_DISTANCE_Y = 10;
+
+var playerTween = null;
+
+
 // Animates percent complete text via tweening
 function startScoreGainedTween(x, y, animatedText)
 {
@@ -21,9 +27,6 @@ function scoreGainedTweenComplete()
     scoreGainedText.destroy(true);
 }
 
-
-
-var playerTween = null;
 // Animates player movement via tweening
 function startPlayerTween(x, y)
 {
@@ -37,7 +40,16 @@ function startPlayerTween(x, y)
     
         playerTween.onComplete.add(playerTweenComplete, this);
         
-        playerTween.to({ x: x, y: y }, 50, Phaser.Easing.Linear.None, true);   //Phaser.Easing.Quadratic.InOut
+        //Phaser.Easing.Quadratic.InOut
+        if(isLightningSpeedActive)
+        {
+            playerTween.to({ x: x, y: y }, CHARACTER_LIGHTNING_SPEED, Phaser.Easing.Linear.None, true);   
+        }
+        else
+        {
+            playerTween.to({ x: x, y: y }, CHARACTER_SPEED, Phaser.Easing.Linear.None, true);   
+        }
+        
         playerTween.start();
     }
 }
