@@ -126,10 +126,10 @@ function processTileFilling()
 
     if(isPowerUpTileLocation(x, y))
     {
-        var type = getPowerUpTypeAtTile(x, y);
+        var powerUpType = getPowerUpTypeAtTile(x, y);
 
         // player picked up a powerup
-        powerUpPickedUp(type);
+        powerUpPickedUp(x, y, powerUpType);
     }
 
     var currentTile = map.getTile(x, y, layer_map, false);
@@ -177,9 +177,6 @@ function processTileFilling()
 
             //startPercentCompleteAnimation(percentClearedBefore, percentClearedAnmiation_X, percentClearedAnmiation_Y);
             processScoreChanges(level_totalFilledTiles - tilesCleared, percentClearedAnmiation_X, percentClearedAnmiation_Y);
-
-            // Update the scoreboard with new values
-            updateScoreboard();
 
             if (isLevelComplete())
             {

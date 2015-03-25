@@ -2,7 +2,11 @@
 const CHARACTER_SPEED = 50;
 const CHARACTER_LIGHTNING_SPEED = 15;
 
-var scoreGainedTextStyle = { font: "30px Arial", fill: "#E60A24" }; //ff0044
+const SCORE_GAINED_TEXT_STYLE = { font: "30px Arial", fill: "#E60A24" }; //ff0044
+const SCORE_GAINED_TEXT_TWEEN_DURATION = 750;
+
+const POWER_UP_SCORE_GAINED_TEXT_STYLE = { font: "30px Arial", fill: "#00CC00" }; //ff0044
+const POWER_UP_SCORE_TWEEN_DURATION = 1000;
 
 var playerTween = null;
 
@@ -13,16 +17,27 @@ var scoreGainedTextArray = [];
 
 
 // Animates percent complete text via tweening
-function startScoreGainedTween(x, y, animatedText)
+function startScoreGainedTween(x, y, animatedText, isPowerUpDiamond)
 {
     var scoreGainedTween = null;
     var scoreGainedText = null;
+    var tweenDuration = 0;
 
-    scoreGainedText = game.add.text(x, y, animatedText, scoreGainedTextStyle);
-    
+    if(isPowerUpDiamond)
+    {
+        scoreGainedText = game.add.text(x, y, animatedText, POWER_UP_SCORE_GAINED_TEXT_STYLE);
+        tweenDuration = POWER_UP_SCORE_TWEEN_DURATION;
+    }
+    else
+    {
+        scoreGainedText = game.add.text(x, y, animatedText, SCORE_GAINED_TEXT_STYLE);
+        tweenDuration = SCORE_GAINED_TEXT_TWEEN_DURATION;
+    }
+
     scoreGainedTween = game.add.tween(scoreGainedText);
+    
     scoreGainedTween.onComplete.add(scoreGainedTweenComplete, this);
-    scoreGainedTween.to({ x: x, y: y - SCORE_GAINED_ANIMATION_DISTANCE_Y }, 500, Phaser.Easing.Linear.None, true);   //Phaser.Easing.Quadratic.InOut
+    scoreGainedTween.to({ x: x, y: y - SCORE_GAINED_ANIMATION_DISTANCE_Y }, tweenDuration, Phaser.Easing.Linear.None, true);
     scoreGainedTween.start();
 
     scoreGainedTweenArray.push(scoreGainedTween);

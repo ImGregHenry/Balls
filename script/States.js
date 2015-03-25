@@ -122,6 +122,7 @@ BasicGame.Game.prototype = {
         game.load.image('icon-bullet', 'assets/images/powerups/bullet.png', true);
         game.load.image('powerup-snowflake', 'assets/images/powerups/snowflake.png', true);
         game.load.image('powerup-lightningbolt', 'assets/images/powerups/lightningbolt.png', true);
+        game.load.image('powerup-diamond', 'assets/images/powerups/diamond.png', true);
 
         game.load.audio('audio-bullet-time-heartbeat', 'assets/sounds/bullet-time-heartbeat.mp3', true);
         game.load.audio('audio-bullet-time-stop', 'assets/sounds/bullet-time-stop.mp3', true);

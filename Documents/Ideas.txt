@@ -46,8 +46,7 @@ COMPLETE
 \- Powerups pickups
 \- Player lightning speed
 \- Freeze-time balls animate
-
-
+\- Diamond powerup for bonus score
 -- TileMap.fill to be replaced by TileMap.putTile
 %%%%%- Investigate fps lag -- tile filling
 %%%%- Can't use hotkeys for typing into high scores
@@ -57,6 +56,7 @@ COMPLETE
 %%%%- Basic garbage collection implemented.
 %%%- Player lives are not dropping on the scoreboard when they die
 %%%- Bullet time doesn't work after going to the main menu (the timer dies).
+%%%- Handle multiple score animation tweens (only singular enabled)
 %%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
 %%- Clean up bullet time functionality
 %%- Fix sprites disappearing after level end
@@ -68,7 +68,7 @@ COMPLETE
 %- Reset bullet time bar when game is restarted
 %- Fixed bug with game over where sprite did not center immediately
 
-*- Added
+
 CORE BETA GOALS
 *- Tweak scaling of score (balancing)
 *- Help menu
@@ -88,12 +88,11 @@ BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
 ?%%- Fix bug where you can die after clearing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
-%%%- Handle multiple score animation tweens (only singular enabled)
 %%- Verify no simple ways of hacking high scores
 %%- Fix bug where stars can exit the tile map
+%%- Fix tile fill algorithm for edge cases (use end point as well)
 %- Remove possibility of overlapping stars at spawn time
 %- Stop level timer during boom animation?
-%- Fix tile fill algorithm for edge cases (choose starting points)
 %- Handle between games better
 %- Game restart with major abuse causes lag
 
@@ -128,7 +127,6 @@ ENHANCEMENTS:
 \- Can't move back on your own danger zone (warning: middle of square)
 
 POWERUPS
-\- Diamond powerup for bonus score
 \- Extra lives
 \- Score multiplier
 \- Invulnerability and SuperSized ball

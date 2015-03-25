@@ -170,7 +170,10 @@ function createGameSprites()
     scoreboard_powerup_lightningbolt = game.add.sprite(80, 80, 'powerup-lightningbolt');
     scoreboard_powerup_lightningbolt.kill();
 
+    powerup_diamond = game.add.sprite(40, 40, 'powerup-diamond');
+
     //spawnPowerUp(60, 60, POWERUPS.FREEZE_TIME);
+    //spawnPowerUp(40, 40, POWERUPS.DIAMOND);
     //spawnPowerUp(900, 700, POWERUPS.LIGHTNING_SPEED);
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 
@@ -205,7 +208,11 @@ function addPowerUpToMap(x, y, powerUpType)
     }
     else if(powerUpType == POWERUPS.DIAMOND)
     {
-        
+        if(powerup_diamond != null)
+        {
+            powerup_diamond.reset(x, y);
+            powerup_diamond.bringToTop();
+        }
     }
     else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
     {
@@ -232,7 +239,7 @@ function removeMapPowerUp(powerUpType)
     }
     else if(powerUpType == POWERUPS.DIAMOND)
     {
-        
+        powerup_diamond.kill();
     }
     else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
     {

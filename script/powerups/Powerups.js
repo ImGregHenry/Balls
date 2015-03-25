@@ -12,30 +12,34 @@ var isPowerUpActive = false;
 
 function spawnPowerUp(x, y, powerUpType)
 {
+    //TODO: detect conflicting powerup placements
     setPowerUpTileLocations(x, y, powerUpType);
+
     addPowerUpToMap(x, y, powerUpType);
 }
 
-function powerUpPickedUp(powerUpType)
+function powerUpPickedUp(tileX, tileY, powerUpType)
 {
     powerUp_energy = 1.000;
+
+    activatePowerUp(tileX, tileY, powerUpType);
 
     //TODO: handle power up pickup while another power up is active
     clearPowerUpTileLocations(powerUpType);
     removeMapPowerUp(powerUpType);
-    activatePowerUp(powerUpType);
 }
 
-function activatePowerUp(powerUpType)
+function activatePowerUp(tileX, tileY, powerUpType)
 {
     //TODO: deactivate other powerups
     if(powerUpType == POWERUPS.FREEZE_TIME)
         freezeTime();
     else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
         startLightningSpeed();
+    else if(powerUpType == POWERUPS.DIAMOND)
+        diamondPowerUpPickedUp(tileX, tileY);
     else 
         console.log("invalid powerup activation.")
-    //else if(powerUpType == POWERUPS.DIAMOND)
     //else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
 }
 

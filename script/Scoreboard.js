@@ -212,21 +212,26 @@ function characterLivesDisplay()
 }
 
 
-//TODO: clean up the percent complete animation
-//function startPercentCompleteAnimation(percentCompleteBefore, percentClearedAnmiation_X, percentClearedAnmiation_Y)
 function processScoreChanges(tilesCleared, animationTile_X, animationTile_Y)
 {
-    //var diff = level_percentComplete - percentCompleteBefore;
     //var percentCleared = Math.round(diff * 10) / 10 + "%";
     //console.log("Level_PercentComplete: " + level_percentComplete + " Before: " + percentCompleteBefore + " Diff: " + diff + " PercentCleared: " + percentCleared);
     var scoreGained = calculateScoreGained(tilesCleared);
-    level_currentScore += scoreGained;
+    
+    adjustCurrentScore(scoreGained);
+    
+    // Animation for the amount of points gained at location where clear was done
+    startScoreGainedTween(animationTile_X * TILE_WIDTH, animationTile_Y * TILE_WIDTH, scoreGained, false);
+}
+
+function adjustCurrentScore(amount)
+{
+    level_currentScore += amount;
 
     if (level_highScore < level_currentScore)
         level_highScore = level_currentScore;
     
-    // Animation for the amount of points gained at location where clear was done
-    startScoreGainedTween(animationTile_X * TILE_WIDTH, animationTile_Y * TILE_WIDTH, scoreGained);
+    updateScoreboard();
 }
 
 function calculateScoreGained(tilesCleared)
@@ -239,8 +244,7 @@ function calculateScoreGained(tilesCleared)
 
     // Calculate full score gained
     var score = baseScore + tier * SCORE_TILE_TIER_VALUE;
-
     //console.log("SCORE.  Base: " + baseScore + " Tier: " + tier + " Total: " + score + " Overall: " + level_currentScore);
-
+    
     return score;
 }
