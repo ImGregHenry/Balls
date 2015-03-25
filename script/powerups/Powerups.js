@@ -1,8 +1,10 @@
-﻿var POWERUPS = {
+﻿const POWER_UP_TICK_TIME_INTERVAL = 1.0;
+const POWER_UP_SPAWN_TICK_TIME_INTERVAL = 1000;
+const POWERUPS = {
     FREEZE_TIME : 0,
     LIGHTNING_SPEED : 1,
-    INVISIBLE_BALLS : 2,
-    DIAMOND : 3
+    DIAMOND : 2,
+    INVISIBLE_BALLS : 3
 }
 
 var timer_powerUpTime;
@@ -10,21 +12,22 @@ var powerUp_energy = 1.000;
 var isPowerUpActive = false;
 
 
-function spawnPowerUp(x, y, powerUpType)
+function spawnPowerUp(pixelX, pixelY, powerUpType)
 {
     //TODO: detect conflicting powerup placements
-    setPowerUpTileLocations(x, y, powerUpType);
+    setPowerUpTileLocations(pixelX, pixelY, powerUpType);
 
-    addPowerUpToMap(x, y, powerUpType);
+    addPowerUpToMap(pixelX, pixelY, powerUpType);
 }
 
 function powerUpPickedUp(tileX, tileY, powerUpType)
 {
+    stopAllPowerUps();
+
     powerUp_energy = 1.000;
 
     activatePowerUp(tileX, tileY, powerUpType);
 
-    //TODO: handle power up pickup while another power up is active
     clearPowerUpTileLocations(powerUpType);
     removeMapPowerUp(powerUpType);
 }
@@ -33,7 +36,10 @@ function activatePowerUp(tileX, tileY, powerUpType)
 {
     //TODO: deactivate other powerups
     if(powerUpType == POWERUPS.FREEZE_TIME)
+    {
+        stopBulletTime();
         freezeTime();
+    }
     else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
         startLightningSpeed();
     else if(powerUpType == POWERUPS.DIAMOND)
@@ -75,4 +81,26 @@ function powerUpTimeTick()
             }
         }
     }
+}
+
+var tick = 0;
+function powerUpSpawnTicker()
+{
+    //console.log("tick: " + tick++ + ". Rand: " + val);
+    if(val === 1)
+    {
+        var powerUpType = chooseRandomValueBetweenInterval(0, 2);        
+
+        var randomXPixelSpawn =  Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxXCoordinate()) / 20) * TILE_WIDTH;
+        var randomYPixelSpawn = Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxYCoordinate()) / 20) * TILE_HEIGHT;
+
+        //console.log("Spawning Randomly at: " + randomXPixelSpawn + "," + randomYPixelSpawn + ". Type:" + powerUpType);
+        spawnPowerUp(randomXPixelSpawn, randomYPixelSpawn, powerUpType);
+    }
+}
+
+function stopAllPowerUps()
+{
+    stopLightningSpeed();
+    unfreezeTime();
 }

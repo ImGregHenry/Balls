@@ -1,5 +1,5 @@
 const POWER_UP_FREEZE_ENERGY_BURN_RATE = 0.0055;
-const POWER_UP_TICK_TIME_INTERVAL = 1.0;
+
 var isFreezeTimeActive = false;
 
 var freezeTimeBallXVelocities = [];

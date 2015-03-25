@@ -77,8 +77,8 @@ function isPowerUpTileLocation(x, y)
 
 function setPowerUpTileLocations(pixel_x, pixel_y, powerUpType)
 {
-    //delete powerup_tileLocations;
-    //powerup_tileLocations = [];
+    // Remove previously existing powerups of that type on the map
+    clearPowerUpTileLocations(powerUpType);
 
     var x = getTileIndex(pixel_x);
     var y = getTileIndex(pixel_y);
@@ -108,15 +108,12 @@ function clearPowerUpTileLocations(powerUpType)
     for(var i = 0; i < powerup_tileLocations.length; i++)
     {
         // if starts with
-        if(powerup_tileLocations[i].split(',')[2] === powerUpType)
+        if(powerup_tileLocations[i].split(',')[2] == powerUpType)
         {
             powerup_tileLocations.splice(i, 1);
             i--;
         }
     }
-
-    //delete powerup_tileLocations;
-    //powerup_tileLocations = [];
 }
 
 function processTileFilling()

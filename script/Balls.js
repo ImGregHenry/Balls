@@ -64,9 +64,9 @@ function spawnBalls()
     for (var i = 0; i < level_numberOfBalls; i++)
     {
         // Create each ball with the preset values
-        var minXY = MAP_BORDER_THICKNESS * TILE_WIDTH;
-        var maxX = (MAP_TILE_WIDTH * TILE_WIDTH) - ((1 + MAP_BORDER_THICKNESS) * TILE_WIDTH);
-        var maxY = (MAP_TILE_HEIGHT * TILE_HEIGHT) - ((1 + MAP_BORDER_THICKNESS) * TILE_HEIGHT);
+        var minXY = getMapMinPixel();
+        var maxX = getMapMaxXCoordinate();
+        var maxY = getMapMaxYCoordinate();
         
         var randomXCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxX);
         var randomYCoordinateSpawn = chooseRandomValueBetweenInterval(minXY, maxY);
@@ -104,5 +104,20 @@ function playerTweenComplete()
     processTileFilling();
 }
 
+// Minimum pixel for x and y within map
+function getMapMinPixel()
+{
+    return MAP_BORDER_THICKNESS * TILE_WIDTH;
+}
 
+// Maximum pixel for x within map
+function getMapMaxXCoordinate()
+{
+    return (MAP_TILE_WIDTH * TILE_WIDTH) - ((1 + MAP_BORDER_THICKNESS) * TILE_WIDTH);
+}
 
+// Maximum pixel for y within map
+function getMapMaxYCoordinate()
+{
+    return (MAP_TILE_HEIGHT * TILE_HEIGHT) - ((1 + MAP_BORDER_THICKNESS) * TILE_HEIGHT);
+}
