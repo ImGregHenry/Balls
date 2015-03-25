@@ -170,8 +170,8 @@ function createGameSprites()
     scoreboard_powerup_lightningbolt = game.add.sprite(80, 80, 'powerup-lightningbolt');
     scoreboard_powerup_lightningbolt.kill();
 
-    spawnPowerUp(60, 60, POWERUPS.FREEZE_TIME);
-    spawnPowerUp(900, 700, POWERUPS.LIGHTNING_SPEED);
+    //spawnPowerUp(60, 60, POWERUPS.FREEZE_TIME);
+    //spawnPowerUp(900, 700, POWERUPS.LIGHTNING_SPEED);
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 
     game.add.button(1350, 750, 'mute-icon', MuteSound);

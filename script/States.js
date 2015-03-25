@@ -129,6 +129,7 @@ BasicGame.Game.prototype = {
         game.load.audio('audio-player-explodes', 'assets/sounds/player-explodes.mp3', true);
         game.load.audio('audio-game-over', 'assets/sounds/game-over.wav', true);
         game.load.audio('audio-level-complete', 'assets/sounds/level-completed.ogg', true);
+        game.load.audio('audio-powerup-lightningstrike', 'assets/sounds/powerup-lightning-strike.mp3', true);
 
         game.time.advancedTiming = true;
     },

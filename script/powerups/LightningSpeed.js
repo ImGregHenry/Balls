@@ -13,6 +13,9 @@ function startLightningSpeed()
     isPowerUpActive = true;
     piePowerUpVisible = true;
 
+    lightningStrikeSound = GetPowerUpLightningStrikeSound();
+    lightningStrikeSound.play();
+
     // Display text and powerup icon on scoreboard
     showPowerUpScoreboardInfo(true, POWERUPS.LIGHTNING_SPEED);
 }

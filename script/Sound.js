@@ -32,6 +32,16 @@ function GetLevelCompleteSound()
     return game.add.audio('audio-level-complete', gameSoundEffectVolume, false)
 }
 
+function GetLevelCompleteSound()
+{
+    return game.add.audio('audio-level-complete', gameSoundEffectVolume, false)
+}
+
+function GetPowerUpLightningStrikeSound()
+{
+    return game.add.audio('audio-powerup-lightningstrike', gameSoundEffectVolume, false)
+}
+
 function MuteSound()
 {
     // Toggle mute
