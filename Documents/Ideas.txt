@@ -48,6 +48,7 @@ COMPLETE
 \- Freeze-time balls animate
 \- Diamond powerup for bonus score
 -- TileMap.fill to be replaced by TileMap.putTile
+-- Create a file strictly for managing sprites (remove from animations)
 %%%%%- Investigate fps lag -- tile filling
 %%%%- Can't use hotkeys for typing into high scores
 %%%%- Garbage collection problems (restart fps lag)
@@ -84,6 +85,10 @@ CORE BETA GOALS
  - Add bullet time image.
  - Force game focus --> game.stage.disableVisibilityChange = true;
 
+TODO:
+%%%- Fix bug where last tile in lightning speed mode doesn't fill
+%%-
+
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
 ?%%- Fix bug where you can die after clearing
@@ -98,7 +103,6 @@ BUGS:
 
 CODE FIXES:
 -- Add namespacing
--- Create a file strictly for managing sprites (remove from animations)
 -- Move all sprites/audio/buttons creations into a single file
 -- Remove hard coding of image positions
 -- Function name fixes, wtf: playerDiedStartRoundStartTimers
