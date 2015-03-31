@@ -68,6 +68,7 @@ COMPLETE
 %- Stop game timer once level complete animation starts
 %- Reset bullet time bar when game is restarted
 %- Fixed bug with game over where sprite did not center immediately
+%- Center the level complete animation relative to screen position
 
 
 CORE BETA GOALS
@@ -87,7 +88,7 @@ CORE BETA GOALS
 
 TODO:
 %%%- Fix bug where last tile in lightning speed mode doesn't fill
-%%-
+%%%%- Dying while in frozen speed breaks things
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)

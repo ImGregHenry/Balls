@@ -148,9 +148,14 @@ function spawnLevelCompleteAnimation()
     disableAllMovementAndTimers(true);
     pauseLevelTimer(true);
 
-    //TODO: calculate exact location for boom explosion
-    levelCompleteIcon = game.add.sprite(((MAP_TILE_WIDTH + 20) * TILE_WIDTH / 2), (MAP_TILE_HEIGHT * TILE_HEIGHT / 2), 'level-complete');
+    levelCompleteIcon = game.add.sprite(0, 0, 'level-complete');
+        console.log("DEFAULT SIZE: " + levelCompleteIcon.width + ", " + levelCompleteIcon.height);
+
     levelCompleteIcon.scale.setTo(LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE, LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE);
+    levelCompleteIcon.reset(calculateMapCenterRelativeToImageX(levelCompleteIcon.width),
+        calculateMapCenterRelativeToImageY(levelCompleteIcon.height));
+    
+    console.log("DEFAULT SIZE: " + levelCompleteIcon.width + ", " + levelCompleteIcon.height);
     levelCompleteTimer = game.time.create(true);
     levelCompleteTimer.loop(LEVEL_COMPLETE_TIMER_TICK_INTERVAL, animateLevelCompleteComplete, this);
     levelCompleteTimer.start();
@@ -175,7 +180,7 @@ function animateLevelCompleteComplete()
         levelCompleteCurrentScale += LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE_INTERVAL;
         // Have it zoom to a larger icon
         levelCompleteIcon.scale.setTo(levelCompleteCurrentScale, levelCompleteCurrentScale);
-
+        
         levelCompleteIcon.position = new Phaser.Point(
             calculateMapCenterRelativeToImageX(levelCompleteIcon.width),
             calculateMapCenterRelativeToImageY(levelCompleteIcon.height));
@@ -189,7 +194,7 @@ function spawnGameOverAnimation()
 
     //TODO: calculate exact location for boom explosion
     //gameOverIcon = game.add.sprite((MAP_TILE_WIDTH * TILE_WIDTH / 2) - 140, (MAP_TILE_HEIGHT * TILE_HEIGHT / 2) - 140, 'game-over');
-    gameOverIcon = game.add.sprite(calculateMapCenterRelativeToImageX(0), calculateMapCenterRelativeToImageY(0), 'game-over');
+    gameOverIcon = game.add.sprite(calculateFullMapCenterRelativeToImageX(0), calculateMapCenterRelativeToImageY(0), 'game-over');
 
     gameOverIcon.scale.setTo(GAME_OVER_DEFAULT_IMAGE_SCALE, GAME_OVER_DEFAULT_IMAGE_SCALE);
     gameOverTimer = game.time.create(true);
@@ -219,16 +224,15 @@ function animategameOverComplete()
         gameOverIcon.scale.setTo(gameOverCurrentScale, gameOverCurrentScale);
 
         gameOverIcon.position = new Phaser.Point(
-            calculateMapCenterRelativeToImageX(gameOverIcon.width),
+            calculateFullMapCenterRelativeToImageX(gameOverIcon.width),
             calculateMapCenterRelativeToImageY(gameOverIcon.height));
     }
 }
 
+// Game map (excludes scoreboard)
 function calculateMapCenterRelativeToImageX(imageSizeX)
 {
-    var map_center_x = 0;
-
-    map_center_x = (MAP_TILE_WIDTH + TILE_WIDTH) * TILE_WIDTH / 2;
+    var map_center_x = (MAP_TILE_WIDTH * TILE_WIDTH / 2);
 
     var x_starting_point = map_center_x - (imageSizeX / 2);
     return x_starting_point;
@@ -236,10 +240,17 @@ function calculateMapCenterRelativeToImageX(imageSizeX)
 
 function calculateMapCenterRelativeToImageY(imageSizeY)
 {
-    var map_center_y = 0;
-
-    map_center_y = MAP_TILE_HEIGHT * TILE_HEIGHT / 2;
-
+    var map_center_y = MAP_TILE_HEIGHT * TILE_HEIGHT / 2;
+    
     var y_starting_point = map_center_y - (imageSizeY / 2);
     return y_starting_point;
+}
+
+// Full map (includes scoreboard)
+function calculateFullMapCenterRelativeToImageX(imageSizeX)
+{
+    var map_center_x = (MAP_TILE_WIDTH + TILE_WIDTH) * TILE_WIDTH / 2;
+    
+    var x_starting_point = map_center_x - (imageSizeX / 2);
+    return x_starting_point;
 }

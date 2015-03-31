@@ -86,6 +86,7 @@ function powerUpTimeTick()
 var tick = 0;
 function powerUpSpawnTicker()
 {
+    var val = chooseRandomValueBetweenInterval(1, 25);
     //console.log("tick: " + tick++ + ". Rand: " + val);
     if(val === 1)
     {
