@@ -182,7 +182,7 @@ function restartGame()
 
     stopBulletTime();
     resetBulletTimeEnergy();
-    unfreezeTime();
+    stopAllActivePowerUps();
 
     level_playerLives = START_PLAYER_LIVES;
     level_percentComplete = 0.0;
@@ -192,6 +192,8 @@ function restartGame()
     // Reset the list of endangered tiles
     delete endangeredTiles;
     endangeredTiles = [];
+    delete powerup_tileLocations;
+    powerup_tileLocations = [];
 
     // Stop all player tweens
     if (playerTween != null)

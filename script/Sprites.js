@@ -71,6 +71,7 @@ function createGameSprites()
     //spawnPowerUp(60, 40, POWERUPS.DIAMOND);
     //spawnPowerUp(40, 60, POWERUPS.LIGHTNING_SPEED);
     //spawnPowerUp(60, 60, POWERUPS.SCORE_2X_MULTIPLIER);
+    //spawnPowerUp(60, 60, POWERUPS.EXTRA_LIFE);
 
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 

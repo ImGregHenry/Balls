@@ -39,7 +39,6 @@ var timerBetweenRounds;
 
 var allBallXVelocities = [];
 var allBallYVelocities = [];
-var endangeredTiles = [];
 var fullMapArray;
 
 

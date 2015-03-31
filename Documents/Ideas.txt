@@ -106,6 +106,7 @@ BUGS:
 %- Stop level timer during boom animation?
 %- Handle between games better
 %- Game restart with major abuse causes lag
+%- Fix percent complete indicator (ie. 74% / 74.0% should complete level)
 
 CODE FIXES:
 -- Add namespacing

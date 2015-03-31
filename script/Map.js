@@ -3,6 +3,9 @@ var map_scoreboard;
 var layer_map;
 var layer_dangerZone;
 
+var powerup_tileLocations = [];
+var endangeredTiles = [];
+
 function drawMap()
 {
     if (map != null)
@@ -59,7 +62,6 @@ function getTileIndex(pixel)
     return Math.round(position / TILE_WIDTH);
 }
 
-var powerup_tileLocations = [];
 function isPowerUpTileLocation(x, y)
 {
     for(var i = 0; i < powerup_tileLocations.length; i++)
