@@ -55,6 +55,8 @@ COMPLETE
 %%%%- Use hidden fields for high score submission
 %%%%- Destroy layers and map on each full re-draw
 %%%%- Basic garbage collection implemented.
+%%%%- Dying while in frozen speed breaks things
+%%%%- Fix bug where powerups are picking up based on improper Y coordinate
 %%%- Player lives are not dropping on the scoreboard when they die
 %%%- Bullet time doesn't work after going to the main menu (the timer dies).
 %%%- Handle multiple score animation tweens (only singular enabled)
@@ -88,7 +90,7 @@ CORE BETA GOALS
 
 TODO:
 %%%- Fix bug where last tile in lightning speed mode doesn't fill
-%%%%- Dying while in frozen speed breaks things
+
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)

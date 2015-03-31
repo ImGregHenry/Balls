@@ -64,7 +64,8 @@ function isPowerUpTileLocation(x, y)
 {
     for(var i = 0; i < powerup_tileLocations.length; i++)
     {
-        var str = x + "," + y;
+        // End with ',' as format is 'x,y,powerUpType'
+        var str = x + "," + y + ",";
         // if starts with
         if(powerup_tileLocations[i].indexOf(str) === 0)
         {

@@ -149,13 +149,11 @@ function spawnLevelCompleteAnimation()
     pauseLevelTimer(true);
 
     levelCompleteIcon = game.add.sprite(0, 0, 'level-complete');
-        console.log("DEFAULT SIZE: " + levelCompleteIcon.width + ", " + levelCompleteIcon.height);
-
+    
     levelCompleteIcon.scale.setTo(LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE, LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE);
     levelCompleteIcon.reset(calculateMapCenterRelativeToImageX(levelCompleteIcon.width),
         calculateMapCenterRelativeToImageY(levelCompleteIcon.height));
     
-    console.log("DEFAULT SIZE: " + levelCompleteIcon.width + ", " + levelCompleteIcon.height);
     levelCompleteTimer = game.time.create(true);
     levelCompleteTimer.loop(LEVEL_COMPLETE_TIMER_TICK_INTERVAL, animateLevelCompleteComplete, this);
     levelCompleteTimer.start();
