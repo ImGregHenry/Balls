@@ -67,7 +67,7 @@ function playerDiedStartRoundStartTimers(tileContext)
 
         // Disable all the powerups
         stopBulletTime();
-        //unfreezeTime();
+        stopAllPowerUps();
 
         // Disable all movement
         setBallMovementDisabled(true);
