@@ -307,6 +307,7 @@ function submitHighScorePopup()
 	$('#overlay').show();
 	setHighScorePopupValues(level_currentScore, level_currentLevel);
 	
+    game.input.keyboard.stop();
 	$('#submitHighScorePopup').show();
 }
 

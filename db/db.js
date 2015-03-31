@@ -65,6 +65,7 @@ $(document).ready(function() {
 	$('#btnSubmitHighScoreClose').click(function () {
 		$("#overlay").hide();
 		$("#submitHighScorePopup").hide();
+		
 		game.input.keyboard.start();
     });
 	
