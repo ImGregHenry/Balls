@@ -29,11 +29,11 @@ BasicGame.MainMenu.prototype = {
         game.stage.backgroundColor = '#000000';
 		
 		var playBtn = game.cache.getImage('play-button');
-        game.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - (playBtn.height/2), 'play-button', this.startGame);
+        game.add.button(game.world.centerX - (playBtn.width/2), game.world.centerY - 100 - (playBtn.height/2), 'play-button', this.startGame);
 		
 		var viewHighScoreBtn = game.cache.getImage('view-highscores-button');
         //TODO: image location hard coding
-		game.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 200), 'view-highscores-button', viewHighScorePopup);
+		game.add.button(game.world.centerX - (viewHighScoreBtn.width/2), (game.world.centerY - (viewHighScoreBtn.height/2) + 100), 'view-highscores-button', viewHighScorePopup);
     },
 
     update: function ()
