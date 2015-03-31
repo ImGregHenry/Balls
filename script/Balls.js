@@ -98,12 +98,6 @@ function chooseRandomValueBetweenInterval(min, max)
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-// Handles post-tweening events for player movement
-function playerTweenComplete()
-{
-    processTileFilling();
-}
-
 // Minimum pixel for x and y within map
 function getMapMinPixel()
 {

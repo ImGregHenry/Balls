@@ -1,6 +1,9 @@
 ﻿const SCORE_GAINED_ANIMATION_DISTANCE_Y = 10;
 const CHARACTER_SPEED = 50;
-const CHARACTER_LIGHTNING_SPEED = 15;
+const CHARACTER_LIGHTNING_SPEED = 17;
+// NOTE: Max speed possible is based on the frame rate (60fps)
+// 1000ms/60 = 16.666
+
 
 const SCORE_GAINED_TEXT_STYLE = { font: "30px Arial", fill: "#E60A24" }; //ff0044
 const SCORE_GAINED_TEXT_TWEEN_DURATION = 750;
@@ -64,7 +67,7 @@ function startPlayerTween(x, y)
 
         playerTween = game.add.tween(player);
     
-        playerTween.onComplete.add(playerTweenComplete, this);
+        playerTween.onComplete.add(processTileFilling, this);
         
         //Phaser.Easing.Quadratic.InOut
         if(isLightningSpeedActive)
