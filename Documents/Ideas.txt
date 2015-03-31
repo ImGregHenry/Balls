@@ -47,6 +47,8 @@ COMPLETE
 \- Player lightning speed
 \- Freeze-time balls animate
 \- Diamond powerup for bonus score
+\- Score multiplier powerup
+\- Extra lives
 -- TileMap.fill to be replaced by TileMap.putTile
 -- Create a file strictly for managing sprites (remove from animations)
 %%%%%- Investigate fps lag -- tile filling
@@ -54,6 +56,7 @@ COMPLETE
 %%%%- Garbage collection problems (restart fps lag)
 %%%%- Use hidden fields for high score submission
 %%%%- Destroy layers and map on each full re-draw
+%%%%- Fix bug where you can die after clearing
 %%%%- Basic garbage collection implemented.
 %%%%- Dying while in frozen speed breaks things
 %%%%- Fix bug where powerups are picking up based on improper Y coordinate
@@ -94,7 +97,7 @@ TODO:
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
-?%%- Fix bug where you can die after clearing
+%%%- Powerups show overtop of gameover screen
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Verify no simple ways of hacking high scores
 %%- Fix bug where stars can exit the tile map
@@ -112,16 +115,16 @@ CODE FIXES:
 -- Fix function names "updateTile...etc."
 -- Move jquery and phaser js files into different folder name
 -- Separate states into new folder and different files
--- create a class for coordinates (x,y)
+-- Replace (x,y) string coordinates with Phaser.Point
 
 ENHANCEMENTS:
-\- Level complete bonus score
-\- Points for trapping a ball in a small area
-\- Add animations for scoreboard change
-\- Choose starting level
-\- Difficulty levels easy/hard
-\- Invisible balls (or fade in and out)
 \- Add level time limits
+\- Choose starting level
+\- Can't move back on your own danger zone (warning: middle of square)
+\- Level complete bonus score
+\- Add animations for scoreboard change (100 point ticker?)
+\- Difficulty levels easy/hard
+\- Customized players
 \- Change colour scheme in settings
 \- Add sound - movement, tile clearing, level complete
 \- Add freeze time sound effect
@@ -130,12 +133,12 @@ ENHANCEMENTS:
 \- Sound plays for new life added
 \- Different game modes?
 \- Unique levels - custom maps
-\- Customized players
-\- Can't move back on your own danger zone (warning: middle of square)
+\- Points for trapping a ball in a small area
+
 
 POWERUPS
-\- Extra lives
-\- Score multiplier
+\- Invisible balls (or fade in and out)
+\- Blackout mode
 \- Invulnerability and SuperSized ball
 \- Ball acceleration
 \- Laser-beam clear (straight line fast clear)
@@ -144,7 +147,6 @@ POWERUPS
 \- Barbed wire tiles (destroy balls)
 
 EXTRAS
-\- Score multipliers for consistently clearing
 \- Enemy attacking ball AI
 \- Player stats - average clear per level, average clear score, record speed, record high score, etc.
 \- Increase bullet time maximum

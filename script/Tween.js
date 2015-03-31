@@ -8,8 +8,13 @@ const CHARACTER_LIGHTNING_SPEED = 17;
 const SCORE_GAINED_TEXT_STYLE = { font: "30px Arial", fill: "#E60A24" }; //ff0044
 const SCORE_GAINED_TEXT_TWEEN_DURATION = 750;
 
+const POWER_UP_SCORE_MULTIPLIER_TEXT_STYLE = { font: "30px Arial", fill: "#FFFF00" }; //ff0044
+
 const POWER_UP_SCORE_GAINED_TEXT_STYLE = { font: "30px Arial", fill: "#00CC00" }; //ff0044
 const POWER_UP_SCORE_TWEEN_DURATION = 1000;
+
+const POWER_UP_EXTRA_LIFE_TEXT_STYLE = { font: "30px Arial", fill: "#009900" }; //ff0044
+const POWER_UP_EXTRA_LIFE_TWEEN_DURATION = 1000;
 
 var playerTween = null;
 
@@ -20,16 +25,26 @@ var scoreGainedTextArray = [];
 
 
 // Animates percent complete text via tweening
-function startScoreGainedTween(x, y, animatedText, isPowerUpDiamond)
+function startScoreGainedTween(x, y, animatedText, powerUpType)
 {
     var scoreGainedTween = null;
     var scoreGainedText = null;
     var tweenDuration = 0;
 
-    if(isPowerUpDiamond)
+    if(powerUpType == POWERUPS.DIAMOND)
     {
         scoreGainedText = game.add.text(x, y, animatedText, POWER_UP_SCORE_GAINED_TEXT_STYLE);
         tweenDuration = POWER_UP_SCORE_TWEEN_DURATION;
+    }
+    else if(isScoreMultiplierActive)
+    {
+        scoreGainedText = game.add.text(x, y, animatedText, POWER_UP_SCORE_MULTIPLIER_TEXT_STYLE);
+        tweenDuration = SCORE_GAINED_TEXT_TWEEN_DURATION;
+    }
+    else if(powerUpType == POWERUPS.EXTRA_LIFE)
+    {
+        scoreGainedText = game.add.text(x, y, animatedText, POWER_UP_EXTRA_LIFE_TEXT_STYLE);
+        tweenDuration = POWER_UP_EXTRA_LIFE_TWEEN_DURATION;
     }
     else
     {

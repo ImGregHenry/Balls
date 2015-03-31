@@ -221,17 +221,7 @@ function processScoreChanges(tilesCleared, animationTile_X, animationTile_Y)
     adjustCurrentScore(scoreGained);
     
     // Animation for the amount of points gained at location where clear was done
-    startScoreGainedTween(animationTile_X * TILE_WIDTH, animationTile_Y * TILE_WIDTH, scoreGained, false);
-}
-
-function adjustCurrentScore(amount)
-{
-    level_currentScore += amount;
-
-    if (level_highScore < level_currentScore)
-        level_highScore = level_currentScore;
-    
-    updateScoreboard();
+    startScoreGainedTween(animationTile_X * TILE_WIDTH, animationTile_Y * TILE_WIDTH, scoreGained, POWERUPS.NONE);
 }
 
 function calculateScoreGained(tilesCleared)
@@ -246,5 +236,18 @@ function calculateScoreGained(tilesCleared)
     var score = baseScore + tier * SCORE_TILE_TIER_VALUE;
     //console.log("SCORE.  Base: " + baseScore + " Tier: " + tier + " Total: " + score + " Overall: " + level_currentScore);
     
+    if(isScoreMultiplierActive)
+        score *= POWER_UP_SCORE_MULTIPLIER_VALUE;
+
     return score;
+}
+
+function adjustCurrentScore(amount)
+{
+    level_currentScore += amount;
+
+    if (level_highScore < level_currentScore)
+        level_highScore = level_currentScore;
+    
+    updateScoreboard();
 }

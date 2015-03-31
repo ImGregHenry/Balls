@@ -5,8 +5,7 @@ const POWER_UP_LIGHTNING_SPEED_ENERGY_BURN_RATE = 0.0040;
 
 function startLightningSpeed()
 {
-    // Can't enter freeze time if already bullet time
-    if (isFreezeTimeActive)
+    if (isLightningSpeedActive)
         return;
 
     isLightningSpeedActive = true;

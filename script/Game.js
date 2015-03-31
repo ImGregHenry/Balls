@@ -67,7 +67,7 @@ function playerDiedStartRoundStartTimers(tileContext)
 
         // Disable all the powerups
         stopBulletTime();
-        stopAllPowerUps();
+        stopAllActivePowerUps();
 
         // Disable all movement
         setBallMovementDisabled(true);
@@ -139,7 +139,6 @@ function levelComplete()
 
     createScoreboard();
 
-    //TODO: reset bullet time on level complete?
     createLevelTimer();
     createBulletTimePieProgressBar(false);
     createPowerUpPieProgressBar(false);

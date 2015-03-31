@@ -1,10 +1,17 @@
 ﻿const POWER_UP_TICK_TIME_INTERVAL = 1.0;
 const POWER_UP_SPAWN_TICK_TIME_INTERVAL = 1000;
+const POWER_UP_SPAWN_FREQUENCY = 25;
+const POWER_UP_SPAWN_VALUE = 1;
+const POWER_UP_TOTAL_ACTIVE_POWER_UP_TYPES = 4;
+
 const POWERUPS = {
     FREEZE_TIME : 0,
     LIGHTNING_SPEED : 1,
     DIAMOND : 2,
-    INVISIBLE_BALLS : 3
+    SCORE_2X_MULTIPLIER : 3,
+    EXTRA_LIFE : 4,
+    INVISIBLE_BALLS : 5,
+    NONE : 6
 }
 
 var timer_powerUpTime;
@@ -22,7 +29,7 @@ function spawnPowerUp(pixelX, pixelY, powerUpType)
 
 function powerUpPickedUp(tileX, tileY, powerUpType)
 {
-    stopAllPowerUps();
+    stopAllActivePowerUps();
 
     powerUp_energy = 1.000;
 
@@ -44,6 +51,10 @@ function activatePowerUp(tileX, tileY, powerUpType)
         startLightningSpeed();
     else if(powerUpType == POWERUPS.DIAMOND)
         diamondPowerUpPickedUp(tileX, tileY);
+    else if(powerUpType == POWERUPS.SCORE_2X_MULTIPLIER)
+        startScoreMultiplier();
+    else if(powerUpType == POWERUPS.EXTRA_LIFE)
+        extraLifePowerUpPickedUp(tileX, tileY);
     else 
         console.log("invalid powerup activation.")
     //else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
@@ -52,56 +63,53 @@ function activatePowerUp(tileX, tileY, powerUpType)
 
 function powerUpTimeTick()
 {
+    // Ticker for active powerups
     if (!isGamePaused && isPowerUpActive)
     {
         if (isFreezeTimeActive)
         {
             // Drain energy
             if (powerUp_energy > POWER_UP_FREEZE_ENERGY_BURN_RATE)
-            {
                 powerUp_energy = powerUp_energy - POWER_UP_FREEZE_ENERGY_BURN_RATE;
-            }
             // Out of energy
             else
-            {
                 unfreezeTime();
-            }
         }
         else if(isLightningSpeedActive)
         {
-            // Drain energy
             if (powerUp_energy > POWER_UP_LIGHTNING_SPEED_ENERGY_BURN_RATE)
-            {
                 powerUp_energy -= POWER_UP_LIGHTNING_SPEED_ENERGY_BURN_RATE;
-            }
-            // Out of energy
             else
-            {
                 stopLightningSpeed();
-            }
+        }
+        else if(isScoreMultiplierActive)
+        {
+            if (powerUp_energy > POWER_UP_SCORE_MULTIPLIER_ENERGY_BURN_RATE)
+                powerUp_energy -= POWER_UP_SCORE_MULTIPLIER_ENERGY_BURN_RATE;
+            else
+                stopScoreMultiplier();
         }
     }
 }
 
-var tick = 0;
 function powerUpSpawnTicker()
 {
-    var val = chooseRandomValueBetweenInterval(1, 25);
-    //console.log("tick: " + tick++ + ". Rand: " + val);
-    if(val === 1)
+    var val = chooseRandomValueBetweenInterval(0, POWER_UP_SPAWN_FREQUENCY);
+    
+    if(val === POWER_UP_SPAWN_VALUE)
     {
-        var powerUpType = chooseRandomValueBetweenInterval(0, 2);        
+        var powerUpType = chooseRandomValueBetweenInterval(0, POWER_UP_TOTAL_ACTIVE_POWER_UP_TYPES);
 
         var randomXPixelSpawn =  Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxXCoordinate()) / 20) * TILE_WIDTH;
         var randomYPixelSpawn = Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxYCoordinate()) / 20) * TILE_HEIGHT;
 
-        //console.log("Spawning Randomly at: " + randomXPixelSpawn + "," + randomYPixelSpawn + ". Type:" + powerUpType);
         spawnPowerUp(randomXPixelSpawn, randomYPixelSpawn, powerUpType);
     }
 }
 
-function stopAllPowerUps()
+function stopAllActivePowerUps()
 {
+    stopScoreMultiplier();
     stopLightningSpeed();
     unfreezeTime();
 }

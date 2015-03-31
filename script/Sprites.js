@@ -1,8 +1,11 @@
 
 var powerup_lightningbolt;
 var powerup_snowflake;
+var powerup_2xmultiplier;
+var powerup_extralife;
 var scoreboard_powerup_snowflake;
 var scoreboard_powerup_lightningbolt;
+var scoreboard_powerup_2xmultiplier;
 
 var pauseIcon;
 var soundMuteX_Icon;
@@ -18,7 +21,13 @@ function bringGameSpritesToTop()
     muteButton.bringToTop();
     soundMuteX_Icon.bringToTop();
     powerup_snowflake.bringToTop();
+    powerup_lightningbolt.bringToTop();
+    powerup_diamond.bringToTop();
+    powerup_2xmultiplier.bringToTop();
+    powerup_extralife.bringToTop();
     scoreboard_powerup_snowflake.bringToTop();
+    scoreboard_powerup_lightningbolt.bringToTop();
+    scoreboard_powerup_2xmultiplier.bringToTop();
 }
 
 function createGameSprites()
@@ -33,21 +42,36 @@ function createGameSprites()
     powerup_snowflake = game.add.sprite(40, 40, 'powerup-snowflake');
     powerup_snowflake.kill();
 
-    scoreboard_powerup_snowflake = game.add.sprite(80, 80, 'powerup-snowflake');
+    scoreboard_powerup_snowflake = game.add.sprite(40, 40, 'powerup-snowflake');
     scoreboard_powerup_snowflake.kill();
 
-    powerup_lightningbolt = game.add.sprite(80, 80, 'powerup-lightningbolt');
+    powerup_lightningbolt = game.add.sprite(40, 40, 'powerup-lightningbolt');
     powerup_lightningbolt.kill();
 
-    scoreboard_powerup_lightningbolt = game.add.sprite(80, 80, 'powerup-lightningbolt');
+    scoreboard_powerup_lightningbolt = game.add.sprite(40, 40, 'powerup-lightningbolt');
     scoreboard_powerup_lightningbolt.kill();
 
     powerup_diamond = game.add.sprite(40, 40, 'powerup-diamond');
     powerup_diamond.kill();
 
-    //spawnPowerUp(60, 60, POWERUPS.FREEZE_TIME);
-    //spawnPowerUp(40, 40, POWERUPS.DIAMOND);
-    //spawnPowerUp(900, 700, POWERUPS.LIGHTNING_SPEED);
+    powerup_2xmultiplier = game.add.sprite(40, 40, 'powerup-2xscoremultiplier');
+    powerup_2xmultiplier.kill();
+
+    scoreboard_powerup_2xmultiplier = game.add.sprite(40, 40, 'powerup-2xscoremultiplier');
+    scoreboard_powerup_2xmultiplier.kill();
+
+    powerup_extralife = game.add.sprite(40, 40, 'powerup-extralife');
+    powerup_extralife.kill();
+
+    scoreboard_powerup_2xmultiplier = game.add.sprite(40, 40, 'powerup-2xscoremultiplier');
+    scoreboard_powerup_2xmultiplier.kill();
+
+    // DEBUGGING TESTS
+    //spawnPowerUp(40, 40, POWERUPS.FREEZE_TIME);
+    //spawnPowerUp(60, 40, POWERUPS.DIAMOND);
+    //spawnPowerUp(40, 60, POWERUPS.LIGHTNING_SPEED);
+    //spawnPowerUp(60, 60, POWERUPS.SCORE_2X_MULTIPLIER);
+
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 
     game.add.button(1350, 750, 'mute-icon', MuteSound);
@@ -66,7 +90,12 @@ function showScoreboardPowerUpIcon(isSetVisible, powerUpType)
             scoreboard_powerup_snowflake.reset(POWER_UP_SCOREBOARD_SNOWFLAKE_X, POWER_UP_SCOREBOARD_SNOWFLAKE_Y);
         else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
             scoreboard_powerup_lightningbolt.reset(POWER_UP_SCOREBOARD_SNOWFLAKE_X, POWER_UP_SCOREBOARD_SNOWFLAKE_Y);
-        //else if(powerUpType == POWERUPS.DIAMOND)
+        else if(powerUpType == POWERUPS.DIAMOND)
+            return;
+        else if(powerUpType == POWERUPS.SCORE_2X_MULTIPLIER)
+            scoreboard_powerup_2xmultiplier.reset(POWER_UP_SCOREBOARD_SNOWFLAKE_X, POWER_UP_SCOREBOARD_SNOWFLAKE_Y);
+        else if(powerUpType == POWERUPS.EXTRA_LIFE)
+            return;
         //else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
     }
     else
@@ -75,9 +104,13 @@ function showScoreboardPowerUpIcon(isSetVisible, powerUpType)
             scoreboard_powerup_snowflake.kill();
         else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
             scoreboard_powerup_lightningbolt.kill();
-        //else if(powerUpType == POWERUPS.DIAMOND)
+        else if(powerUpType == POWERUPS.DIAMOND)
+            return;
+        else if(powerUpType == POWERUPS.SCORE_2X_MULTIPLIER)
+            scoreboard_powerup_2xmultiplier.kill();
+        else if(powerUpType == POWERUPS.EXTRA_LIFE)
+            return;
         //else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
-       
     }
 }
 
@@ -86,7 +119,6 @@ function addPowerUpToMap(pixelX, pixelY, powerUpType)
     if(powerUpType == POWERUPS.FREEZE_TIME)
     {
         //TODO: add collisions to powerups
-
         //powerup_snowflake.enableBody = true;
         //game.physics.arcade.enable(powerup_snowflake);
         powerup_snowflake.reset(pixelX, pixelY);
@@ -102,10 +134,18 @@ function addPowerUpToMap(pixelX, pixelY, powerUpType)
         powerup_diamond.reset(pixelX, pixelY);
         powerup_diamond.bringToTop();
     }
-    else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
+    else if(powerUpType == POWERUPS.SCORE_2X_MULTIPLIER)
     {
-        
+        powerup_2xmultiplier.reset(pixelX, pixelY);
+        powerup_2xmultiplier.bringToTop();   
     }
+    else if(powerUpType == POWERUPS.EXTRA_LIFE)
+    {
+        powerup_extralife.reset(pixelX, pixelY);
+        powerup_extralife.bringToTop();
+    }
+    else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
+        return;
     else
     {
         console.log("Invalid powerup tried to be added to the map.")
@@ -114,23 +154,18 @@ function addPowerUpToMap(pixelX, pixelY, powerUpType)
 
 function removeMapPowerUp(powerUpType)
 {
-     if(powerUpType == POWERUPS.FREEZE_TIME)
-    {
-        //TODO: add collisions to powerups
+    if(powerUpType == POWERUPS.FREEZE_TIME)
         powerup_snowflake.kill();
-    }
     else if(powerUpType == POWERUPS.LIGHTNING_SPEED)
-    {
         powerup_lightningbolt.kill();
-    }
     else if(powerUpType == POWERUPS.DIAMOND)
-    {
         powerup_diamond.kill();
-    }
+    else if(powerUpType == POWERUPS.SCORE_2X_MULTIPLIER)
+        powerup_2xmultiplier.kill();
+    else if(powerUpType == POWERUPS.EXTRA_LIFE)
+        powerup_extralife.kill();
     else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
-    {
-        
-    }
+        return;
 }
 
 function showPauseIcon(isSetVisible)
