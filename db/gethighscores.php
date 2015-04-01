@@ -8,9 +8,22 @@
 	$mysql_tableName = "BallsHighScore";
 	
 	try{
-		$query = "SELECT UserName, HighScore, Level,  DATE_FORMAT(DateCreated, '%b %e, %Y') AS DateCreated FROM BallsHighScore ORDER BY HighScore DESC LIMIT 10";
+		if(isset($_POST['offset']) && !empty($_POST['offset'])) 
+		{
+			$offset = $_POST['offset'];
+		}
+		else
+		{
+			return array("FAIL", "No rank offset found.");
+		}
 
-		
+		$query = "SELECT * FROM (SELECT @s:=@s+1 Rank, UserName, HighScore, Level, DATE_FORMAT(DateCreated, '%b %e, %Y') AS DateCreated "
+			. " FROM BallsHighScore, (SELECT @s:=0) AS s"
+			. " ORDER BY HighScore DESC) AS otherTable"
+			. " WHERE otherTable.Rank >= $offset"
+			. " ORDER BY HighScore DESC"
+			. " LIMIT 10";
+
 		$conn = new PDO("mysql:host=$mysql_host;dbname=$mysql_database", $mysql_user, $mysql_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

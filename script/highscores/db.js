@@ -1,4 +1,10 @@
-﻿
+﻿const DEFAULT_HIGH_SCORE_OFFSET = 1;
+
+var isEndOfHighScoreList = false;
+var highScoreResultsPerPage = 10;
+var currentHighScoreOffset = DEFAULT_HIGH_SCORE_OFFSET;
+
+
 $(document).ready(function() {
 
 	// Handle submission of high scores
@@ -74,14 +80,30 @@ $(document).ready(function() {
 		$("#overlay").show();
 		$("#viewHighScoresPopup").show();
 		
-		loadHighScores();
+		loadHighScores(currentHighScoreOffset);
+	});
+
+	
+	$("#highScoreLeftArrow").click(function() {
+		if(currentHighScoreOffset < highScoreResultsPerPage)
+			currentHighScoreOffset = 1;
+		else
+			currentHighScoreOffset -= highScoreResultsPerPage;
+
+		loadHighScores(currentHighScoreOffset);
+	});
+
+	$("#highScoreRightArrow").click(function() {
+		if(!isEndOfHighScoreList)
+			currentHighScoreOffset += highScoreResultsPerPage;
+
+		loadHighScores(currentHighScoreOffset);
 	});
 });
 
-
-function loadHighScores()
+function loadHighScores(offset)
 {
-	args = '';
+	args = 'offset=' + offset;
 	$.ajax({
 		url: 'db/gethighscores.php',
 		data: args,
@@ -93,8 +115,10 @@ function loadHighScores()
 			// remove previous rows for fresh data
 			$("#tblHighScore").find("tr:gt(0)").remove();
 			   
+			var rowCount = 0;
 			//TODO: handle processing of table better.
 			$.each(data2, function(i, item) {
+				rowCount++;
 				var str = '';
 				if(i === 0)
 					str += "<tbody>";
@@ -103,19 +127,23 @@ function loadHighScores()
 				if (i % 2 == 0)
 					str += "\"alt\"";
 				
-				var rank = i+1;
-				
-				str += "><td>" + rank + "</td>";
+				str += "><td>" + item['Rank']  + "</td>";
 				str += "<td>" + item['UserName'] + "</td>";
 				str += "<td>" + item['HighScore'] + "</td>";
 				str += "<td>" + item['Level'] + "</td>";
 				str += "<td>" + item['DateCreated'] + "</td></tr>";
 				
-				if(i===9)
-					str += "</tbody>";
+				str += "</tbody>";
 				
 				$("#tblHighScore").append(str);
 			});
+			$("#tblHighScore").append("</tbody>");
+
+			if(rowCount < 10)
+				isEndOfHighScoreList = true;
+			else
+				isEndOfHighScoreList = false;
+
 		}
 	});
 }

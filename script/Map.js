@@ -6,6 +6,12 @@ var layer_dangerZone;
 var powerup_tileLocations = [];
 var endangeredTiles = [];
 
+
+function nextTileIsPreviousTile(nextTile, prevX, prevY)
+{
+    return nextTile.x === prevX && nextTile.y === prevY;
+}
+
 function drawMap()
 {
     if (map != null)
@@ -58,7 +64,6 @@ function getPlayerYTileIndex()
 function getTileIndex(pixel)
 {
     var position = pixel;
-
     return Math.round(position / TILE_WIDTH);
 }
 
@@ -161,6 +166,10 @@ function processTileFilling()
     {
         if (isCharInDangerZone)
         {
+            // Reset character previous tile tracking, not in danger zone anymore
+            charPreviousTileY = -1;
+            charPreviousTileY = -1;
+
             //TODO: cleanup percent cleared animation
             var percentClearedAnmiation_X = endangeredTiles[endangeredTiles.length - 1].split(",")[0];
             var percentClearedAnmiation_Y = endangeredTiles[endangeredTiles.length - 1].split(",")[1];

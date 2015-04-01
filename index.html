@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
 <body>
-    <script type="text/javascript" src="db/db.js">
+    <script type="text/javascript" src="script/highscores/db.js">
     </script>
     <script type="text/javascript" src="script/States.js">
     </script>
@@ -55,7 +55,6 @@
 	<!--<button id="btnOpenSubmitHighScore">SUBMIT HIGH SCORE</button>
 	<button id="btnViewHighScores">VIEW HIGH SCORE</button>-->
 
-
 	<div id="overlay"></div>
 
 	<!-- //TODO: add a hidden variable for storing the high score values to reduce hacking -->
@@ -91,6 +90,10 @@
 			</thead>
 			<tbody></tbody>
 		</table>
+        <div class="highScoreArrowsDiv">
+        <img id="highScoreLeftArrow" src="assets/images/menu/arrow-left.png" class="highScoreArrows" />
+        <img id="highScoreRightArrow" src="assets/images/menu/arrow-right.png" class="highScoreArrows" />
+        </div>
 	</div>
 </body>
 </html>

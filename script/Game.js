@@ -335,6 +335,7 @@ function viewHighScorePopup()
 	$('#overlay').show();
 	$('#viewHighScoresPopup').show();
 	
-	loadHighScores();
+    currentHighScoreOffset = DEFAULT_HIGH_SCORE_OFFSET;
+	loadHighScores(currentHighScoreOffset);
 }
 

@@ -50,6 +50,8 @@ COMPLETE
 \- Diamond powerup for bonus score
 \- Score multiplier powerup
 \- Extra lives
+\- Powerup item expiration timer
+\- Can't move back on your own danger zone (warning: middle of square)
 -- TileMap.fill to be replaced by TileMap.putTile
 -- Create a file strictly for managing sprites (remove from animations)
 %%%%%- Investigate fps lag -- tile filling
@@ -80,7 +82,6 @@ COMPLETE
 
 CORE BETA GOALS
 *- Max time to complete a level
-*- Max duration for powerups to be available for
 *- Paged ranked scores
 *- Show your ranked score after submitting
 *- Tweak scaling of score (balancing)
@@ -98,8 +99,10 @@ CORE BETA GOALS
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
 %%%- Powerups show overtop of gameover screen
+%%%- Fix high score paging bug where you can go to a blank page
 %%%- Restarting during powerup still causes star freezing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
+%%- Stop powerup spawn timers after game over
 %%- Verify no simple ways of hacking high scores
 %%- Fix bug where stars can exit the tile map
 %%- Fix tile fill algorithm for edge cases (use end point as well)
@@ -121,7 +124,6 @@ CODE FIXES:
 ENHANCEMENTS:
 \- Add level time limits
 \- Choose starting level
-\- Can't move back on your own danger zone (warning: middle of square)
 \- Level complete bonus score
 \- Add animations for scoreboard change (100 point ticker?)
 \- Difficulty levels easy/hard

@@ -199,22 +199,12 @@ BasicGame.Game.prototype = {
                 {
                     stopBulletTime();
                 }
-                
-				//TODO: manage this freeze time functionality
-                /*if (game.input.keyboard.isDown(Phaser.Keyboard.SHIFT))
-                {
-                    freezeTime();
-                }
-                else
-                {
-                    unfreezeTime();
-                }*/
             }
             if (cursors.left.isDown || game.input.keyboard.isDown(Phaser.Keyboard.A))
             {
                 var currentTile = map.getTile(playerXTile - 1, playerYTile, layer_map, false);
-
-                if (currentTile != null)
+                
+                if (currentTile != null && !nextTileIsPreviousTile(currentTile, charPreviousTileX, charPreviousTileY))
                 {
                     startPlayerTween(player.body.x - 20, player.body.y);
                 }
@@ -222,8 +212,8 @@ BasicGame.Game.prototype = {
             else if (cursors.right.isDown || game.input.keyboard.isDown(Phaser.Keyboard.D))
             {
                 var currentTile = map.getTile(playerXTile + 1, playerYTile, layer_map, false);
-
-                if (currentTile != null && currentTile.index != SCOREBOARD_ZONE_ID)
+                
+                if (currentTile != null && !nextTileIsPreviousTile(currentTile, charPreviousTileX, charPreviousTileY))
                 {
                     startPlayerTween(player.body.x + 20, player.body.y);
                 }
@@ -232,7 +222,7 @@ BasicGame.Game.prototype = {
             {
                 var currentTile = map.getTile(playerXTile, playerYTile - 1, layer_map, false);
 
-                if (currentTile != null)
+                if (currentTile != null && !nextTileIsPreviousTile(currentTile, charPreviousTileX, charPreviousTileY))
                 {
                     startPlayerTween(player.body.x, player.body.y - 20);
                 }
@@ -241,7 +231,7 @@ BasicGame.Game.prototype = {
             {
                 var currentTile = map.getTile(playerXTile, playerYTile + 1, layer_map, false);
 
-                if (currentTile != null)
+                if (currentTile != null && !nextTileIsPreviousTile(currentTile, charPreviousTileX, charPreviousTileY))
                 {
                     startPlayerTween(player.body.x, player.body.y + 20);
                 }

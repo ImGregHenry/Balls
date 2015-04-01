@@ -56,6 +56,15 @@
 	width: 60%;
 }
 
+.highScoreArrowsDiv {
+	width: 170px;
+	margin-left: auto;
+    margin-right: auto;
+}
+.highScoreArrows {
+	width: 80px;
+	height: 80px;
+}
 
 #viewHighScoresPopup {
     display:none;
@@ -63,7 +72,7 @@
     left:25%;        
     top:25%;         
     width:775px;     
-    height:450px;
+    height:500px;
     margin-top:-75px;
     margin-left:-150px;
     background:#FFFFFF;

@@ -21,7 +21,8 @@ var playerTween = null;
 var scoreGainedTweenArray = [];
 var scoreGainedTextArray = [];
 
-
+var charPreviousTileX;
+var charPreviousTileY;
 
 
 // Animates percent complete text via tweening
@@ -72,13 +73,27 @@ function scoreGainedTweenComplete()
 }
 
 // Animates player movement via tweening
-function startPlayerTween(x, y)
+function startPlayerTween(nextX, nextY)
 {
     if (playerTween == null || !playerTween.isRunning)
     {
         // Remove old tween
         if(playerTween != null)
             playerTween.stop(false);
+
+
+        // Store tile if it is a danger zone tile
+        if(map.getTile(getTileIndex(player.body.x), getTileIndex(player.body.y), layer_dangerZone, false) != null)
+        {
+            charPreviousTileX = getTileIndex(player.body.x);
+            charPreviousTileY = getTileIndex(player.body.y);   
+        }
+        // Clear tile if it is isn't danger zone tile
+        else
+        {
+            charPreviousTileX = null;
+            charPreviousTileY = null;
+        }
 
         playerTween = game.add.tween(player);
     
@@ -87,11 +102,11 @@ function startPlayerTween(x, y)
         //Phaser.Easing.Quadratic.InOut
         if(isLightningSpeedActive)
         {
-            playerTween.to({ x: x, y: y }, CHARACTER_LIGHTNING_SPEED, Phaser.Easing.Linear.None, true);   
+            playerTween.to({ x: nextX, y: nextY }, CHARACTER_LIGHTNING_SPEED, Phaser.Easing.Linear.None, true);   
         }
         else
         {
-            playerTween.to({ x: x, y: y }, CHARACTER_SPEED, Phaser.Easing.Linear.None, true);   
+            playerTween.to({ x: nextX, y: nextY }, CHARACTER_SPEED, Phaser.Easing.Linear.None, true);   
         }
         
         playerTween.start();
