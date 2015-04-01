@@ -67,11 +67,11 @@ function createGameSprites()
     scoreboard_powerup_2xmultiplier.kill();
 
     // DEBUGGING TESTS
-    //spawnPowerUp(40, 40, POWERUPS.FREEZE_TIME);
-    //spawnPowerUp(60, 40, POWERUPS.DIAMOND);
-    //spawnPowerUp(40, 60, POWERUPS.LIGHTNING_SPEED);
-    //spawnPowerUp(60, 60, POWERUPS.SCORE_2X_MULTIPLIER);
-    //spawnPowerUp(60, 60, POWERUPS.EXTRA_LIFE);
+    // spawnPowerUp(40, 40, POWERUPS.FREEZE_TIME);
+    // spawnPowerUp(80, 40, POWERUPS.DIAMOND);
+    // spawnPowerUp(40, 80, POWERUPS.LIGHTNING_SPEED);
+    // spawnPowerUp(80, 80, POWERUPS.SCORE_2X_MULTIPLIER);
+    // spawnPowerUp(40, 120, POWERUPS.EXTRA_LIFE);
 
     muteButton = game.add.button(1350, 750, 'mute-icon', MuteSound);
 

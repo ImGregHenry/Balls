@@ -1,4 +1,5 @@
 var isLightningSpeedActive;
+var timer_PowerUp_LightningSpeed;
 
 const POWER_UP_LIGHTNING_SPEED_ENERGY_BURN_RATE = 0.0040;
 
@@ -29,4 +30,23 @@ function stopLightningSpeed()
     piePowerUpVisible = false;
 
     showPowerUpScoreboardInfo(false, POWERUPS.LIGHTNING_SPEED);
+}
+
+function startLightningSpeedItemExpirationTimer()
+{
+    timer_PowerUp_LightningSpeed = game.time.events.add(POWER_UP_ITEM_EXPIRATION_TIME_MS, removeLightningSpeedPowerUpItem, this, null);
+}
+
+function stopLightningSpeedItemExpirationTimer()
+{
+    // Stop the event that clears the powerup after it expires
+    game.time.events.remove(timer_PowerUp_LightningSpeed);
+}
+
+function removeLightningSpeedPowerUpItem()
+{
+    stopLightningSpeedItemExpirationTimer();
+    
+    clearPowerUpTileLocations(POWERUPS.LIGHTNING_SPEED);
+    removeMapPowerUp(POWERUPS.LIGHTNING_SPEED);
 }

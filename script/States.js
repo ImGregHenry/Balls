@@ -146,6 +146,8 @@ BasicGame.Game.prototype = {
         //  We're going to be using physics, so enable the Arcade Physics system
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
+        createPowerUpTimers();
+
         createGameSprites();
 
         //  We need to enable physics on the player            
@@ -158,11 +160,6 @@ BasicGame.Game.prototype = {
         level_highScore = 0;
         level_totalFilledTiles = 0;
         level_totalEmptyTiles = (MAP_TILE_HEIGHT - (2 * MAP_BORDER_THICKNESS)) * (MAP_TILE_WIDTH - (2 * MAP_BORDER_THICKNESS));
-
-        // Create bullet time and powerup event looper
-        timer_bulletTime = game.time.events.loop(BULLET_TIME_ENERGY_TIME_INTERVAL, bulletTimeTick, this);
-        timer_powerUpTime = game.time.events.loop(POWER_UP_TICK_TIME_INTERVAL, powerUpTimeTick, this);
-        timer_powerUpSpawner = game.time.events.loop(POWER_UP_SPAWN_TICK_TIME_INTERVAL, powerUpSpawnTicker, this);
 
         nextLevelUpdates();
 

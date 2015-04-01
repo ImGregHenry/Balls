@@ -1,9 +1,10 @@
 const POWER_UP_FREEZE_ENERGY_BURN_RATE = 0.0055;
 
 var isFreezeTimeActive = false;
-
 var freezeTimeBallXVelocities = [];
 var freezeTimeBallYVelocities = [];
+var timer_PowerUp_FreezeTime;
+
 
 function freezeTime()
 {
@@ -44,4 +45,23 @@ function unfreezeTime()
         balls.getAt(i).body.velocity.x = freezeTimeBallXVelocities[i];
         balls.getAt(i).body.velocity.y = freezeTimeBallYVelocities[i];
     }
+}
+
+function startFreezeTimeItemExpirationTimer()
+{
+    timer_PowerUp_FreezeTime = game.time.events.add(POWER_UP_ITEM_EXPIRATION_TIME_MS, removeFreezeTimePowerUpItem, this, null);
+}
+
+function stopFreezeTimeItemExpirationTimer()
+{
+    // Stop the event that clears the powerup after it expires
+    game.time.events.remove(timer_PowerUp_FreezeTime);
+}
+
+function removeFreezeTimePowerUpItem()
+{
+    stopFreezeTimeItemExpirationTimer();
+    
+    clearPowerUpTileLocations(POWERUPS.FREEZE_TIME);
+    removeMapPowerUp(POWERUPS.FREEZE_TIME);
 }
