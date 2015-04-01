@@ -21,7 +21,7 @@
 			. " FROM BallsHighScore, (SELECT @s:=0) AS s"
 			. " ORDER BY HighScore DESC) AS otherTable"
 			. " WHERE otherTable.Rank >= $offset"
-			. " ORDER BY HighScore DESC"
+			. " ORDER BY Rank"
 			. " LIMIT 10";
 
 		$conn = new PDO("mysql:host=$mysql_host;dbname=$mysql_database", $mysql_user, $mysql_password);
