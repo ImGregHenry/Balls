@@ -35,6 +35,7 @@ COMPLETE
 *- Add hotkeys for restarting, pausing, and accessing menu
 *- Add a pause icon when the game is paused
 *- Add X over mute icon when muted
+\- Add bullet time image.
 \- Begin powerups framework
 \- Powerups - bullet time & freeze time
 \- Circular progress bar
@@ -60,6 +61,7 @@ COMPLETE
 %%%%- Basic garbage collection implemented.
 %%%%- Dying while in frozen speed breaks things
 %%%%- Fix bug where powerups are picking up based on improper Y coordinate
+%%%- Fix bug where the last tile in lightning speed mode doesn't fill
 %%%- Player lives are not dropping on the scoreboard when they die
 %%%- Bullet time doesn't work after going to the main menu (the timer dies).
 %%%- Handle multiple score animation tweens (only singular enabled)
@@ -74,37 +76,35 @@ COMPLETE
 %- Reset bullet time bar when game is restarted
 %- Fixed bug with game over where sprite did not center immediately
 %- Center the level complete animation relative to screen position
-
+%- Handle between games better
 
 CORE BETA GOALS
-*- Tweak scaling of score (balancing)
-*- Help menu
 *- Max time to complete a level
-*- Continue game / start from beginning
+*- Max duration for powerups to be available for
+*- Paged ranked scores
+*- Show your ranked score after submitting
+*- Tweak scaling of score (balancing)
 *- Loading screen when preloading
+*- Help menu (https://screentogif.codeplex.com/)
+*- Continue game / start from beginning
 *- Game music
 *- Separate muting for music and sound effects
  - Display bonus for clearing large area
  - Caching of high score / mute / highest level (for level select)
  - Level select
- - Multiple circular bars.  
- - Add bullet time image.
  - Force game focus --> game.stage.disableVisibilityChange = true;
-
-TODO:
-%%%- Fix bug where last tile in lightning speed mode doesn't fill
 
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
 %%%- Powerups show overtop of gameover screen
+%%%- Restarting during powerup still causes star freezing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Verify no simple ways of hacking high scores
 %%- Fix bug where stars can exit the tile map
 %%- Fix tile fill algorithm for edge cases (use end point as well)
 %- Remove possibility of overlapping stars at spawn time
 %- Stop level timer during boom animation?
-%- Handle between games better
 %- Game restart with major abuse causes lag
 %- Fix percent complete indicator (ie. 74% / 74.0% should complete level)
 
@@ -138,6 +138,7 @@ ENHANCEMENTS:
 
 
 POWERUPS
+\- Extra time powerup
 \- Invisible balls (or fade in and out)
 \- Blackout mode
 \- Invulnerability and SuperSized ball

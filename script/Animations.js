@@ -165,10 +165,7 @@ function animateLevelCompleteComplete()
     levelCompleteZoomCount++;
     if (levelCompleteZoomCount >= MAX_LEVEL_COMPLETE_ZOOM_ANIMATIONS)
     {
-        levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
-        levelCompleteZoomCount = 0;
-        levelCompleteTimer.stop();
-        levelCompleteIcon.destroy();
+        resetLevelCompleteAnimation();
 
         disableAllMovementAndTimers(false);
         levelComplete();
@@ -183,6 +180,16 @@ function animateLevelCompleteComplete()
             calculateMapCenterRelativeToImageX(levelCompleteIcon.width),
             calculateMapCenterRelativeToImageY(levelCompleteIcon.height));
     }
+}
+
+function resetLevelCompleteAnimation()
+{
+    levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
+    levelCompleteZoomCount = 0;
+    if(levelCompleteTimer != null)
+        levelCompleteTimer.stop();
+    if(levelCompleteIcon != null)
+    levelCompleteIcon.destroy();
 }
 
 // Create the boom animation timer

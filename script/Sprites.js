@@ -178,3 +178,22 @@ function showMuteXIcon(isSetVisible)
 {
     soundMuteX_Icon.visible = isSetVisible;
 }
+
+function removeAllPowerUpSprites()
+{
+    removeMapPowerUp(POWERUPS.FREEZE_TIME);
+    removeMapPowerUp(POWERUPS.LIGHTNING_SPEED);
+    removeMapPowerUp(POWERUPS.DIAMOND);
+    removeMapPowerUp(POWERUPS.SCORE_2X_MULTIPLIER);
+    removeMapPowerUp(POWERUPS.EXTRA_LIFE);
+    removeMapPowerUp(POWERUPS.INVISIBLE_BALLS);
+
+    showPowerUpScoreboardInfo(false, POWERUPS.NONE);
+
+    showScoreboardPowerUpIcon(false, POWERUPS.FREEZE_TIME);
+    showScoreboardPowerUpIcon(false, POWERUPS.LIGHTNING_SPEED);
+    showScoreboardPowerUpIcon(false, POWERUPS.DIAMOND);
+    showScoreboardPowerUpIcon(false, POWERUPS.SCORE_2X_MULTIPLIER);
+    showScoreboardPowerUpIcon(false, POWERUPS.EXTRA_LIFE);
+    showScoreboardPowerUpIcon(false, POWERUPS.INVISIBLE_BALLS);
+}

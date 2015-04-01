@@ -123,17 +123,17 @@ function levelComplete()
 {
     //TODO: add animation for end of level
     level_currentLevel++;
-    level_percentComplete = 0.0;
-    level_totalFilledTiles = 0;
-
+    
     stopBulletTime();
-    unfreezeTime();
+    stopAllActivePowerUps();
+    resetAllPowerUps();
 
     nextLevelUpdates();
 
     drawMap();
 
     sendCharacterBackToStart();
+    if (isPlayerMovementDisabled) setPlayerMovementDisabled(false);
 
     spawnBalls();
 
@@ -162,12 +162,20 @@ function nextLevelUpdates()
         level_playerLives = START_PLAYER_LIVES;
         level_targetPercentComplete = START_TARGET_PERCENT_COMPLETE;
         level_percentComplete = 0;
+    
+        level_percentComplete = 0.0;
+        level_totalFilledTiles = 0;
+        level_currentScore = 0;
     }
     // Increment level difficulty
     else
     {
         level_numberOfBalls++;
         level_playerLives++;
+
+        level_percentComplete = 0.0;
+        level_totalFilledTiles = 0;
+        level_currentScore = 0;
 
         // Max difficult is 90%
         if (level_targetPercentComplete != 90)
@@ -177,24 +185,31 @@ function nextLevelUpdates()
 
 function restartGame()
 {
+    // Disable levelCompleteAnimation
+    resetLevelCompleteAnimation();
+
     isGamePaused = false;
     showPauseIcon(isGamePaused);
 
     stopBulletTime();
     resetBulletTimeEnergy();
     stopAllActivePowerUps();
+    resetAllPowerUps();
 
-    level_playerLives = START_PLAYER_LIVES;
-    level_percentComplete = 0.0;
-    level_totalFilledTiles = 0;
-    level_currentScore = 0;
+    level_currentLevel = 1;
+    nextLevelUpdates();
+
+    // level_playerLives = START_PLAYER_LIVES;
+    // level_percentComplete = 0.0;
+    // level_totalFilledTiles = 0;
+    // level_currentScore = 0;
+    
+
 
     // Reset the list of endangered tiles
     delete endangeredTiles;
     endangeredTiles = [];
-    delete powerup_tileLocations;
-    powerup_tileLocations = [];
-
+    
     // Stop all player tweens
     if (playerTween != null)
         playerTween.stop();
@@ -218,7 +233,7 @@ function restartGame()
 
 function pauseGame()
 {
-    if (!isCharacterDeadAlready)
+    if (!isCharacterDeadAlready || isLevelComplete())
     {
         // Toggle game paused
         isGamePaused = !isGamePaused;
