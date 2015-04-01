@@ -60,7 +60,6 @@ function activatePowerUp(tileX, tileY, powerUpType)
     //else if(powerUpType == POWERUPS.INVISIBLE_BALLS)
 }
 
-
 function powerUpTimeTick()
 {
     // Ticker for active powerups
@@ -112,4 +111,12 @@ function stopAllActivePowerUps()
     stopScoreMultiplier();
     stopLightningSpeed();
     unfreezeTime();
+}
+
+function resetAllPowerUps()
+{
+    delete powerup_tileLocations;
+    powerup_tileLocations = [];
+
+    removeAllPowerUpSprites();
 }
