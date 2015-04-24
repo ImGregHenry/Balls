@@ -67,6 +67,7 @@ COMPLETE
 %%%- Player lives are not dropping on the scoreboard when they die
 %%%- Bullet time doesn't work after going to the main menu (the timer dies).
 %%%- Handle multiple score animation tweens (only singular enabled)
+%%%- Restarting during powerup still causes star freezing
 %%- Fix bug where bullet time pie chart gets frozen (pausing/minimizing)
 %%- Clean up bullet time functionality
 %%- Fix sprites disappearing after level end
@@ -99,8 +100,8 @@ CORE BETA GOALS
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
 %%%- Powerups show overtop of gameover screen
+%%%- Add user name highscore name verification
 %%%- Fix high score paging bug where you can go to a blank page
-%%%- Restarting during powerup still causes star freezing
 %%%- Handle multiple keys down for movement (remove prioritization of key-down checks)
 %%- Stop powerup spawn timers after game over
 %%- Verify no simple ways of hacking high scores
