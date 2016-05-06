@@ -184,8 +184,7 @@ function nextLevelUpdates()
 
 function restartGame()
 {
-    // Disable levelCompleteAnimation
-    resetLevelCompleteAnimation();
+    abortAllAnimationsAndTimers();
 
     isGamePaused = false;
     showPauseIcon(isGamePaused);

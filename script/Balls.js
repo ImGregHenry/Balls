@@ -35,8 +35,6 @@ var level_totalEmptyTiles = 0;
 var level_currentScore = 0;
 var level_highScore = 0;
 
-var timerBetweenRounds;
-
 var allBallXVelocities = [];
 var allBallYVelocities = [];
 var fullMapArray;

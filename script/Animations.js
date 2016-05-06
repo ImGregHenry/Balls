@@ -46,6 +46,21 @@ var levelCompleteCurrentScale = LEVEL_COMPLETE_DEFAULT_IMAGE_SCALE;
 var gameOverCurrentScale = 0;
 
 
+function abortAllAnimationsAndTimers() 
+{
+    if(boomAnimateTimer != null) 
+    {
+        boomAnimateTimer.stop();
+    }
+    if(timerBetweenRounds) {
+        timerBetweenRounds.stop();
+    }
+    if(gameOverTimer != null)
+    {
+        gameOverTimer.stop();
+    }
+    resetLevelCompleteAnimation();
+}
 
 function createPowerUpPieProgressBar(isFirstCreate)
 {
@@ -189,7 +204,7 @@ function resetLevelCompleteAnimation()
     if(levelCompleteTimer != null)
         levelCompleteTimer.stop();
     if(levelCompleteIcon != null)
-    levelCompleteIcon.destroy();
+        levelCompleteIcon.destroy();
 }
 
 // Create the boom animation timer
