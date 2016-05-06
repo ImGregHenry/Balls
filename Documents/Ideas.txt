@@ -99,6 +99,8 @@ CORE BETA GOALS
 
 BUGS:
  (http://www.html5gamedevs.com/forum/14-phaser/)
+%%%%- Game over screen remains on top if you restart during animation
+%%%%- Restarting during various animations doesn't cancel them
 %%%- Powerups show overtop of gameover screen
 %%%- Add user name highscore name verification
 %%%- Fix high score paging bug where you can go to a blank page

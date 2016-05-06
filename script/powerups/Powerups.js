@@ -146,16 +146,19 @@ function startPowerUpItemAvailableTimer(powerUpType, isActivateTimer)
 
 function powerUpSpawnTicker()
 {
-    var val = chooseRandomValueBetweenInterval(0, POWER_UP_SPAWN_FREQUENCY_SEC);
-    
-    if(val === POWER_UP_SPAWN_VALUE)
+    if (!isGamePaused) 
     {
-        var powerUpType = chooseRandomValueBetweenInterval(0, POWER_UP_TOTAL_ACTIVE_POWER_UP_TYPES);
+        var val = chooseRandomValueBetweenInterval(0, POWER_UP_SPAWN_FREQUENCY_SEC);
         
-        var randomXPixelSpawn =  Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxXCoordinate()) / 20) * TILE_WIDTH;
-        var randomYPixelSpawn = Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxYCoordinate()) / 20) * TILE_HEIGHT;
+        if(val === POWER_UP_SPAWN_VALUE)
+        {
+            var powerUpType = chooseRandomValueBetweenInterval(0, POWER_UP_TOTAL_ACTIVE_POWER_UP_TYPES);
+            
+            var randomXPixelSpawn =  Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxXCoordinate()) / 20) * TILE_WIDTH;
+            var randomYPixelSpawn = Math.floor(chooseRandomValueBetweenInterval(getMapMinPixel(), getMapMaxYCoordinate()) / 20) * TILE_HEIGHT;
 
-        spawnPowerUp(randomXPixelSpawn, randomYPixelSpawn, powerUpType);
+            spawnPowerUp(randomXPixelSpawn, randomYPixelSpawn, powerUpType);
+        }
     }
 }
 
